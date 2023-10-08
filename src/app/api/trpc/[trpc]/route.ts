@@ -10,10 +10,4 @@ const handler = (req: Request) =>
     createContext: () => ({}),
   });
 
-export {
-  handler as GET,
-  handler as POST,
-  handler as PATCH,
-  handler as PUT,
-  handler as DELETE,
-};
+export { handler as GET, handler as POST, handler as PATCH, handler as PUT, handler as DELETE };

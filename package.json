@@ -14,13 +14,17 @@
     "@trpc/client": "^10.40.0",
     "@trpc/react-query": "^10.40.0",
     "@trpc/server": "^10.40.0",
+    "bcrypt": "^5.1.1",
     "clsx": "^2.0.0",
     "next": "13.5.4",
     "react": "^18",
     "react-dom": "^18",
-    "zod": "^3.22.4"
+    "react-hot-toast": "^2.4.1",
+    "zod": "^3.22.4",
+    "zustand": "^4.4.3"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

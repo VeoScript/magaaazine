@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactNode } from "react";
 import Header from "../organisms/Header";
 import Footer from "../organisms/Footer";
@@ -10,7 +12,7 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
   return (
     <main className="flex h-full min-h-screen w-full flex-col items-center">
       <Header />
-      <section className="relative flex-grow w-full">{children}</section>
+      <section className="relative w-full flex-grow">{children}</section>
       <Footer />
     </main>
   );

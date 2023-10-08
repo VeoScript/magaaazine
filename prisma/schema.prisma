@@ -11,6 +11,62 @@ datasource db {
 }
 
 model User {
-  id   String @id @default(cuid())
-  name String
+  id                          String        @id @default(cuid())
+  profile_photo               String?
+  cover_photo                 String?
+  name                        String
+  username                    String?       @unique
+  email                       String        @unique
+  password                    String
+  short_bio                   String?
+  favorite_quote              String?
+  facebook_link               String?
+  instagram_link              String?
+  twitterx_link               String?
+  linkedin_link               String?
+  github_link                 String?
+  website_link                String?
+  is_display_name             Boolean       @default(false)
+  is_receive_files_anonymous  Boolean       @default(false)
+  is_receive_images_anonymous Boolean       @default(false)
+  created_at                  DateTime      @default(now())
+  updated_at                  DateTime?
+  messageSender               Message[]     @relation("sender")
+  messageReceiver             Message[]     @relation("receiver")
+  filesImagesSender           FilesImages[] @relation("sender")
+  filesImagesReceiver         FilesImages[] @relation("receiver")
+}
+
+model Message {
+  id           String    @id @default(cuid())
+  is_read      Boolean   @default(false)
+  is_anonymous Boolean
+  content      String    @db.Text
+  created_at   DateTime  @default(now())
+  updated_at   DateTime?
+  sender       User?     @relation("sender", fields: [sender_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  sender_id    String?
+  receiver     User      @relation("receiver", fields: [receiver_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  receiver_id  String
+}
+
+model FilesImages {
+  id           String           @id @default(cuid())
+  is_read      Boolean          @default(false)
+  is_anonymous Boolean
+  type         FilesImagesTypes @default(IMAGE)
+  name         String           @db.Text
+  url          String           @db.Text
+  delete_url   String?          @db.Text
+  created_at   DateTime         @default(now())
+  updated_at   DateTime?
+  sender       User?            @relation("sender", fields: [sender_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  sender_id    String?
+  receiver     User             @relation("receiver", fields: [receiver_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  receiver_id  String
+}
+
+enum FilesImagesTypes {
+  IMAGE
+  FILE
 }

@@ -9,3 +9,7 @@
 .custom-button-outlined {
   @apply rounded-lg bg-white px-5 py-3 text-black border border-black hover:opacity-50 transition-all ease-in-out duration-200
 }
+
+.custom-input {
+  @apply w-full rounded-lg border border-neutral-300 p-3 text-black outline-none focus:border-black
+}

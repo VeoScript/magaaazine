@@ -1,18 +1,9 @@
 import Link from "next/link";
+import DefaultLayout from "~/components/templates/DefaultLayout";
 
 export default function Home() {
   return (
-    <main className="flex h-full w-full flex-col items-center">
-      <nav className="flex w-full max-w-[1210px] flex-row items-center justify-between p-3">
-        <Link href="/">
-          <h1 className="font-abril-fatface text-2xl uppercase">Magaaazine</h1>
-        </Link>
-        <div className="flex flex-row items-center gap-x-5">
-          <Link href="/">Home</Link>
-          <Link href="/">Pricing</Link>
-          <div className="h-10 w-10 rounded-full bg-slate-600" />
-        </div>
-      </nav>
+    <DefaultLayout>
       <section className="flex h-full min-h-screen w-full max-w-[1210px] flex-col items-center justify-center p-5">
         <div className="-mt-20 flex w-full flex-col items-center gap-y-3">
           <h2 className="text-center font-raleway text-2xl font-bold">
@@ -37,12 +28,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <footer className="flex w-full flex-col items-center border-t border-neutral-300">
-        <div className="flex w-full max-w-[1210px] flex-row items-center justify-between p-3 text-sm">
-          <p>© 2023 Magaaazine.</p>
-          <p>Developed with 🧸 by VeoChoco.</p>
-        </div>
-      </footer>
-    </main>
+    </DefaultLayout>
   );
 }

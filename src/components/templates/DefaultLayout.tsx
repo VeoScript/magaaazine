@@ -8,9 +8,9 @@ interface DefaultLayoutProps {
 
 export default function DefaultLayout({ children }: DefaultLayoutProps) {
   return (
-    <main className="flex h-full w-full flex-col items-center">
+    <main className="flex h-full min-h-screen w-full flex-col items-center">
       <Header />
-      {children}
+      <section className="relative flex-grow w-full">{children}</section>
       <Footer />
     </main>
   );

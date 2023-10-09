@@ -1,12 +1,12 @@
 import "./globals.css";
+import clsx from "clsx";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
+import { Toaster } from "react-hot-toast";
 import { Abril_Fatface, Raleway } from "next/font/google";
 
-import clsx from "clsx";
 import Provider from "./_trpc/Provider";
 import CheckAuth from "~/components/molecules/CheckAuth";
-import { Toaster } from "react-hot-toast";
 
 const abrilFatface = Abril_Fatface({
   subsets: ["latin"],

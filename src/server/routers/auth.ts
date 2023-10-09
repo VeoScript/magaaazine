@@ -12,10 +12,7 @@ const roundsOfHashing = 10;
 export const authRouter = router({
   user: publicProcedure.query(async () => {
     if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "UNAUTHENTICATED",
-      });
+      return;
     }
 
     return await prisma.user.findUnique({
@@ -155,4 +152,7 @@ export const authRouter = router({
         username: user.username,
       };
     }),
+  signout: publicProcedure.mutation(async () => {
+    cookies().delete('magaaazine');
+  })
 });

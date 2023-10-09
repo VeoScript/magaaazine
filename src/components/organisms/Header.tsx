@@ -1,9 +1,15 @@
 import Link from "next/link";
-import Image from "next/image";
 
 import getBase64 from "~/lib/functions/getBase64";
+import ProfileMenu from "../molecules/Menus/ProfileMenu";
+
+import { serverClient } from "~/app/_trpc/serverClient";
 
 export default async function Header() {
+  const user = await serverClient.user();
+
+  const profileBlurUrl = user ? await getBase64(user?.profile_photo as string) : "";
+
   return (
     <nav className="flex w-full max-w-[1210px] flex-row items-center justify-between p-3">
       <Link href="/">
@@ -16,19 +22,13 @@ export default async function Header() {
         <Link href="/" className="hover:opacity-80">
           Pricing
         </Link>
-        <Image
-          className="h-10 w-10 rounded-full bg-slate-600"
-          src="https://pbs.twimg.com/media/F72ltruWsAEjx3-?format=jpg&name=900x900"
-          alt="sea"
-          priority
-          width={500}
-          height={500}
-          quality={100}
-          placeholder="blur"
-          blurDataURL={await getBase64(
-            "https://pbs.twimg.com/media/F72ltruWsAEjx3-?format=jpg&name=900x900",
-          )}
-        />
+        {user && (
+          <ProfileMenu
+            user={user}
+            imageSrc={user.profile_photo as string}
+            imageBlurUrl={profileBlurUrl as string}
+          />
+        )}
       </div>
     </nav>
   );

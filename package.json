@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.17",
     "@plaiceholder/next": "^3.0.0",
     "@prisma/client": "^5.4.1",
     "@tanstack/react-query": "^4.36.1",

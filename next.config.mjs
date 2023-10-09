@@ -5,14 +5,12 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
   },
-  env: {
-    IMGBB_API_KEY: process.env.IMGBB_API_KEY,
-  },
   images: {
     dangerouslyAllowSVG: true,
-    domains: ['i.ibb.co', 'pbs.twimg.com'],
+    domains: ["i.ibb.co", "pbs.twimg.com"],
   },
   env: {
+    IMGBB_API_KEY: process.env.IMGBB_API_KEY,
     PROD_URL: process.env.PROD_URL,
     DEV_URL: process.env.DEV_URL,
   },

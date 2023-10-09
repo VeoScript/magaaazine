@@ -40,6 +40,7 @@ export default function DiscoverList({ initialData }: DiscoverListProps) {
           };
         }
       },
+      cacheTime: 0,
       refetchOnMount: false,
       refetchOnReconnect: false,
       getNextPageParam: (lastPage) => lastPage.nextCursor,

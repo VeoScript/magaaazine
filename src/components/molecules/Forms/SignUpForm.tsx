@@ -31,8 +31,9 @@ export default function SignUpForm() {
         repassword,
       },
       {
-        onSuccess: () => {
+        onSuccess: (data) => {
           router.refresh();
+          router.push(`/${data.username}`);
         },
         onError: (error) => {
           setIsPending(false);

@@ -71,6 +71,16 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
           </Link>
         </Headless.Menu.Item>
         <Headless.Menu.Item as={Fragment}>
+          <Link href="/messages" className="w-full p-3 text-sm hover:opacity-80">
+            Messages
+          </Link>
+        </Headless.Menu.Item>
+        <Headless.Menu.Item as={Fragment}>
+          <Link href="/files-images" className="w-full p-3 text-sm hover:opacity-80">
+            Files and Images
+          </Link>
+        </Headless.Menu.Item>
+        <Headless.Menu.Item as={Fragment}>
           <button
             disabled={isPending}
             type="button"

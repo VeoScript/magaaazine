@@ -13,7 +13,14 @@ interface ChatBoxProps {
   receiverId: string;
 }
 
-export default function ChatBox({ isAuth, hasCoverPhoto }: ChatBoxProps) {
+export default function ChatBox({
+  isAuth,
+  hasCoverPhoto,
+  receiveFilesAnonymous,
+  receiveImageAnonymous,
+  senderId,
+  receiverId,
+}: ChatBoxProps) {
   const [isPending, setIsPending] = useState<boolean>(false);
   const [isAnonymous, setIsAnonymous] = useState<boolean>(true);
   const [messageContent, setMessageContent] = useState<string>("");
@@ -75,7 +82,7 @@ export default function ChatBox({ isAuth, hasCoverPhoto }: ChatBoxProps) {
       >
         <div className="flex w-full flex-row items-center justify-between gap-x-1">
           <div className="flex flex-row items-center gap-x-1">
-            {true && (
+            {receiveImageAnonymous && (
               <>
                 <label
                   htmlFor="sendImage"
@@ -110,7 +117,7 @@ export default function ChatBox({ isAuth, hasCoverPhoto }: ChatBoxProps) {
                 />
               </>
             )}
-            {true && (
+            {receiveFilesAnonymous && (
               <>
                 <label
                   htmlFor="sendFile"

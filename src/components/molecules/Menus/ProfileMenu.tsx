@@ -34,7 +34,7 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
       <Headless.Menu.Button className="outline-none">
         {user?.profile_photo ? (
           <Image
-            className="h-8 w-8 rounded-full bg-slate-600 object-cover"
+            className="h-8 w-8 rounded-full bg-neutral-300 object-cover"
             src={imageSrc}
             alt="sea"
             priority
@@ -45,7 +45,7 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
             blurDataURL={imageBlurUrl}
           />
         ) : (
-          <div className="flex h-8 w-8 flex-row items-center justify-center rounded-full bg-slate-600 object-cover">
+          <div className="flex h-8 w-8 flex-row items-center justify-center rounded-full bg-neutral-300 object-cover">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

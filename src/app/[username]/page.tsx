@@ -4,6 +4,8 @@ import Image from "next/image";
 
 import getBase64 from "~/lib/functions/getBase64";
 import ChatBox from "~/components/molecules/ChatBox";
+import ProfileUpload from "~/components/molecules/Uploads/ProfileUpload";
+import CoverUpload from "~/components/molecules/Uploads/CoverUpload";
 
 import { serverClient } from "../_trpc/serverClient";
 
@@ -15,7 +17,6 @@ export async function generateMetadata({
   const profile = await serverClient.profile({
     username: params.username ?? "",
   });
-
   return {
     title: `Magaaazine | ${profile ? `@${profile?.username}` : "Not Found"}`,
   };
@@ -41,12 +42,12 @@ export default async function UserPage({ params }: { params: { username: string 
         <div className="flex h-full w-full flex-col items-center">
           {profile?.cover_photo && (
             <>
-              <div className="absolute z-10 h-full w-full bg-black bg-opacity-50" />
+              <div className="absolute z-10 h-full w-full bg-black bg-opacity-50 backdrop-blur-sm" />
               <div className="absolute h-full w-full">
                 <Image
                   className="h-full w-full object-cover"
                   src={profile?.cover_photo}
-                  alt="sea"
+                  alt={profile?.username as string}
                   priority
                   width={500}
                   height={500}
@@ -55,6 +56,7 @@ export default async function UserPage({ params }: { params: { username: string 
                   blurDataURL={await getBase64(profile?.cover_photo)}
                 />
               </div>
+              {user?.id === profile.id && <CoverUpload />}
             </>
           )}
           <div
@@ -65,19 +67,22 @@ export default async function UserPage({ params }: { params: { username: string 
           >
             <div className="flex w-full max-w-xl flex-col items-center gap-y-5">
               {profile?.profile_photo ? (
-                <Image
-                  className="h-[13rem] w-[13rem] rounded-full object-cover"
-                  src={profile?.profile_photo}
-                  alt="sea"
-                  priority
-                  width={500}
-                  height={500}
-                  quality={100}
-                  placeholder="blur"
-                  blurDataURL={await getBase64(profile?.profile_photo)}
-                />
+                <div className="relative">
+                  <Image
+                    className="h-[13rem] w-[13rem] rounded-full object-cover"
+                    src={profile?.profile_photo}
+                    alt={profile?.username as string}
+                    priority
+                    width={500}
+                    height={500}
+                    quality={100}
+                    placeholder="blur"
+                    blurDataURL={await getBase64(profile?.profile_photo)}
+                  />
+                  {user?.id === profile.id && <ProfileUpload />}
+                </div>
               ) : (
-                <div className="flex h-[13rem] w-[13rem] flex-row items-center justify-center rounded-full bg-slate-500 object-cover">
+                <div className="flex h-[13rem] w-[13rem] flex-row items-center justify-center rounded-full bg-neutral-300 object-cover">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"

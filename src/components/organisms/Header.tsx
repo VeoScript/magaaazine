@@ -19,6 +19,9 @@ export default async function Header() {
         <Link href="/" className="text-sm hover:opacity-80">
           Home
         </Link>
+        <Link href="/discover" className="text-sm hover:opacity-80">
+          Discover
+        </Link>
         <Link href="/" className="text-sm hover:opacity-80">
           Pricing
         </Link>

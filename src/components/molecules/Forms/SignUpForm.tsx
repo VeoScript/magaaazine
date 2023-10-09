@@ -19,13 +19,6 @@ export default function SignUpForm() {
   const [password, setPassword] = useState<string>("");
   const [repassword, setRepassword] = useState<string>("");
 
-  const setDefault = () => {
-    setName("");
-    setEmail("");
-    setPassword("");
-    setRepassword("");
-  };
-
   const handleSignUp = async (e: FormEvent) => {
     e.preventDefault();
     setIsPending(true);
@@ -39,8 +32,6 @@ export default function SignUpForm() {
       },
       {
         onSuccess: () => {
-          setDefault();
-          setIsPending(false);
           router.refresh();
         },
         onError: (error) => {

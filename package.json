@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@plaiceholder/next": "^3.0.0",
     "@prisma/client": "^5.4.1",
     "@tanstack/react-query": "^4.36.1",
     "@trpc/client": "^10.40.0",
@@ -17,9 +18,11 @@
     "bcrypt": "^5.1.1",
     "clsx": "^2.0.0",
     "next": "13.5.4",
+    "plaiceholder": "^3.0.0",
     "react": "^18",
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
+    "sharp": "^0.32.6",
     "zod": "^3.22.4",
     "zustand": "^4.4.3"
   },

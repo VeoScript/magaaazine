@@ -86,11 +86,13 @@ export const authRouter = router({
         data: {
           name: input.name,
           email: input.email,
+          username,
           password: hashedPassword,
         },
         select: {
           id: true,
           name: true,
+          username: true,
         },
       });
 

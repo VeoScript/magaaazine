@@ -34,7 +34,7 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
       <Headless.Menu.Button className="outline-none">
         {user?.profile_photo ? (
           <Image
-            className="h-10 w-10 rounded-full bg-slate-600 object-cover"
+            className="h-8 w-8 rounded-full bg-slate-600 object-cover"
             src={imageSrc}
             alt="sea"
             priority
@@ -45,7 +45,7 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
             blurDataURL={imageBlurUrl}
           />
         ) : (
-          <div className="flex h-10 w-10 flex-row items-center justify-center rounded-full bg-slate-600 object-cover">
+          <div className="flex h-8 w-8 flex-row items-center justify-center rounded-full bg-slate-600 object-cover">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -64,9 +64,9 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
           </div>
         )}
       </Headless.Menu.Button>
-      <Headless.Menu.Items className="divide-accent-3 absolute right-0 z-10 mt-2 flex w-56 origin-top-right flex-col divide-y overflow-hidden rounded-lg border outline-none">
+      <Headless.Menu.Items className="divide-accent-3 absolute right-0 z-30 mt-2 flex w-56 origin-top-right flex-col divide-y overflow-hidden rounded-lg border bg-white outline-none">
         <Headless.Menu.Item as={Fragment}>
-          <Link href="/" className="w-full p-3 text-xs hover:opacity-80">
+          <Link href={`/${user?.username}`} className="w-full p-3 text-sm hover:opacity-80">
             {user?.name}
           </Link>
         </Headless.Menu.Item>
@@ -74,7 +74,7 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
           <button
             disabled={isPending}
             type="button"
-            className="bg-accent-1 w-full p-3 text-left text-xs transition-all duration-200 ease-in-out hover:bg-black hover:text-white"
+            className="bg-accent-1 w-full p-3 text-left text-sm transition-all duration-200 ease-in-out hover:text-red-500"
             onClick={handleSignOut}
           >
             {isPending ? "Loading..." : "Sign out"}

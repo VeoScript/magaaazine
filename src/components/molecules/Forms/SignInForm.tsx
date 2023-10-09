@@ -27,8 +27,9 @@ export default function SignInForm() {
         password,
       },
       {
-        onSuccess: () => {
+        onSuccess: (data) => {
           router.refresh();
+          router.push(`/${data.username}`);
         },
         onError: (error) => {
           setIsPending(false);

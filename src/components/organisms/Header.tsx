@@ -16,10 +16,10 @@ export default async function Header() {
         <h1 className="font-abril-fatface text-2xl uppercase">Magaaazine</h1>
       </Link>
       <div className="flex flex-row items-center gap-x-5">
-        <Link href="/" className="hover:opacity-80">
+        <Link href="/" className="text-sm hover:opacity-80">
           Home
         </Link>
-        <Link href="/" className="hover:opacity-80">
+        <Link href="/" className="text-sm hover:opacity-80">
           Pricing
         </Link>
         {user && (

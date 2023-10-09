@@ -65,6 +65,7 @@ export default function ChatBox({
       </div>
       <textarea
         disabled={isPending}
+        autoComplete="off"
         className="h-full w-full resize-none bg-white p-3 text-sm text-black outline-none"
         rows={5}
         cols={40}
@@ -108,6 +109,7 @@ export default function ChatBox({
                 </label>
                 <input
                   disabled={isPending}
+                  autoComplete="off"
                   multiple
                   type="file"
                   id="sendImage"
@@ -145,6 +147,7 @@ export default function ChatBox({
                 </label>
                 <input
                   disabled={isPending}
+                  autoComplete="off"
                   multiple
                   type="file"
                   id="sendFile"

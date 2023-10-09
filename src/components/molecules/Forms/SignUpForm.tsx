@@ -11,6 +11,7 @@ import { trpc } from "~/app/_trpc/client";
 export default function SignUpForm() {
   const router = useRouter();
 
+  const utils = trpc.useContext();
   const signUpMutation = trpc.signup.useMutation();
 
   const [isPending, setIsPending] = useState<boolean>(false);
@@ -32,6 +33,7 @@ export default function SignUpForm() {
       },
       {
         onSuccess: (data) => {
+          utils.users.invalidate();
           router.refresh();
           router.push(`/${data.username}`);
         },

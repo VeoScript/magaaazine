@@ -1,8 +1,9 @@
 interface ActivityIndicatorProps {
   className: string;
+  color?: string;
 }
 
-export default function ActivityIndicator({ className }: ActivityIndicatorProps): JSX.Element {
+export default function ActivityIndicator({ className, color }: ActivityIndicatorProps): JSX.Element {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -16,7 +17,7 @@ export default function ActivityIndicator({ className }: ActivityIndicatorProps)
         cx="50"
         cy="50"
         fill="none"
-        stroke="#ffffff"
+        stroke={color ?? '#FFFFFF'}
         strokeWidth="10"
         r="35"
         strokeDasharray="164.93361431346415 56.97787143782138"

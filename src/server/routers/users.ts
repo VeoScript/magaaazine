@@ -1,28 +1,9 @@
-import { TRPCError } from "@trpc/server";
-import { cookies } from "next/headers";
-
 import prisma from "~/config/Prisma";
 import z from "zod";
 
 import { router, publicProcedure } from "../trpc";
 
 export const userRouter = router({
-  users: publicProcedure.query(async () => {
-    if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "UNAUTHENTICATED",
-      });
-    }
-    return await prisma.user.findMany({
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        username: true,
-      },
-    });
-  }),
   profile: publicProcedure.input(z.object({ username: z.string() })).query(async ({ input }) => {
     return await prisma.user.findUnique({
       where: {
@@ -49,5 +30,60 @@ export const userRouter = router({
         created_at: true,
       },
     });
+  }),
+  users: publicProcedure.input(
+    z.object({
+      limit: z.number().min(1).max(100).nullish(),
+      cursor: z.string().nullish(),
+      search: z.string().nullish(),
+    }),
+  ).query(async (opts) => {
+    const { input } = opts;
+    const limit = input.limit ?? 10;
+    const { search, cursor } = input;
+
+    const users = await prisma.user.findMany({
+      where: {
+        OR: [
+          {
+            name: {
+              contains: search as string,
+              mode: 'insensitive',
+            },
+          },
+          {
+            username: {
+              contains: search as string,
+              mode: 'insensitive',
+            },
+          },
+        ],
+      },
+      select: {
+        id: true,
+        cover_photo: true,
+        profile_photo: true,
+        name: true,
+        email: true,
+        username: true,
+      },
+      orderBy: {
+        created_at: 'desc',
+      },
+      take: limit + 1,
+      cursor: cursor ? { id: cursor } : undefined,
+    });
+
+    let nextCursor: typeof cursor | undefined = undefined;
+
+    if (users.length > limit) {
+      const nextItem = users.pop();
+      nextCursor = nextItem!.id;
+    }
+
+    return {
+      users,
+      nextCursor,
+    };
   }),
 });

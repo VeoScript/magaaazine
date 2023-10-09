@@ -1,7 +1,11 @@
 import Link from "next/link";
 import DefaultLayout from "~/components/templates/DefaultLayout";
 
-export default function Home() {
+import { serverClient } from "./_trpc/serverClient";
+
+export default async function Home() {
+  const user = await serverClient.user();
+
   return (
     <DefaultLayout>
       <section className="flex h-full min-h-screen w-full flex-col items-center justify-center p-5">
@@ -22,9 +26,11 @@ export default function Home() {
             <Link href="/discover" className="custom-button">
               Discover
             </Link>
-            <Link href="/signin" className="custom-button-outlined">
-              Sign in
-            </Link>
+            {!user && (
+              <Link href="/signin" className="custom-button-outlined">
+                Sign in
+              </Link>
+            )}
           </div>
         </div>
       </section>

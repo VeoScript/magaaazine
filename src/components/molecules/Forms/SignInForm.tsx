@@ -7,6 +7,7 @@ import clsx from "clsx";
 import toast from "react-hot-toast";
 
 import { trpc } from "~/app/_trpc/client";
+import { signinValidation } from "~/lib/hooks/useValidation";
 
 export default function SignInForm() {
   const router = useRouter();
@@ -17,26 +18,40 @@ export default function SignInForm() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  const [signInFormErrors, setSignInFormErrors] = useState<any>(null);
+
   const handleSignIn = async (e: FormEvent) => {
     e.preventDefault();
-    setIsPending(true);
+    try {
+      await signinValidation.validate({ email, password }, { abortEarly: false });
 
-    await signInMutation.mutateAsync(
-      {
-        email,
-        password,
-      },
-      {
-        onSuccess: (data) => {
-          router.refresh();
-          router.push(`/${data.username}`);
+      setIsPending(true);
+
+      await signInMutation.mutateAsync(
+        {
+          email,
+          password,
         },
-        onError: (error) => {
-          setIsPending(false);
-          toast.error(error.message);
+        {
+          onSuccess: (data) => {
+            router.refresh();
+            router.push(`/${data.username}`);
+          },
+          onError: (error) => {
+            setIsPending(false);
+            toast.error(error.message);
+          },
         },
-      },
-    );
+      );
+    } catch (error: any) {
+      if (error?.inner) {
+        const errors: any = {};
+        error.inner.forEach((e: any) => {
+          errors[e.path] = e.message;
+        });
+        setSignInFormErrors(errors);
+      }
+    }
   };
 
   return (
@@ -53,8 +68,16 @@ export default function SignInForm() {
           id="email"
           className="custom-input"
           value={email}
-          onChange={(e) => setEmail(e.currentTarget.value)}
+          onChange={(e) => {
+            setSignInFormErrors(null);
+            setEmail(e.currentTarget.value);
+          }}
         />
+        {signInFormErrors && signInFormErrors.email && (
+          <span className="ml-2 mt-1 text-xs font-medium text-red-500">
+            {signInFormErrors.email}
+          </span>
+        )}
       </div>
       <div className="flex w-full flex-col gap-y-1">
         <label htmlFor="password" className="ml-1.5 text-sm">
@@ -67,8 +90,16 @@ export default function SignInForm() {
           id="password"
           className="custom-input"
           value={password}
-          onChange={(e) => setPassword(e.currentTarget.value)}
+          onChange={(e) => {
+            setSignInFormErrors(null);
+            setPassword(e.currentTarget.value);
+          }}
         />
+        {signInFormErrors && signInFormErrors.password && (
+          <span className="ml-2 mt-1 text-xs font-medium text-red-500">
+            {signInFormErrors.password}
+          </span>
+        )}
       </div>
       <div className="flex w-full flex-row items-center justify-between gap-x-3">
         <span className="text-sm">

@@ -40,7 +40,6 @@ export default function DiscoverList({ initialData }: DiscoverListProps) {
           };
         }
       },
-      cacheTime: 0,
       refetchOnMount: false,
       refetchOnReconnect: false,
       getNextPageParam: (lastPage) => lastPage.nextCursor,
@@ -54,12 +53,12 @@ export default function DiscoverList({ initialData }: DiscoverListProps) {
   }, [fetchNextPage, hasNextPage, inView]);
 
   return (
-    <div className="absolute top-0 z-20 flex h-full w-full flex-col items-center overflow-y-auto">
+    <div className="flex h-full w-full flex-col items-center overflow-y-auto">
       <div className="flex h-full w-full max-w-xl flex-col items-center rounded-xl">
         <div className="sticky top-0 z-10 flex w-full flex-row items-start justify-between bg-white">
           <div className="flex w-full flex-col items-start justify-center gap-y-5 p-3">
             <div className="flex w-full flex-row items-center justify-center">
-              <label htmlFor="search_people" className="ml-3 text-xl text-center font-bold">
+              <label htmlFor="search_people" className="ml-3 text-center text-xl font-bold">
                 Discover
               </label>
             </div>
@@ -130,7 +129,7 @@ export default function DiscoverList({ initialData }: DiscoverListProps) {
                           </>
                         )}
                         {user.profile_photo ? (
-                          <div className="flex h-[6rem] w-[6rem] z-10 overflow-hidden rounded-full bg-white">
+                          <div className="z-10 flex h-[6rem] w-[6rem] overflow-hidden rounded-full">
                             <Image
                               priority
                               src={user.profile_photo}
@@ -162,7 +161,7 @@ export default function DiscoverList({ initialData }: DiscoverListProps) {
                             </svg>
                           </div>
                         )}
-                        <div className="flex flex-col z-10">
+                        <div className="z-10 flex flex-col">
                           <h1
                             className={clsx(
                               user.cover_photo ? "text-white" : "text-black",

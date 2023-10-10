@@ -220,7 +220,7 @@ export default function SettingsList() {
   };
 
   return (
-    <div className="absolute top-0 z-20 flex h-full w-full flex-col items-center overflow-y-auto">
+    <div className="flex h-full w-full flex-col items-center overflow-y-auto">
       <div className="flex h-full w-full max-w-2xl flex-col items-center gap-y-10 rounded-xl">
         <div className="flex w-full flex-row items-start justify-between bg-white">
           <div className="flex w-full flex-row items-center justify-center">

@@ -9,6 +9,7 @@ import ProfileUpload from "~/components/molecules/Uploads/ProfileUpload";
 import CoverUpload from "~/components/molecules/Uploads/CoverUpload";
 
 import { serverClient } from "../_trpc/serverClient";
+import Link from "next/link";
 
 export async function generateMetadata({
   params,
@@ -40,7 +41,7 @@ export default async function UserPage({ params }: { params: { username: string 
           </p>
         </div>
       ) : (
-        <div className="flex h-full w-full flex-col items-center">
+        <div className="flex h-screen w-full flex-col items-center">
           {profile?.cover_photo && (
             <>
               <div className="absolute z-10 h-full w-full bg-black bg-opacity-50 backdrop-blur-sm" />
@@ -138,6 +139,11 @@ export default async function UserPage({ params }: { params: { username: string 
               </div>
               {profile?.favorite_quote && (
                 <q className="text-center text-base">{profile?.favorite_quote}</q>
+              )}
+              {user && user?.id === profile?.id && (
+                <Link href="/settings" className="custom-button text-xs">
+                  Edit your profile
+                </Link>
               )}
               {user?.id !== profile?.id && (
                 <ChatBox

@@ -15,7 +15,7 @@ export default async function getBase64(imageUrl: string) {
 
       return base64;
     } else {
-      return "";
+      return imageUrl;
     }
   } catch (e) {
     if (e instanceof Error) console.log(e.stack);

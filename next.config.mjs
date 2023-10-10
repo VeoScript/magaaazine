@@ -2,9 +2,6 @@ import withPlaiceholder from "@plaiceholder/next";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    scrollRestoration: true,
-  },
   images: {
     dangerouslyAllowSVG: true,
     domains: ["i.ibb.co", "pbs.twimg.com"],

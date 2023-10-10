@@ -1,5 +1,6 @@
 import "./globals.css";
 import clsx from "clsx";
+import NextTopLoader from "nextjs-toploader";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { Toaster } from "react-hot-toast";
@@ -42,6 +43,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           <CheckAuth hasCookies={hasCookies} />
           <Toaster position="top-center" reverseOrder={false} />
+          <NextTopLoader
+            color="#2299DD"
+            initialPosition={0.08}
+            crawlSpeed={200}
+            height={3}
+            crawl={true}
+            showSpinner={false}
+            easing="ease"
+            speed={200}
+            shadow="0 0 10px #2299DD,0 0 5px #2299DD"
+          />
           {children}
         </body>
       </Provider>

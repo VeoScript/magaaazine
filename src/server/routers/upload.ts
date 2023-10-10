@@ -28,4 +28,25 @@ export const uploadRouter = router({
       }
     });
   }),
+  uploadCover: publicProcedure.input(z.object({ coverUrl: z.any() })).mutation(async ({ input }) => {
+    if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "YOU ARE UNAUTHENTICATED",
+      });
+    }
+    return await prisma.user.update({
+      where: {
+        id: cookies().get(`${process.env.COOKIE_NAME}`)?.value,
+      },
+      data: {
+        cover_photo: input.coverUrl,
+      },
+      select: {
+        id: true,
+        name: true,
+        username: true,
+      }
+    });
+  }),
 });

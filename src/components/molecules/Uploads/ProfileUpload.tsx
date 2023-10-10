@@ -129,6 +129,7 @@ function PreviewProfileImage({ imageUrl, isOpen, setIsOpen }: PreviewProfileImag
           },
           {
             onSuccess: () => {
+              toast.success("Profile photo is updated, just wait for a moment to see the changes.");
               utils.profile.invalidate();
               utils.user.invalidate();
               utils.users.invalidate();

@@ -7,6 +7,7 @@ import clsx from "clsx";
 import toast from "react-hot-toast";
 
 import { trpc } from "~/app/_trpc/client";
+import { signupValidation } from "~/lib/hooks/useValidation";
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -20,29 +21,43 @@ export default function SignUpForm() {
   const [password, setPassword] = useState<string>("");
   const [repassword, setRepassword] = useState<string>("");
 
+  const [signUpFormErrors, setSignUpFormErrors] = useState<any>(null);
+
   const handleSignUp = async (e: FormEvent) => {
     e.preventDefault();
-    setIsPending(true);
+    try {
+      await signupValidation.validate({ name, email, password, repassword }, { abortEarly: false });
 
-    await signUpMutation.mutateAsync(
-      {
-        name,
-        email,
-        password,
-        repassword,
-      },
-      {
-        onSuccess: (data) => {
-          utils.users.invalidate();
-          router.refresh();
-          router.push(`/${data.username}`);
+      setIsPending(true);
+
+      await signUpMutation.mutateAsync(
+        {
+          name,
+          email,
+          password,
+          repassword,
         },
-        onError: (error) => {
-          setIsPending(false);
-          toast.error(error.message);
+        {
+          onSuccess: (data) => {
+            utils.users.invalidate();
+            router.refresh();
+            router.push(`/${data.username}`);
+          },
+          onError: (error) => {
+            setIsPending(false);
+            toast.error(error.message);
+          },
         },
-      },
-    );
+      );
+    } catch (error: any) {
+      if (error?.inner) {
+        const errors: any = {};
+        error.inner.forEach((e: any) => {
+          errors[e.path] = e.message;
+        });
+        setSignUpFormErrors(errors);
+      }
+    }
   };
 
   return (
@@ -59,8 +74,16 @@ export default function SignUpForm() {
           id="name"
           className={clsx(isPending && "cursor-not-allowed", "custom-input")}
           value={name}
-          onChange={(e) => setName(e.currentTarget.value)}
+          onChange={(e) => {
+            setSignUpFormErrors(null);
+            setName(e.currentTarget.value);
+          }}
         />
+        {signUpFormErrors && signUpFormErrors.name && (
+          <span className="ml-2 mt-1 text-xs font-medium text-red-500">
+            {signUpFormErrors.name}
+          </span>
+        )}
       </div>
       <div className="flex w-full flex-col gap-y-1">
         <label htmlFor="email" className="ml-1.5 text-sm">
@@ -73,8 +96,16 @@ export default function SignUpForm() {
           id="email"
           className={clsx(isPending && "cursor-not-allowed", "custom-input")}
           value={email}
-          onChange={(e) => setEmail(e.currentTarget.value)}
+          onChange={(e) => {
+            setSignUpFormErrors(null);
+            setEmail(e.currentTarget.value);
+          }}
         />
+        {signUpFormErrors && signUpFormErrors.email && (
+          <span className="ml-2 mt-1 text-xs font-medium text-red-500">
+            {signUpFormErrors.email}
+          </span>
+        )}
       </div>
       <div className="flex w-full flex-col gap-y-1">
         <label htmlFor="password" className="ml-1.5 text-sm">
@@ -87,8 +118,16 @@ export default function SignUpForm() {
           id="password"
           className={clsx(isPending && "cursor-not-allowed", "custom-input")}
           value={password}
-          onChange={(e) => setPassword(e.currentTarget.value)}
+          onChange={(e) => {
+            setSignUpFormErrors(null);
+            setPassword(e.currentTarget.value);
+          }}
         />
+        {signUpFormErrors && signUpFormErrors.password && (
+          <span className="ml-2 mt-1 text-xs font-medium text-red-500">
+            {signUpFormErrors.password}
+          </span>
+        )}
       </div>
       <div className="flex w-full flex-col gap-y-1">
         <label htmlFor="repassword" className="ml-1.5 text-sm">
@@ -101,8 +140,16 @@ export default function SignUpForm() {
           id="repassword"
           className={clsx(isPending && "cursor-not-allowed", "custom-input")}
           value={repassword}
-          onChange={(e) => setRepassword(e.currentTarget.value)}
+          onChange={(e) => {
+            setSignUpFormErrors(null);
+            setRepassword(e.currentTarget.value);
+          }}
         />
+        {signUpFormErrors && signUpFormErrors.repassword && (
+          <span className="ml-2 mt-1 text-xs font-medium text-red-500">
+            {signUpFormErrors.repassword}
+          </span>
+        )}
       </div>
       <div className="flex w-full flex-row items-center justify-between gap-x-3">
         <span className="text-sm">

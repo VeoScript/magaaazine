@@ -3,10 +3,10 @@ import { Metadata } from "next";
 import DefaultLayout from "~/components/templates/DefaultLayout";
 
 export const metadata: Metadata = {
-  title: "Magaaazine | Discover",
+  title: "Magaaazine | Settings",
 };
 
-export default function DiscoverLayout({ children }: { children: React.ReactNode }) {
+export default function SettingsLayout({ children }: { children: React.ReactNode }) {
   return (
     <DefaultLayout>
       <section className="flex h-full w-full flex-col items-center justify-center">

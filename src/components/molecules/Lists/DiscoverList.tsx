@@ -58,8 +58,8 @@ export default function DiscoverList({ initialData }: DiscoverListProps) {
       <div className="flex h-full w-full max-w-xl flex-col items-center rounded-xl">
         <div className="sticky top-0 z-10 flex w-full flex-row items-start justify-between bg-white">
           <div className="flex w-full flex-col items-start justify-center gap-y-5 p-3">
-            <div className="flex w-full flex-row items-center justify-between">
-              <label htmlFor="search_people" className="ml-3 text-xl font-bold">
+            <div className="flex w-full flex-row items-center justify-center">
+              <label htmlFor="search_people" className="ml-3 text-xl text-center font-bold">
                 Discover
               </label>
             </div>

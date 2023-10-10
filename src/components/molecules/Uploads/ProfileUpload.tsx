@@ -7,7 +7,7 @@ import Image from "next/image";
 import clsx from "clsx";
 import toast from "react-hot-toast";
 
-import { uploadProfileStore } from "~/lib/stores";
+import { uploadProfileStore } from "~/lib/stores/uploads/profile";
 import { trpc } from "~/app/_trpc/client";
 
 interface PreviewProfileImageProps {

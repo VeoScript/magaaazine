@@ -10,3 +10,11 @@ export interface UploadProfileProps {
   setImageProfileUploaded: (value: any) => void;
   setDefault: () => void;
 }
+
+export interface UploadCoverProps {
+  previewCoverImage: any;
+  imageCoverUploaded: any;
+  setPreviewCoverImage: (value: any) => void;
+  setImageCoverUploaded: (value: any) => void;
+  setDefault: () => void;
+}

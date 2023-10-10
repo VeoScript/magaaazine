@@ -1,5 +1,15 @@
 "use client";
 
+import { useState } from "react";
+import { Dialog } from "@headlessui/react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import clsx from "clsx";
+import toast from "react-hot-toast";
+
+import { uploadCoverStore } from "~/lib/stores/uploads/cover";
+import { trpc } from "~/app/_trpc/client";
+
 export default function CoverUpload() {
   return (
     <>

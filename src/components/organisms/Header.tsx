@@ -11,7 +11,7 @@ export default async function Header() {
   const profileBlurUrl = user ? await getBase64(user?.profile_photo as string) : "";
 
   return (
-    <nav className="flex w-full max-w-[1210px] flex-row items-center justify-between p-3">
+    <nav className="sticky top-0 z-30 flex w-full max-w-[1210px] flex-row items-center justify-between rounded-b-xl bg-white bg-opacity-50 p-3 backdrop-blur-sm">
       <Link href="/">
         <h1 className="font-abril-fatface text-2xl uppercase">Magaaazine</h1>
       </Link>

@@ -9,7 +9,7 @@ import { trpc } from "~/app/_trpc/client";
 import { myToast } from "~/components/atoms/MyToast";
 import { updateBasicInfoValidation, updatePasswordValidation } from "~/lib/hooks/useValidation";
 
-export default function SettingsList() {
+export default function SettingsForm() {
   const router = useRouter();
 
   const [isPendingBasicInfo, setIsPendingBasicInfo] = useState<boolean>(false);

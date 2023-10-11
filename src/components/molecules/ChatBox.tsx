@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Switch } from "@headlessui/react";
+import { usePathname } from "next/navigation";
+import { myToast } from "../atoms/MyToast";
 import Image from "next/image";
 import clsx from "clsx";
-import toast from "react-hot-toast";
 import ActivityIndicator from "../atoms/ActivityIndicator";
 
 import { useUploadThing } from "~/utils/uploadthing";
@@ -31,6 +32,8 @@ export default function ChatBox({
   senderId,
   receiverId,
 }: ChatBoxProps) {
+  const pathname = usePathname();
+
   const [isPending, setIsPending] = useState<boolean>(false);
   const [isAnonymous, setIsAnonymous] = useState<boolean>(true);
   const [messageContent, setMessageContent] = useState<string>("");
@@ -56,17 +59,26 @@ export default function ChatBox({
       const imageTypeRegex = /image\/(png|jpg|jpeg|jfif)/gm;
 
       if (!file.type.match(imageTypeRegex)) {
-        toast.error("Please select jpg, jpeg, jfif or png only!");
+        myToast({
+          type: "error",
+          message: "Please select jpg, jpeg, jfif or png only!",
+        });
         return;
       }
 
       if (file.size > 2097152) {
-        toast.error("Selected photo size exceeds 2 MB. Choose another one.");
+        myToast({
+          type: "error",
+          message: "Selected photo size exceeds 2 MB. Choose another one.",
+        });
         return;
       }
 
       if (setPreviewImages.length > 3) {
-        toast.error("Only up to 3 photos can be uploaded.");
+        myToast({
+          type: "error",
+          message: "Only up to 3 photos can be uploaded.",
+        });
         return;
       }
 
@@ -183,7 +195,12 @@ export default function ChatBox({
           );
         });
       })
-      .catch((error: any) => toast.error(error?.message));
+      .catch((error: any) => {
+        myToast({
+          type: "error",
+          message: error?.message,
+        });
+      });
   };
 
   const sendMessage = async () => {
@@ -207,28 +224,37 @@ export default function ChatBox({
   };
 
   const handleSubmit = async () => {
-    if (messageContent.trim() === "") return toast("Message is required.");
+    if (messageContent.trim() === "")
+      return myToast({
+        message: "Message is required.",
+      });
 
     if (imagesUploaded.length > 0) {
-      toast.promise(uploadImages(), {
-        loading: "Uploading images...",
-        success: <b>Images uploaded successfully!</b>,
-        error: <b>Failed to upload images, try again.</b>,
+      myToast({
+        type: "promise",
+        buttonFunction: async () => uploadImages(),
+        buttonLoadingMessage: "Uploading images...",
+        buttonFunctionSuccessMessage: "Images uploaded successfully!",
+        buttonFunctionErrorMessage: "Failed to upload images, try again.",
       });
     }
 
     if (files.length > 0) {
-      toast.promise(uploadFiles(), {
-        loading: "Uploading files...",
-        success: <b>Files uploaded successfully!</b>,
-        error: <b>Failed to upload files, try again.</b>,
+      myToast({
+        type: "promise",
+        buttonFunction: async () => uploadFiles(),
+        buttonLoadingMessage: "Uploading files...",
+        buttonFunctionSuccessMessage: "Files uploaded successfully!",
+        buttonFunctionErrorMessage: "Failed to upload files, try again.",
       });
     }
 
-    toast.promise(sendMessage(), {
-      loading: "Sending message...",
-      success: <b>Message sent successfully.</b>,
-      error: <b>Failed to sent message, try again.</b>,
+    myToast({
+      type: "promise",
+      buttonFunction: async () => sendMessage(),
+      buttonLoadingMessage: "Sending message...",
+      buttonFunctionSuccessMessage: "Message sent successfully.",
+      buttonFunctionErrorMessage: "Failed to sent message, try again.",
     });
   };
 
@@ -238,6 +264,13 @@ export default function ChatBox({
       handleSubmit();
     }
   };
+
+  useEffect(() => {
+    if (pathname) {
+      setDefaultImages();
+      setDefaultFiles();
+    }
+  }, [pathname, setDefaultImages, setDefaultFiles]);
 
   return (
     <div

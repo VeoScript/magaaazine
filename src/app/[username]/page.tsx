@@ -1,6 +1,7 @@
 import { Metadata } from "next";
-import clsx from "clsx";
 import Image from "next/image";
+import Link from "next/link";
+import clsx from "clsx";
 
 import getBase64 from "~/lib/functions/getBase64";
 import SocialMediaHolder from "~/components/molecules/SocialMediaHolder";
@@ -9,7 +10,6 @@ import ProfileUpload from "~/components/molecules/Uploads/ProfileUpload";
 import CoverUpload from "~/components/molecules/Uploads/CoverUpload";
 
 import { serverClient } from "../_trpc/serverClient";
-import Link from "next/link";
 
 export async function generateMetadata({
   params,
@@ -44,27 +44,25 @@ export default async function UserPage({ params }: { params: { username: string 
         <div className="flex w-full flex-col items-center">
           {profile?.cover_photo && (
             <>
-              <div className="absolute z-10 h-full w-full bg-black bg-opacity-50 backdrop-blur-sm" />
-              <div className="absolute h-full w-full">
-                <Image
-                  className="h-full w-full object-cover"
-                  src={profile?.cover_photo}
-                  alt={profile?.username as string}
-                  priority
-                  width={500}
-                  height={500}
-                  quality={100}
-                  placeholder="blur"
-                  blurDataURL={await getBase64(profile?.cover_photo)}
-                />
-              </div>
+              <div className="fixed z-10 h-full w-full bg-black bg-opacity-50 backdrop-blur-sm" />
+              <Image
+                className="fixed h-full w-full object-cover"
+                src={profile?.cover_photo}
+                alt={profile?.username as string}
+                priority
+                width={500}
+                height={500}
+                quality={100}
+                placeholder="blur"
+                blurDataURL={await getBase64(profile?.cover_photo)}
+              />
             </>
           )}
           {user?.id === profile.id && <CoverUpload />}
           <div
             className={clsx(
               profile?.cover_photo ? "text-white" : "text-black",
-              "z-20 flex h-full w-full flex-col items-center overflow-hidden p-5",
+              "absolute z-20 flex w-full flex-col items-center overflow-hidden p-5",
             )}
           >
             <div className="flex w-full max-w-xl flex-col items-center gap-y-5">

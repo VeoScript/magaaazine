@@ -4,9 +4,9 @@ import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import clsx from "clsx";
-import toast from "react-hot-toast";
 
 import { trpc } from "~/app/_trpc/client";
+import { myToast } from "~/components/atoms/MyToast";
 import { signinValidation } from "~/lib/hooks/useValidation";
 
 export default function SignInForm() {
@@ -39,7 +39,10 @@ export default function SignInForm() {
           },
           onError: (error) => {
             setIsPending(false);
-            toast.error(error.message);
+            myToast({
+              type: "error",
+              message: error.message,
+            });
           },
         },
       );

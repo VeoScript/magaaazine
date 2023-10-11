@@ -5,10 +5,10 @@ import { Dialog } from "@headlessui/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import clsx from "clsx";
-import toast from "react-hot-toast";
 
-import { uploadProfileStore } from "~/lib/stores/uploads/profile";
 import { trpc } from "~/app/_trpc/client";
+import { myToast } from "~/components/atoms/MyToast";
+import { uploadProfileStore } from "~/lib/stores/uploads/profile";
 
 interface PreviewProfileImageProps {
   imageUrl: string;
@@ -33,14 +33,20 @@ export default function ProfileUpload() {
       if (e.target.value !== "" && !allowedExtensions.exec(e.target.value)) {
         e.target.value = "";
         setImageProfileUploaded("");
-        toast.error("Please select jpg, jpeg or png only!");
+        myToast({
+          type: "error",
+          message: "Please select jpg, jpeg or png only!",
+        });
         return;
       }
 
       if (e.target.files[0].size > 2097152) {
         setImageProfileUploaded("");
         setPreviewProfileImage("");
-        toast.error("Selected photo size exceeds 2 MB. Choose another one.");
+        myToast({
+          type: "error",
+          message: "Selected photo size exceeds 2 MB. Choose another one.",
+        });
         return;
       }
 
@@ -129,7 +135,10 @@ function PreviewProfileImage({ imageUrl, isOpen, setIsOpen }: PreviewProfileImag
           },
           {
             onSuccess: () => {
-              toast.success("Profile photo is updated, just wait for a moment to see the changes.");
+              myToast({
+                type: "success",
+                message: "Profile photo is updated, just wait for a moment to see the changes.",
+              });
               utils.profile.invalidate();
               utils.user.invalidate();
               utils.users.invalidate();
@@ -139,13 +148,19 @@ function PreviewProfileImage({ imageUrl, isOpen, setIsOpen }: PreviewProfileImag
             },
             onError: (error) => {
               setIsPending(false);
-              toast.error(error.message);
+              myToast({
+                type: "error",
+                message: error.message,
+              });
             },
           },
         );
       })
       .catch(() => {
-        toast.error("Upload image failed, try again.");
+        myToast({
+          type: "error",
+          message: "Upload image failed, try again.",
+        });
       });
   };
 

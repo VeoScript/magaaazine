@@ -3,10 +3,10 @@
 import { useState, FormEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Switch } from "@headlessui/react";
-import toast from "react-hot-toast";
 import clsx from "clsx";
 
 import { trpc } from "~/app/_trpc/client";
+import { myToast } from "~/components/atoms/MyToast";
 import { updateBasicInfoValidation, updatePasswordValidation } from "~/lib/hooks/useValidation";
 
 export default function SettingsList() {
@@ -96,10 +96,16 @@ export default function SettingsList() {
           utils.users.invalidate();
           router.refresh();
           setIsPendingBasicInfo(false);
-          toast.success("Updated successfully.");
+          myToast({
+            type: "success",
+            message: "Updated successfully.",
+          });
         },
-        onError: (error) => {
-          toast.error("Error updating privacy option, try again.");
+        onError: () => {
+          myToast({
+            type: "error",
+            message: "Error updating privacy option, try again.",
+          });
         },
       },
     );
@@ -127,12 +133,23 @@ export default function SettingsList() {
             utils.users.invalidate();
             router.refresh();
             setIsPendingBasicInfo(false);
-            toast.success("Updated successfully.");
+            myToast({
+              type: "success",
+              message: "Updated successfully.",
+            });
           },
           onError: (error) => {
             setIsPendingBasicInfo(false);
-            if (error.message === "email") return toast.error("Email is not available.");
-            if (error.message === "username") return toast.error("Username is not available.");
+            if (error.message === "email")
+              return myToast({
+                type: "error",
+                message: "Email is not available.",
+              });
+            if (error.message === "username")
+              return myToast({
+                type: "error",
+                message: "Username is not available.",
+              });
           },
         },
       );
@@ -168,11 +185,17 @@ export default function SettingsList() {
           utils.users.invalidate();
           router.refresh();
           setIsPendingSocialLinks(false);
-          toast.success("Updated successfully.");
+          myToast({
+            type: "success",
+            message: "Updated successfully.",
+          });
         },
         onError: () => {
           setIsPendingSocialLinks(false);
-          toast.error("Error updating social media links, try again.");
+          myToast({
+            type: "error",
+            message: "Error updating social media links, try again.",
+          });
         },
       },
     );
@@ -200,11 +223,17 @@ export default function SettingsList() {
             utils.users.invalidate();
             router.refresh();
             setIsPendingPassword(false);
-            toast.success("You password is updated.");
+            myToast({
+              type: "success",
+              message: "You password is updated.",
+            });
           },
           onError: (error) => {
             setIsPendingPassword(false);
-            toast.error(error.message);
+            myToast({
+              type: "error",
+              message: error.message,
+            });
           },
         },
       );

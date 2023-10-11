@@ -2,7 +2,17 @@
 
 import { useState } from "react";
 import { Switch } from "@headlessui/react";
+import Image from "next/image";
 import clsx from "clsx";
+import toast from "react-hot-toast";
+import ActivityIndicator from "../atoms/ActivityIndicator";
+
+import { useUploadThing } from "~/utils/uploadthing";
+
+import { sendFilesStore } from "~/lib/stores/uploads/files";
+import { sendImagesStore } from "~/lib/stores/uploads/images";
+
+import { trpc } from "~/app/_trpc/client";
 
 interface ChatBoxProps {
   isAuth: boolean;
@@ -25,14 +35,216 @@ export default function ChatBox({
   const [isAnonymous, setIsAnonymous] = useState<boolean>(true);
   const [messageContent, setMessageContent] = useState<string>("");
 
+  const {
+    previewImages,
+    imagesUploaded,
+    setPreviewImages,
+    setImagesUpload,
+    setDefault: setDefaultImages,
+  } = sendImagesStore();
+
+  const { files, fileUrls, setFiles, setFileUrls, setDefault: setDefaultFiles } = sendFilesStore();
+
+  const sendMessageMutation = trpc.sendMessage.useMutation();
+  const uploadFilesImagesMutation = trpc.uploadFilesImages.useMutation();
+
+  // UPLOAD THE FILES TO UPLOADTHING SERVER...
+  const { startUpload } = useUploadThing("mediaPost");
+
+  const handleAddImages = (e: any): void => {
+    for (const file of e.target.files) {
+      const imageTypeRegex = /image\/(png|jpg|jpeg|jfif)/gm;
+
+      if (!file.type.match(imageTypeRegex)) {
+        toast.error("Please select jpg, jpeg, jfif or png only!");
+        return;
+      }
+
+      if (file.size > 2097152) {
+        toast.error("Selected photo size exceeds 2 MB. Choose another one.");
+        return;
+      }
+
+      if (setPreviewImages.length > 3) {
+        toast.error("Only up to 3 photos can be uploaded.");
+        return;
+      }
+
+      setImagesUpload(file);
+
+      const reader = new FileReader();
+
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setPreviewImages([reader.result]);
+      };
+      reader.onerror = () => {
+        console.error(reader.error);
+      };
+    }
+    e.target.value = null;
+  };
+
+  const handleAddFiles = (e: any): void => {
+    for (const file of e.target.files) {
+      setFiles(file);
+      setFileUrls(file.name);
+    }
+    e.target.value = null;
+  };
+
+  const deleteSingleImage = (indexToDelete: number) => {
+    sendImagesStore.setState((prevState) => {
+      const newPreviewImages = [...prevState.previewImages];
+      const newImagesUploaded = [...prevState.imagesUploaded];
+
+      newPreviewImages.splice(indexToDelete, 1);
+      newImagesUploaded.splice(indexToDelete, 1);
+
+      return { previewImages: newPreviewImages, imagesUploaded: newImagesUploaded };
+    });
+  };
+
+  const deleteSingleFile = (indexToDelete: number) => {
+    sendFilesStore.setState((prevState) => {
+      const newPreviewFiles = [...prevState.fileUrls];
+      const newFilesUploaded = [...prevState.files];
+
+      newPreviewFiles.splice(indexToDelete, 1);
+      newFilesUploaded.splice(indexToDelete, 1);
+
+      return { fileUrls: newPreviewFiles, files: newFilesUploaded };
+    });
+  };
+
+  const uploadImages = async () => {
+    setIsPending(true);
+    for (const image of imagesUploaded) {
+      const formData = new FormData();
+      formData.append("image", image);
+
+      await fetch(`https://api.imgbb.com/1/upload?key=${process.env.IMGBB_API_KEY}`, {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then(async (result) => {
+          await uploadFilesImagesMutation.mutateAsync(
+            {
+              is_anonymous: isAnonymous,
+              name: result.data.image.filename,
+              type: "IMAGE",
+              url: result.data.url,
+              delete_url: result.data.delete_url,
+              sender_id: senderId,
+              receiver_id: receiverId,
+            },
+            {
+              onError: () => {
+                setIsPending(false);
+              },
+              onSuccess: () => {
+                setIsPending(false);
+                setDefaultImages();
+              },
+            },
+          );
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
+
+  const uploadFiles = async () => {
+    setIsPending(true);
+    await startUpload(files)
+      .then((result) => {
+        result?.map(async (file: any) => {
+          await uploadFilesImagesMutation.mutateAsync(
+            {
+              is_anonymous: isAnonymous,
+              name: file.fileName,
+              type: "FILE",
+              url: file.fileUrl,
+              delete_url: file.fileKey,
+              sender_id: senderId,
+              receiver_id: receiverId,
+            },
+            {
+              onError: () => {
+                setIsPending(false);
+              },
+              onSuccess: () => {
+                setIsPending(false);
+                setDefaultFiles();
+              },
+            },
+          );
+        });
+      })
+      .catch((error: any) => toast.error(error?.message));
+  };
+
+  const sendMessage = async () => {
+    await sendMessageMutation.mutateAsync(
+      {
+        is_anonymous: isAnonymous,
+        content: messageContent,
+        sender_id: senderId,
+        receiver_id: receiverId,
+      },
+      {
+        onError: () => {
+          setIsPending(false);
+        },
+        onSuccess: () => {
+          setIsPending(false);
+          setMessageContent("");
+        },
+      },
+    );
+  };
+
+  const handleSubmit = async () => {
+    if (messageContent.trim() === "") return toast("Message is required.");
+
+    if (imagesUploaded.length > 0) {
+      toast.promise(uploadImages(), {
+        loading: "Uploading images...",
+        success: <b>Images uploaded successfully!</b>,
+        error: <b>Failed to upload images, try again.</b>,
+      });
+    }
+
+    if (files.length > 0) {
+      toast.promise(uploadFiles(), {
+        loading: "Uploading files...",
+        success: <b>Files uploaded successfully!</b>,
+        error: <b>Failed to upload files, try again.</b>,
+      });
+    }
+
+    toast.promise(sendMessage(), {
+      loading: "Sending message...",
+      success: <b>Message sent successfully.</b>,
+      error: <b>Failed to sent message, try again.</b>,
+    });
+  };
+
+  const onEnterPress = (e: React.KeyboardEvent) => {
+    if (e.keyCode == 13 && e.shiftKey == false) {
+      e.preventDefault();
+      handleSubmit();
+    }
+  };
+
   return (
     <div
       className={clsx(
         !hasCoverPhoto && "border border-neutral-300",
         "flex w-full flex-col items-center overflow-hidden rounded-xl",
       )}
-      data-aos="fade-up"
-      data-aos-delay="600"
     >
       <div
         className={clsx(
@@ -40,9 +252,20 @@ export default function ChatBox({
           "flex w-full flex-row items-center justify-between bg-white bg-opacity-20 p-3 backdrop-blur-sm",
         )}
       >
-        <h1 className="text-xs">Send me a message! 🤗</h1>
+        <div className="flex flex-row items-center gap-x-2">
+          <Image
+            className="h-4 w-4 bg-white object-cover"
+            src="/favicon.ico"
+            alt="sea"
+            priority
+            width={10}
+            height={10}
+            quality={100}
+          />
+          <h1 className="text-sm">Send me a message!</h1>
+        </div>
         <div className="flex items-center gap-x-2">
-          <span className="text-xs font-light">As anonymous</span>
+          <span className="text-sm">As anonymous</span>
           {!isAuth && <span className="text-2xl text-lime-400">&bull;</span>}
           {isAuth && (
             <Switch
@@ -66,14 +289,14 @@ export default function ChatBox({
       <textarea
         disabled={isPending}
         autoComplete="off"
-        className="h-full w-full resize-none bg-white p-3 text-sm text-black outline-none"
+        className="h-full w-full resize-none bg-white p-3 text-black outline-none"
         rows={5}
         cols={40}
         spellCheck={false}
         placeholder="Write some short message..."
         value={messageContent}
         onChange={(e) => setMessageContent(e.currentTarget.value)}
-        // onKeyDown={onEnterPress}
+        onKeyDown={onEnterPress}
       />
       <div
         className={clsx(
@@ -87,7 +310,7 @@ export default function ChatBox({
               <>
                 <label
                   htmlFor="sendImage"
-                  className="flex cursor-pointer flex-row items-center gap-x-1 rounded-xl border border-neutral-400 p-2 outline-none hover:opacity-50"
+                  className="flex cursor-pointer flex-row items-center gap-x-1 rounded-xl border border-white p-2 outline-none hover:opacity-50"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -105,7 +328,7 @@ export default function ChatBox({
                     <circle cx="8.5" cy="8.5" r="1.5" />
                     <polyline points="21 15 16 10 5 21" />
                   </svg>
-                  <span className="text-xs font-light">Send Image</span>
+                  <span className="text-sm">Send Image</span>
                 </label>
                 <input
                   disabled={isPending}
@@ -114,7 +337,7 @@ export default function ChatBox({
                   type="file"
                   id="sendImage"
                   className="hidden"
-                  // onChange={handleAddImages}
+                  onChange={handleAddImages}
                   accept=".jpg, .png, .jpeg, .jfif"
                 />
               </>
@@ -123,7 +346,7 @@ export default function ChatBox({
               <>
                 <label
                   htmlFor="sendFile"
-                  className="flex cursor-pointer flex-row items-center gap-x-1 rounded-xl border border-neutral-400 p-2 outline-none hover:opacity-50"
+                  className="flex cursor-pointer flex-row items-center gap-x-1 rounded-xl border border-white p-2 outline-none hover:opacity-50"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -143,7 +366,7 @@ export default function ChatBox({
                     <line x1="16" y1="17" x2="8" y2="17" />
                     <polyline points="10 9 9 9 8 9" />
                   </svg>
-                  <span className="text-xs font-light">Send File</span>
+                  <span className="text-sm">Send File</span>
                 </label>
                 <input
                   disabled={isPending}
@@ -152,7 +375,7 @@ export default function ChatBox({
                   type="file"
                   id="sendFile"
                   className="hidden"
-                  // onChange={handleAddFiles}
+                  onChange={handleAddFiles}
                   accept=".pdf, .docx, .xlsx, .pptx"
                 />
               </>
@@ -164,26 +387,30 @@ export default function ChatBox({
             disabled={isPending}
             type="button"
             className="outline-none"
-            // onClick={handleSendMessage}
+            onClick={handleSubmit}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-6 w-6 hover:opacity-50"
-            >
-              <line x1="22" y1="2" x2="11" y2="13" />
-              <polygon points="22 2 15 22 11 13 2 9 22 2" />
-            </svg>
+            {isPending ? (
+              <ActivityIndicator className="h-6 w-6" />
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-6 w-6 hover:opacity-50"
+              >
+                <line x1="22" y1="2" x2="11" y2="13" />
+                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+              </svg>
+            )}
           </button>
         </div>
-        {/* {previewImages.length != 0 && (
+        {previewImages.length != 0 && (
           <div className="flex w-full flex-wrap gap-3">
             {previewImages.map((link: any, index: number) => (
               <div
@@ -219,8 +446,8 @@ export default function ChatBox({
               </div>
             ))}
           </div>
-        )} */}
-        {/* {fileUrls.length != 0 && (
+        )}
+        {fileUrls.length != 0 && (
           <div className="flex h-full w-full flex-col gap-y-2">
             {fileUrls.map((file: any, index: number) => (
               <div
@@ -249,7 +476,7 @@ export default function ChatBox({
               </div>
             ))}
           </div>
-        )} */}
+        )}
       </div>
     </div>
   );

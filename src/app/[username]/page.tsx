@@ -41,7 +41,7 @@ export default async function UserPage({ params }: { params: { username: string 
           </p>
         </div>
       ) : (
-        <div className="flex h-screen w-full flex-col items-center">
+        <div className="flex w-full flex-col items-center">
           {profile?.cover_photo && (
             <>
               <div className="absolute z-10 h-full w-full bg-black bg-opacity-50 backdrop-blur-sm" />
@@ -64,7 +64,7 @@ export default async function UserPage({ params }: { params: { username: string 
           <div
             className={clsx(
               profile?.cover_photo ? "text-white" : "text-black",
-              "absolute z-10 flex h-full w-full flex-col items-center overflow-y-auto p-5",
+              "z-20 flex h-full w-full flex-col items-center overflow-hidden p-5",
             )}
           >
             <div className="flex w-full max-w-xl flex-col items-center gap-y-5">

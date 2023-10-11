@@ -9,6 +9,11 @@ import { Abril_Fatface, Raleway } from "next/font/google";
 import Provider from "./_trpc/Provider";
 import CheckAuth from "~/components/molecules/CheckAuth";
 
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
+
+import { ourFileRouter } from "~/app/api/uploadthing/core";
+
 const abrilFatface = Abril_Fatface({
   subsets: ["latin"],
   weight: ["400"],
@@ -41,6 +46,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             "font-raleway selection:bg-slate-300",
           )}
         >
+          <NextSSRPlugin
+            /**
+             * The `extractRouterConfig` will extract **only** the route configs
+             * from the router to prevent additional information from being
+             * leaked to the client. The data passed to the client is the same
+             * as if you were to fetch `/api/uploadthing` directly.
+             */
+            routerConfig={extractRouterConfig(ourFileRouter)}
+          />
           <CheckAuth hasCookies={hasCookies} />
           <Toaster position="top-center" reverseOrder={false} />
           <NextTopLoader

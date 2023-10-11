@@ -24,6 +24,9 @@ export default function FilesImagesList({ userData, initialData }: FilesImagesLi
   const [isOpenAlertModal, setIsOpenAlertModal] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
 
+  const { data: unreadFilesImages, isSuccess: isSuccessUnreadFilesImages } =
+    trpc.countFilesImages.useQuery();
+
   const { data: allFiles, isLoading: isLoadingAllFiles } = trpc.allFilesImages.useQuery();
 
   const {
@@ -61,6 +64,18 @@ export default function FilesImagesList({ userData, initialData }: FilesImagesLi
   const utils = trpc.useContext();
   const deleteMessageMutation = trpc.deleteFileImage.useMutation();
   const deleteAllMessageMutation = trpc.deleteAllFilesImages.useMutation();
+  const readFileImageMutation = trpc.readFileImage.useMutation({
+    onSuccess: () => {
+      utils.countFilesImages.invalidate();
+      utils.filesImages.invalidate();
+    },
+  });
+  const readAllFilesImagesMutation = trpc.readAllFilesImages.useMutation({
+    onSuccess: () => {
+      utils.countFilesImages.invalidate();
+      utils.filesImages.invalidate();
+    },
+  });
 
   const handleDeleteFileImage = async (id: string, type: "IMAGE" | "FILE", delete_url: string) => {
     setIsPending(true);
@@ -75,6 +90,7 @@ export default function FilesImagesList({ userData, initialData }: FilesImagesLi
           setIsPending(false);
         },
         onSuccess: () => {
+          utils.countFilesImages.invalidate();
           utils.filesImages.invalidate();
           setIsPending(false);
         },
@@ -95,6 +111,7 @@ export default function FilesImagesList({ userData, initialData }: FilesImagesLi
           setIsPendingDeleteAll(false);
         },
         onSuccess: () => {
+          utils.countFilesImages.invalidate();
           utils.filesImages.invalidate();
           setIsPendingDeleteAll(false);
           setIsOpenAlertModal(false);
@@ -112,13 +129,24 @@ export default function FilesImagesList({ userData, initialData }: FilesImagesLi
               <div className="flex w-full flex-row items-center justify-between">
                 <h1 className="ml-3 py-3 text-center text-xl font-bold">Files & Images</h1>
                 {filesImages && filesImages?.pages[0]?.filesImages.length != 0 && (
-                  <button
-                    type="button"
-                    className="custom-button-outlined text-xs font-semibold"
-                    onClick={() => setIsOpenAlertModal(true)}
-                  >
-                    Clear all
-                  </button>
+                  <div className="flex flex-row items-center gap-x-1">
+                    <button
+                      type="button"
+                      className="custom-button-outlined text-xs font-semibold"
+                      onClick={() => setIsOpenAlertModal(true)}
+                    >
+                      Clear all
+                    </button>
+                    {isSuccessUnreadFilesImages && unreadFilesImages != 0 && (
+                      <button
+                        type="button"
+                        className="custom-button-outlined text-xs font-semibold"
+                        onClick={() => readAllFilesImagesMutation.mutate()}
+                      >
+                        Mark all as read
+                      </button>
+                    )}
+                  </div>
                 )}
               </div>
               <div className="custom-input flex w-full flex-row items-center gap-x-2">
@@ -166,7 +194,10 @@ export default function FilesImagesList({ userData, initialData }: FilesImagesLi
                       {page?.filesImages.map((filesImage, index) => (
                         <div
                           key={filesImage.id}
-                          className="flex w-full cursor-default flex-row items-start gap-x-2 rounded-xl border p-3 transition duration-100 hover:bg-opacity-10"
+                          className={clsx(
+                            !filesImage.is_read && "bg-neutral-200 hover:bg-opacity-80",
+                            "flex w-full cursor-default flex-row items-start gap-x-2 rounded-xl border p-3 transition duration-100 hover:bg-opacity-50",
+                          )}
                         >
                           <div className="flex w-full flex-row items-center gap-x-2">
                             <div className="flex h-[3rem] w-[3rem] flex-row items-center justify-center rounded-full bg-black object-cover">
@@ -219,10 +250,13 @@ export default function FilesImagesList({ userData, initialData }: FilesImagesLi
                           </div>
                           <div className="flex flex-row items-center gap-x-2">
                             <Link
-                              data-tooltip-id="onlyself-tooltip"
-                              data-tooltip-content="Download"
                               href={filesImage.url}
                               target="_blank"
+                              onClick={() =>
+                                readFileImageMutation.mutate({
+                                  id: filesImage.id,
+                                })
+                              }
                             >
                               <svg
                                 fill="none"

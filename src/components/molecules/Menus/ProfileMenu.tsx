@@ -18,9 +18,21 @@ interface ProfileMenu {
 export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMenu) {
   const router = useRouter();
 
-  const signOutMutation = trpc.signout.useMutation();
-
   const [isPending, setIsPending] = useState<boolean>(false);
+
+  const { data: unreadMessages, isSuccess: isSuccessUnreadMessages } = trpc.countMessages.useQuery(
+    undefined,
+    {
+      refetchInterval: 3000,
+    },
+  );
+
+  const { data: unreadFilesImages, isSuccess: isSuccessUnreadFilesImages } =
+    trpc.countFilesImages.useQuery(undefined, {
+      refetchInterval: 3000,
+    });
+
+  const signOutMutation = trpc.signout.useMutation();
 
   const handleSignOut = async () => {
     setIsPending(true);
@@ -31,7 +43,7 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
 
   return (
     <Headless.Menu as="div" className="relative inline-block text-left">
-      <Headless.Menu.Button className="outline-none">
+      <Headless.Menu.Button className="relative outline-none">
         {user?.profile_photo ? (
           <Image
             className="h-8 w-8 rounded-full bg-neutral-300 object-cover"
@@ -63,6 +75,10 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
             </svg>
           </div>
         )}
+        {((isSuccessUnreadMessages && unreadMessages != 0) ||
+          (isSuccessUnreadFilesImages && unreadFilesImages != 0)) && (
+          <div className="absolute right-0 top-0 h-3 w-3 rounded-full bg-red-500" />
+        )}
       </Headless.Menu.Button>
       <Headless.Menu.Items className="divide-accent-3 absolute right-0 z-30 mt-2 flex w-56 origin-top-right flex-col divide-y overflow-hidden rounded-lg border bg-white outline-none">
         <Headless.Menu.Item as={Fragment}>
@@ -71,13 +87,29 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
           </Link>
         </Headless.Menu.Item>
         <Headless.Menu.Item as={Fragment}>
-          <Link href="/messages" className="w-full p-3 text-sm hover:opacity-80">
-            Messages
+          <Link
+            href="/messages"
+            className="flex w-full flex-row items-center justify-between p-3 text-sm hover:opacity-80"
+          >
+            <span>Messages</span>
+            {isSuccessUnreadMessages && unreadMessages != 0 && (
+              <p className="flex h-5 w-5 flex-row items-center justify-center rounded-full bg-red-500 text-[11px] text-white">
+                <span>{unreadMessages}</span>
+              </p>
+            )}
           </Link>
         </Headless.Menu.Item>
         <Headless.Menu.Item as={Fragment}>
-          <Link href="/files-images" className="w-full p-3 text-sm hover:opacity-80">
-            Files and Images
+          <Link
+            href="/files-images"
+            className="flex w-full flex-row items-center justify-between p-3 text-sm hover:opacity-80"
+          >
+            <span>Files and Images</span>
+            {isSuccessUnreadFilesImages && unreadFilesImages != 0 && (
+              <p className="flex h-5 w-5 flex-row items-center justify-center rounded-full bg-red-500 text-[11px] text-white">
+                <span>{unreadFilesImages}</span>
+              </p>
+            )}
           </Link>
         </Headless.Menu.Item>
         <Headless.Menu.Item as={Fragment}>

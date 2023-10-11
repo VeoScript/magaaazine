@@ -207,6 +207,7 @@ export default function ChatBox({
   };
 
   const sendMessage = async () => {
+    setIsPending(true);
     await sendMessageMutation.mutateAsync(
       {
         is_anonymous: isAnonymous,
@@ -419,8 +420,6 @@ export default function ChatBox({
             )}
           </div>
           <button
-            data-tooltip-id="onlyself-tooltip"
-            data-tooltip-content="Send Message"
             disabled={isPending}
             type="button"
             className="outline-none"

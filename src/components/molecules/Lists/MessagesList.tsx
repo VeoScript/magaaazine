@@ -27,6 +27,9 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
   const [isOpenAlertModal, setIsOpenAlertModal] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
 
+  const { data: unreadMessages, isSuccess: isSuccessUnreadMessages } =
+    trpc.countMessages.useQuery();
+
   const {
     data: messages,
     isLoading: isLoadingMessages,
@@ -62,6 +65,18 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
   const utils = trpc.useContext();
   const deleteMessageMutation = trpc.deleteMessage.useMutation();
   const deleteAllMessageMutation = trpc.deleteAllMessage.useMutation();
+  const readMessageMutation = trpc.readMessage.useMutation({
+    onSuccess: () => {
+      utils.countMessages.invalidate();
+      utils.messages.invalidate();
+    },
+  });
+  const readAllMessagesMutation = trpc.readAllMessages.useMutation({
+    onSuccess: () => {
+      utils.countMessages.invalidate();
+      utils.messages.invalidate();
+    },
+  });
 
   const handleDeleteMessage = async (id: string) => {
     setIsPending(true);
@@ -74,6 +89,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
           setIsPending(false);
         },
         onSuccess: () => {
+          utils.countMessages.invalidate();
           utils.messages.invalidate();
           setIsPending(false);
         },
@@ -92,6 +108,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
           setIsPendingDeleteAll(false);
         },
         onSuccess: () => {
+          utils.countMessages.invalidate();
           utils.messages.invalidate();
           setIsPendingDeleteAll(false);
           setIsOpenAlertModal(false);
@@ -109,13 +126,24 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
               <div className="flex w-full flex-row items-center justify-between">
                 <h1 className="ml-3 py-3 text-center text-xl font-bold">Messages</h1>
                 {messages && messages?.pages[0]?.messages.length != 0 && (
-                  <button
-                    type="button"
-                    className="custom-button-outlined text-xs font-semibold"
-                    onClick={() => setIsOpenAlertModal(true)}
-                  >
-                    Clear all
-                  </button>
+                  <div className="flex flex-row items-center gap-x-1">
+                    <button
+                      type="button"
+                      className="custom-button-outlined text-xs font-semibold"
+                      onClick={() => setIsOpenAlertModal(true)}
+                    >
+                      Clear all
+                    </button>
+                    {isSuccessUnreadMessages && unreadMessages != 0 && (
+                      <button
+                        type="button"
+                        className="custom-button-outlined text-xs font-semibold"
+                        onClick={() => readAllMessagesMutation.mutate()}
+                      >
+                        Mark all as read
+                      </button>
+                    )}
+                  </div>
                 )}
               </div>
               <div className="custom-input flex w-full flex-row items-center gap-x-2">
@@ -163,7 +191,10 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                       {page?.messages.map((message, index) => (
                         <div
                           key={message.id}
-                          className="flex w-full cursor-default flex-row items-start gap-x-2 rounded-xl border p-3 transition duration-100 hover:bg-opacity-10"
+                          className={clsx(
+                            !message.is_read && "bg-neutral-200 hover:bg-opacity-80",
+                            "flex w-full cursor-default flex-row items-start gap-x-2 rounded-xl border p-3 transition duration-100 hover:bg-opacity-50",
+                          )}
                         >
                           {message.sender ? (
                             <Image
@@ -203,6 +234,9 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                                   "text-base font-bold",
                                 )}
                                 onClick={() => {
+                                  readMessageMutation.mutate({
+                                    id: message.id,
+                                  });
                                   if (!message.is_anonymous) {
                                     router.push(`/${message.sender?.username}`);
                                   }

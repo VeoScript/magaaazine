@@ -22,6 +22,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
   const { ref, inView } = useInView();
 
   const [isPending, setIsPending] = useState<boolean>(false);
+  const [isPendingDeleteAll, setIsPendingDeleteAll] = useState<boolean>(false);
   const [indexIndicator, setIndexIndicator] = useState<number>(0);
   const [isOpenAlertModal, setIsOpenAlertModal] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
@@ -81,18 +82,18 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
   };
 
   const handleDeleteAllMessage = async () => {
-    setIsPending(true);
+    setIsPendingDeleteAll(true);
     await deleteAllMessageMutation.mutateAsync(
       {
         id: userData?.id as string,
       },
       {
         onError: () => {
-          setIsPending(false);
+          setIsPendingDeleteAll(false);
         },
         onSuccess: () => {
           utils.messages.invalidate();
-          setIsPending(false);
+          setIsPendingDeleteAll(false);
           setIsOpenAlertModal(false);
         },
       },
@@ -106,7 +107,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
           <div className="sticky top-0 z-10 flex w-full flex-row items-start justify-between bg-white">
             <div className="flex w-full flex-col items-start justify-center gap-y-5 p-3">
               <div className="flex w-full flex-row items-center justify-between">
-                <h1 className="ml-3 p-3 text-center text-xl font-bold">Messages</h1>
+                <h1 className="ml-3 py-3 text-center text-xl font-bold">Messages</h1>
                 {messages && messages?.pages[0]?.messages.length != 0 && (
                   <button
                     type="button"
@@ -136,7 +137,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                   className="w-full bg-transparent outline-none"
                   autoComplete="off"
                   type="text"
-                  id="search_people"
+                  id="search_messages"
                   placeholder="Search message content"
                   value={search}
                   onChange={(e) => setSearch(e.currentTarget.value)}
@@ -145,7 +146,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
             </div>
           </div>
           <div className="flex w-full flex-col items-start gap-y-1 px-3 pb-3">
-            {isLoadingMessages ? (
+            {isLoadingMessages || isPendingDeleteAll ? (
               <div className="my-3 flex w-full flex-col items-center">
                 <ActivityIndicator color="#333" className="h-8 w-8 text-black" />
               </div>

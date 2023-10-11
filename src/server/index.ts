@@ -5,6 +5,7 @@ import { authRouter } from "./routers/auth";
 import { uploadRouter } from "./routers/upload";
 import { settingsRouter } from "./routers/settings";
 import { messagesRouter } from "./routers/messages";
+import { filesImagesRouter } from "./routers/files-images";
 
 export const appRouter = mergeRouters(
   userRouter,
@@ -12,6 +13,7 @@ export const appRouter = mergeRouters(
   uploadRouter,
   settingsRouter,
   messagesRouter,
+  filesImagesRouter,
 );
 
 export type AppRouter = typeof appRouter;

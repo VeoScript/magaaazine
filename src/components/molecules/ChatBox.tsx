@@ -48,6 +48,7 @@ export default function ChatBox({
 
   const { files, fileUrls, setFiles, setFileUrls, setDefault: setDefaultFiles } = sendFilesStore();
 
+  const utils = trpc.useContext();
   const sendMessageMutation = trpc.sendMessage.useMutation();
   const uploadFilesImagesMutation = trpc.uploadFilesImages.useMutation();
 
@@ -156,6 +157,7 @@ export default function ChatBox({
                 setIsPending(false);
               },
               onSuccess: () => {
+                utils.messages.invalidate();
                 setIsPending(false);
                 setDefaultImages();
               },
@@ -188,6 +190,7 @@ export default function ChatBox({
                 setIsPending(false);
               },
               onSuccess: () => {
+                utils.messages.invalidate();
                 setIsPending(false);
                 setDefaultFiles();
               },
@@ -216,6 +219,7 @@ export default function ChatBox({
           setIsPending(false);
         },
         onSuccess: () => {
+          utils.messages.invalidate();
           setIsPending(false);
           setMessageContent("");
         },

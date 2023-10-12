@@ -56,7 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             routerConfig={extractRouterConfig(ourFileRouter)}
           />
           <CheckAuth hasCookies={hasCookies} />
-          <Toaster position="top-center" reverseOrder={false} />
+          <Toaster position="bottom-right" reverseOrder={false} />
           <NextTopLoader
             color="#2299DD"
             initialPosition={0.08}

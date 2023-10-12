@@ -27,6 +27,7 @@ export function myToast({
             borderRadius: "10px",
             background: "#333",
             color: "#fff",
+            fontSize: "13px",
           },
         });
       }
@@ -37,6 +38,7 @@ export function myToast({
             borderRadius: "10px",
             background: "#333",
             color: "#fff",
+            fontSize: "13px",
           },
         });
       }
@@ -45,7 +47,7 @@ export function myToast({
         return toast.promise(
           buttonFunction(),
           {
-            loading: buttonLoadingMessage ?? '',
+            loading: buttonLoadingMessage ?? "",
             success: <b>{buttonFunctionSuccessMessage}</b>,
             error: <b>{buttonFunctionErrorMessage}</b>,
           },
@@ -54,6 +56,7 @@ export function myToast({
               borderRadius: "10px",
               background: "#333",
               color: "#fff",
+              fontSize: "13px",
             },
           },
         );
@@ -65,6 +68,7 @@ export function myToast({
             borderRadius: "10px",
             background: "#333",
             color: "#fff",
+            fontSize: "13px",
           },
         });
       }

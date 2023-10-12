@@ -7,35 +7,42 @@ import clsx from "clsx";
 
 import { trpc } from "~/app/_trpc/client";
 import { myToast } from "~/components/atoms/MyToast";
-import { signinValidation } from "~/lib/hooks/useValidation";
+import { resetPasswordValidation } from "~/lib/hooks/useValidation";
 
-export default function SignInForm() {
+interface ResetPasswordProps {
+  token: string;
+}
+
+export default function ResetPasswordForm({ token }: ResetPasswordProps) {
   const router = useRouter();
 
-  const signInMutation = trpc.signin.useMutation();
+  const resetPasswordMutation = trpc.resetPassword.useMutation();
 
   const [isPending, setIsPending] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [repassword, setRepassword] = useState<string>("");
 
-  const [signInFormErrors, setSignInFormErrors] = useState<any>(null);
+  const [resetPasswordFormErrors, setResetPasswordFormErrors] = useState<any>(null);
 
-  const handleSignIn = async (e: FormEvent) => {
+  const handleResetPassword = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      await signinValidation.validate({ email, password }, { abortEarly: false });
+      await resetPasswordValidation.validate({ password, repassword }, { abortEarly: false });
 
       setIsPending(true);
 
-      await signInMutation.mutateAsync(
+      await resetPasswordMutation.mutateAsync(
         {
-          email,
+          token,
           password,
         },
         {
           onSuccess: (data) => {
-            router.refresh();
-            router.push(`/${data.username}`);
+            myToast({
+              type: "success",
+              message: data.message,
+            });
+            router.push("/");
           },
           onError: (error) => {
             setIsPending(false);
@@ -52,38 +59,19 @@ export default function SignInForm() {
         error.inner.forEach((e: any) => {
           errors[e.path] = e.message;
         });
-        setSignInFormErrors(errors);
+        setResetPasswordFormErrors(errors);
       }
     }
   };
 
   return (
-    <form onSubmit={handleSignIn} className="flex w-full max-w-lg flex-col items-start gap-y-3">
-      <h1 className="mb-1 ml-1.5 text-xl font-bold">Sign in</h1>
+    <form
+      onSubmit={handleResetPassword}
+      className="flex w-full max-w-lg flex-col items-start gap-y-3"
+    >
+      <h1 className="mb-1 ml-1.5 text-xl font-bold">Reset Password</h1>
       <div className="flex w-full flex-col gap-y-1">
         <label htmlFor="email" className="ml-1.5 text-sm">
-          Email
-        </label>
-        <input
-          disabled={isPending}
-          autoComplete="false"
-          type="text"
-          id="email"
-          className="custom-input"
-          value={email}
-          onChange={(e) => {
-            setSignInFormErrors(null);
-            setEmail(e.currentTarget.value);
-          }}
-        />
-        {signInFormErrors && signInFormErrors.email && (
-          <span className="ml-2 mt-1 text-xs font-medium text-red-500">
-            {signInFormErrors.email}
-          </span>
-        )}
-      </div>
-      <div className="flex w-full flex-col gap-y-1">
-        <label htmlFor="password" className="ml-1.5 text-sm">
           Password
         </label>
         <input
@@ -94,20 +82,39 @@ export default function SignInForm() {
           className="custom-input"
           value={password}
           onChange={(e) => {
-            setSignInFormErrors(null);
+            setResetPasswordFormErrors(null);
             setPassword(e.currentTarget.value);
           }}
         />
-        {signInFormErrors && signInFormErrors.password && (
+        {resetPasswordFormErrors && resetPasswordFormErrors.password && (
           <span className="ml-2 mt-1 text-xs font-medium text-red-500">
-            {signInFormErrors.password}
+            {resetPasswordFormErrors.password}
+          </span>
+        )}
+      </div>
+      <div className="flex w-full flex-col gap-y-1">
+        <label htmlFor="repassword" className="ml-1.5 text-sm">
+          Re-type password
+        </label>
+        <input
+          disabled={isPending}
+          autoComplete="false"
+          type="password"
+          id="repassword"
+          className="custom-input"
+          value={repassword}
+          onChange={(e) => {
+            setResetPasswordFormErrors(null);
+            setRepassword(e.currentTarget.value);
+          }}
+        />
+        {resetPasswordFormErrors && resetPasswordFormErrors.repassword && (
+          <span className="ml-2 mt-1 text-xs font-medium text-red-500">
+            {resetPasswordFormErrors.repassword}
           </span>
         )}
       </div>
       <div className="flex w-full flex-col items-center gap-y-3">
-        <Link href="/forgot-password" className="text-sm hover:underline">
-          Forgot Password?
-        </Link>
         <button
           disabled={isPending}
           type="submit"
@@ -115,12 +122,9 @@ export default function SignInForm() {
         >
           {isPending ? "Loading..." : "Continue"}
         </button>
-        <span className="text-sm">
-          Don&apos;t have an account?{" "}
-          <Link href="/signup" className="font-bold hover:underline">
-            Sign up
-          </Link>
-        </span>
+        <Link href="/forgot-password" className="text-sm hover:underline">
+          Back to Home page
+        </Link>
       </div>
     </form>
   );

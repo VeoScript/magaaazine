@@ -9,13 +9,13 @@ import * as Headless from "@headlessui/react";
 import { trpc } from "~/app/_trpc/client";
 import { serverClient } from "~/app/_trpc/serverClient";
 
-interface ProfileMenu {
+interface ProfileMenuProps {
   user: Awaited<ReturnType<(typeof serverClient)["user"]>>;
   imageSrc: string;
   imageBlurUrl: string;
 }
 
-export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMenu) {
+export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMenuProps) {
   const router = useRouter();
 
   const [isPending, setIsPending] = useState<boolean>(false);
@@ -88,6 +88,22 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
         </Headless.Menu.Item>
         <Headless.Menu.Item as={Fragment}>
           <Link
+            href="/"
+            className="block w-full p-3 text-sm hover:opacity-80 md:hidden"
+          >
+            Home
+          </Link>
+        </Headless.Menu.Item>
+        <Headless.Menu.Item as={Fragment}>
+          <Link
+            href="/discover"
+            className="block w-full p-3 text-sm hover:opacity-80 md:hidden"
+          >
+            Discover
+          </Link>
+        </Headless.Menu.Item>
+        <Headless.Menu.Item as={Fragment}>
+          <Link
             href="/messages"
             className="flex w-full flex-row items-center justify-between p-3 text-sm hover:opacity-80"
           >
@@ -115,6 +131,14 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
         <Headless.Menu.Item as={Fragment}>
           <Link href="/settings" className="w-full p-3 text-sm hover:opacity-80">
             Settings
+          </Link>
+        </Headless.Menu.Item>
+        <Headless.Menu.Item as={Fragment}>
+          <Link
+            href="/pricing"
+            className="block w-full p-3 text-sm hover:opacity-80 md:hidden"
+          >
+            Pricing
           </Link>
         </Headless.Menu.Item>
         <Headless.Menu.Item as={Fragment}>

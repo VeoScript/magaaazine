@@ -249,7 +249,7 @@ export default function SettingsForm() {
   };
 
   return (
-    <div className="flex h-full w-full flex-col items-center overflow-y-auto">
+    <div className="flex h-full w-full flex-col items-center overflow-y-auto py-5 md:py-0">
       <div className="flex h-full w-full max-w-2xl flex-col items-center gap-y-10 rounded-xl">
         <div className="flex w-full flex-row items-start justify-between bg-white">
           <div className="flex w-full flex-row items-center justify-center">
@@ -351,7 +351,7 @@ export default function SettingsForm() {
             <div className="flex w-full flex-row items-center justify-start">
               <h2 className="font-bold">Basic Information</h2>
             </div>
-            <div className="flex w-full flex-row items-start gap-x-3">
+            <div className="flex w-full flex-col items-center gap-x-0 gap-y-3 md:flex-row md:items-start md:gap-x-3 md:gap-y-0">
               <div className="flex w-full flex-col gap-y-1">
                 <label htmlFor="name" className="ml-2 text-sm">
                   Name
@@ -457,7 +457,7 @@ export default function SettingsForm() {
                 disabled={isLoadingUser || isPendingBasicInfo}
                 className={clsx(
                   (isLoadingUser || isPendingBasicInfo) && "opacity-50",
-                  "custom-button",
+                  "custom-button w-full md:w-auto",
                 )}
               >
                 {isPendingBasicInfo ? "Updating..." : "Update"}
@@ -565,7 +565,7 @@ export default function SettingsForm() {
                 type="submit"
                 className={clsx(
                   (isLoadingUser || isPendingSocialLinks) && "opacity-50",
-                  "custom-button",
+                  "custom-button w-full md:w-auto",
                 )}
               >
                 {isPendingSocialLinks ? "Updating..." : "Update"}
@@ -599,7 +599,7 @@ export default function SettingsForm() {
                 </span>
               )}
             </div>
-            <div className="flex w-full flex-row items-start gap-x-3">
+            <div className="flex w-full flex-col items-center gap-x-0 gap-y-3 md:flex-row md:items-start md:gap-x-3 md:gap-y-0">
               <div className="flex w-full flex-col gap-y-1">
                 <label htmlFor="newpassword" className="ml-2 text-sm">
                   New password
@@ -651,7 +651,7 @@ export default function SettingsForm() {
                 disabled={isLoadingUser || isPendingPassword}
                 className={clsx(
                   (isLoadingUser || isPendingPassword) && "opacity-50",
-                  "custom-button",
+                  "custom-button w-full md:w-auto",
                 )}
               >
                 {isPendingPassword ? "Loading..." : "Confirm"}

@@ -22,6 +22,9 @@ export async function generateMetadata({
   return {
     title: `Magaaazine | ${profile ? `@${profile?.username}` : "Not Found"}`,
     description: "Empower Your Online Presence with Magaaazine",
+    metadataBase: new URL(
+      process.env.NODE_ENV === "development" ? `${process.env.DEV_URL}` : `${process.env.PROD_URL}`,
+    ),
     openGraph: {
       type: "website",
       url:
@@ -62,8 +65,8 @@ export default async function UserPage({ params }: { params: { username: string 
     <>
       {!profile ? (
         <div className="flex h-full min-h-[35rem] w-full flex-col items-center justify-center">
-          <p className="text-xl text-neutral-500">
-            No user found from username{" "}
+          <p className="w-full max-w-xl text-center text-base md:text-xl text-neutral-500">
+            No user found from username <br />
             <span className="font-bold">&quot;{params.username}&quot;</span>.
           </p>
         </div>
@@ -89,7 +92,7 @@ export default async function UserPage({ params }: { params: { username: string 
           <div
             className={clsx(
               profile?.cover_photo ? "text-white" : "text-black",
-              "absolute z-20 flex w-full flex-col items-center overflow-hidden p-5",
+              "absolute z-10 flex w-full flex-col items-center overflow-hidden p-5",
             )}
           >
             <div className="flex w-full max-w-xl flex-col items-center gap-y-5">

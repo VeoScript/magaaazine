@@ -58,7 +58,10 @@ export default function SignInForm() {
   };
 
   return (
-    <form onSubmit={handleSignIn} className="flex w-full max-w-lg flex-col items-start gap-y-3">
+    <form
+      onSubmit={handleSignIn}
+      className="flex w-full max-w-lg flex-col items-start gap-y-3 p-5 md:p-0"
+    >
       <h1 className="mb-1 ml-1.5 text-xl font-bold">Sign in</h1>
       <div className="flex w-full flex-col gap-y-1">
         <label htmlFor="email" className="ml-1.5 text-sm">

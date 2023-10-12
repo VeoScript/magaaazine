@@ -55,7 +55,10 @@ export default function ForgotPasswordForm() {
   };
 
   return (
-    <form onSubmit={handleSendEmail} className="flex w-full max-w-lg flex-col items-start gap-y-5">
+    <form
+      onSubmit={handleSendEmail}
+      className="flex w-full max-w-lg flex-col items-start gap-y-5 p-5 md:p-0"
+    >
       <h1 className="mb-1 ml-1.5 text-xl font-bold">Forgot Password?</h1>
       <p className="ml-1 text-sm">
         Enter the email address you used when you joined and we’ll send you instructions to reset
@@ -88,7 +91,7 @@ export default function ForgotPasswordForm() {
         <button
           disabled={isPending}
           type="submit"
-          className={clsx(isPending && "opacity-50", "custom-button")}
+          className={clsx(isPending && "opacity-50", "custom-button w-full md:w-auto")}
         >
           {isPending ? "Sending..." : "Send Reset Instructions"}
         </button>

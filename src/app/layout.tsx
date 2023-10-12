@@ -31,6 +31,9 @@ const raleway = Raleway({
 export const metadata: Metadata = {
   title: "Magaaazine",
   description: "Empower Your Online Presence with Magaaazine",
+  metadataBase: new URL(
+    process.env.NODE_ENV === "development" ? `${process.env.DEV_URL}` : `${process.env.PROD_URL}`,
+  ),
   openGraph: {
     type: "website",
     url:

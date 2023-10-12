@@ -64,7 +64,10 @@ export default function SignUpForm() {
   };
 
   return (
-    <form onSubmit={handleSignUp} className="flex w-full max-w-lg flex-col items-start gap-y-3">
+    <form
+      onSubmit={handleSignUp}
+      className="flex w-full max-w-lg flex-col items-start gap-y-3 p-5 md:p-0"
+    >
       <h1 className="mb-1 ml-1.5 text-xl font-bold">Sign up</h1>
       <div className="flex w-full flex-col gap-y-1">
         <label htmlFor="name" className="ml-1.5 text-sm">
@@ -154,7 +157,7 @@ export default function SignUpForm() {
           </span>
         )}
       </div>
-      <div className="flex w-full flex-row items-center justify-between gap-x-3">
+      <div className="flex w-full flex-col-reverse items-center justify-start gap-x-0 gap-y-3 md:flex-row md:justify-between md:gap-x-3 md:gap-y-0">
         <span className="text-sm">
           Already have an account?{" "}
           <Link href="/signin" className="font-bold hover:underline">
@@ -164,7 +167,7 @@ export default function SignUpForm() {
         <button
           disabled={isPending}
           type="submit"
-          className={clsx(isPending && "opacity-50", "custom-button")}
+          className={clsx(isPending && "opacity-50", "custom-button w-full md:w-auto")}
         >
           {isPending ? "Loading..." : "Continue"}
         </button>

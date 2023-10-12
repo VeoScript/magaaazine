@@ -126,8 +126,8 @@ export default function FilesImagesList({ userData, initialData }: FilesImagesLi
         <div className="flex h-full w-full max-w-xl flex-col items-center rounded-xl">
           <div className="sticky top-0 z-10 flex w-full flex-row items-start justify-between bg-white">
             <div className="flex w-full flex-col items-start justify-center gap-y-5 p-3">
-              <div className="flex w-full flex-row items-center justify-between">
-                <h1 className="ml-3 py-3 text-center text-xl font-bold">Files & Images</h1>
+              <div className="flex w-full flex-col items-center justify-between md:flex-row">
+                <h1 className="ml-0 py-3 text-center text-xl font-bold md:ml-3">Files & Images</h1>
                 {filesImages && filesImages?.pages[0]?.filesImages.length != 0 && (
                   <div className="flex flex-row items-center gap-x-1">
                     <button
@@ -156,7 +156,7 @@ export default function FilesImagesList({ userData, initialData }: FilesImagesLi
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="h-5 w-5 text-black"
+                  className="h-5 w-5 text-neutral-400"
                 >
                   <path
                     strokeLinecap="round"
@@ -185,7 +185,7 @@ export default function FilesImagesList({ userData, initialData }: FilesImagesLi
               <>
                 {filesImages && filesImages?.pages[0]?.filesImages.length == 0 && (
                   <div className="my-3 flex w-full flex-col items-center">
-                    <p>No message found.</p>
+                    <p>No files/images found.</p>
                   </div>
                 )}
                 {filesImages &&
@@ -196,10 +196,10 @@ export default function FilesImagesList({ userData, initialData }: FilesImagesLi
                           key={filesImage.id}
                           className={clsx(
                             !filesImage.is_read && "bg-neutral-200 hover:bg-opacity-80",
-                            "flex w-full cursor-default flex-row items-start gap-x-2 rounded-xl border p-3 transition duration-100 hover:bg-opacity-50",
+                            "flex w-full cursor-default flex-row items-start gap-x-2 rounded-xl border p-3 overflow-hidden transition duration-100 hover:bg-opacity-50",
                           )}
                         >
-                          <div className="flex w-full flex-row items-center gap-x-2">
+                          <div className="flex flex-row items-center gap-x-2">
                             <div className="flex h-[3rem] w-[3rem] flex-row items-center justify-center rounded-full bg-black object-cover">
                               {filesImage.type === "FILE" && (
                                 <svg
@@ -235,7 +235,7 @@ export default function FilesImagesList({ userData, initialData }: FilesImagesLi
                               )}
                             </div>
                             <div className="flex max-w-sm flex-1 flex-col gap-y-1">
-                              <h1 className="text-sm font-bold">{filesImage.name}</h1>
+                              <h1 className="text-sm font-bold truncate-text">{filesImage.name}</h1>
                               {filesImage.is_anonymous ? (
                                 <p className="text-sm">Anonymous</p>
                               ) : (
@@ -248,7 +248,7 @@ export default function FilesImagesList({ userData, initialData }: FilesImagesLi
                               )}
                             </div>
                           </div>
-                          <div className="flex flex-row items-center gap-x-2">
+                          <div className="flex flex-row items-center justify-end flex-1 gap-x-2">
                             <Link
                               href={filesImage.url}
                               target="_blank"

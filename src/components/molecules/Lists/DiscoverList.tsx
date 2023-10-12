@@ -69,7 +69,7 @@ export default function DiscoverList({ initialData }: DiscoverListProps) {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="h-5 w-5 text-black"
+                className="h-5 w-5 text-neutral-400"
               >
                 <path
                   strokeLinecap="round"

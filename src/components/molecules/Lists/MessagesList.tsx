@@ -123,8 +123,8 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
         <div className="flex h-full w-full max-w-xl flex-col items-center rounded-xl">
           <div className="sticky top-0 z-10 flex w-full flex-row items-start justify-between bg-white">
             <div className="flex w-full flex-col items-start justify-center gap-y-5 p-3">
-              <div className="flex w-full flex-row items-center justify-between">
-                <h1 className="ml-3 py-3 text-center text-xl font-bold">Messages</h1>
+              <div className="flex w-full flex-col items-center justify-between md:flex-row">
+                <h1 className="ml-0 py-3 text-center text-xl font-bold md:ml-3">Messages</h1>
                 {messages && messages?.pages[0]?.messages.length != 0 && (
                   <div className="flex flex-row items-center gap-x-1">
                     <button
@@ -153,7 +153,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="h-5 w-5 text-black"
+                  className="h-5 w-5 text-neutral-400"
                 >
                   <path
                     strokeLinecap="round"

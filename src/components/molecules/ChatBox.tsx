@@ -290,9 +290,9 @@ export default function ChatBox({
           "flex w-full flex-row items-center justify-between bg-white bg-opacity-20 p-3 backdrop-blur-sm",
         )}
       >
-        <div className="flex flex-row items-center gap-x-2">
+        <div className="flex flex-row items-start gap-x-2">
           <Image
-            className="h-4 w-4 bg-white object-cover"
+            className="h-4 w-4 mt-1 bg-white object-cover"
             src="/favicon.ico"
             alt="sea"
             priority
@@ -300,10 +300,10 @@ export default function ChatBox({
             height={10}
             quality={100}
           />
-          <h1 className="text-sm">Send me a message!</h1>
+          <h1 className="text-sm">Send me a message</h1>
         </div>
         <div className="flex items-center gap-x-2">
-          <span className="text-sm">As anonymous</span>
+          <span className="text-sm text-right">As anonymous</span>
           {!isAuth && <span className="text-2xl text-lime-400">&bull;</span>}
           {isAuth && (
             <Switch

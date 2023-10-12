@@ -70,7 +70,7 @@ export default function CoverUpload() {
     <>
       <label
         htmlFor="uploadCover"
-        className="absolute right-3 top-3 z-20 cursor-pointer rounded-full bg-black bg-opacity-50 p-2 outline-none hover:bg-opacity-20"
+        className="absolute right-3 top-3 z-40 cursor-pointer rounded-full bg-black bg-opacity-50 p-2 outline-none hover:bg-opacity-20"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

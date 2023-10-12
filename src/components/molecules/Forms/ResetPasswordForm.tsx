@@ -120,7 +120,7 @@ export default function ResetPasswordForm({ token }: ResetPasswordProps) {
           type="submit"
           className={clsx(isPending && "opacity-50", "custom-button w-full")}
         >
-          {isPending ? "Loading..." : "Continue"}
+          {isPending ? "Loading..." : "Reset"}
         </button>
         <Link href="/forgot-password" className="text-sm hover:underline">
           Back to Home page

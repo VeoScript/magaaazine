@@ -223,6 +223,9 @@ export default function SettingsForm() {
             utils.users.invalidate();
             router.refresh();
             setIsPendingPassword(false);
+            setOldPassword("");
+            setNewPassword("");
+            setRepassword("");
             myToast({
               type: "success",
               message: "You password is updated.",

@@ -21,6 +21,33 @@ export async function generateMetadata({
   });
   return {
     title: `Magaaazine | ${profile ? `@${profile?.username}` : "Not Found"}`,
+    description: "Empower Your Online Presence with Magaaazine",
+    openGraph: {
+      type: "website",
+      url:
+        process.env.NODE_ENV === "development"
+          ? `${process.env.DEV_URL}`
+          : `${process.env.PROD_URL}`,
+      title: `${profile?.name} | Magaaazine`,
+      description: profile?.short_bio ?? "",
+      siteName: "Magaaazine",
+      images: [
+        {
+          url: profile?.profile_photo ?? "",
+        },
+      ],
+    },
+    twitter: {
+      title: `${profile?.name} | Magaaazine`,
+      description: profile?.short_bio ?? "",
+      creator: profile?.name,
+      site: "Magaaazine",
+      images: [
+        {
+          url: profile?.profile_photo ?? "",
+        },
+      ],
+    },
   };
 }
 

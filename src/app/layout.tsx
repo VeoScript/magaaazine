@@ -4,7 +4,7 @@ import NextTopLoader from "nextjs-toploader";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { Toaster } from "react-hot-toast";
-import { Abril_Fatface, Raleway } from "next/font/google";
+import { Abril_Fatface, Raleway, Poppins } from "next/font/google";
 
 import Provider from "./_trpc/Provider";
 import CheckAuth from "~/components/molecules/CheckAuth";
@@ -26,6 +26,13 @@ const raleway = Raleway({
   weight: ["200", "400", "600", "800"],
   preload: true,
   variable: "--font-raleway",
+});
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["200", "400", "600", "800"],
+  preload: true,
+  variable: "--font-poppins",
 });
 
 export const metadata: Metadata = {
@@ -70,6 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           className={clsx(
             abrilFatface.variable,
             raleway.variable,
+            poppins.variable,
             "font-raleway selection:bg-slate-300",
           )}
         >

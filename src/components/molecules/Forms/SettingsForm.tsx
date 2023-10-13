@@ -389,8 +389,9 @@ export default function SettingsForm() {
                   id="username"
                   value={username}
                   onChange={(e) => {
+                    const formatterUser = e.currentTarget.value.replace(/ /g, "").toLowerCase();
                     setBasicInfoFormErrors(null);
-                    setUsername(e.currentTarget.value);
+                    setUsername(formatterUser);
                   }}
                 />
                 {basicInfoFormErrors && basicInfoFormErrors.username && (

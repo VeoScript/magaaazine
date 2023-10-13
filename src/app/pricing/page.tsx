@@ -9,13 +9,11 @@ export default function Pricing() {
           <div className="flex w-full flex-col items-center">
             <Image
               className="h-[10rem] w-[10rem] rounded-full object-scale-down"
-              src="/magaaazine.png"
+              src="/magaaazine.svg"
               alt="magaaazine"
               width={100}
               height={100}
               quality={100}
-              placeholder="blur"
-              blurDataURL="/magaaazine.png"
             />
           </div>
           <div className="flex w-full flex-col items-center gap-y-3">
@@ -49,13 +47,11 @@ export default function Pricing() {
           <div className="flex w-full flex-col items-center">
             <Image
               className="h-[10rem] w-[10rem] rounded-full object-scale-down"
-              src="/magaaazine_pro.png"
+              src="/magaaazine.svg"
               alt="magaaazine_pro"
               width={100}
               height={100}
               quality={100}
-              placeholder="blur"
-              blurDataURL="/magaaazine_pro.png"
             />
           </div>
           <div className="flex w-full flex-col items-center gap-y-3">

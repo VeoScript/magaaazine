@@ -298,8 +298,8 @@ export default function ChatBox({
       >
         <div className="flex flex-row items-start gap-x-2">
           <Image
-            className="mt-1 h-4 w-4 bg-white object-cover"
-            src="/favicon.ico"
+            className="mt-1 md:mt-0 h-4 w-4 bg-white object-cover"
+            src="/magaaazine.svg"
             alt="sea"
             priority
             width={10}

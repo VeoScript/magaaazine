@@ -11,11 +11,10 @@ import { trpc } from "~/app/_trpc/client";
 import { serverClient } from "~/app/_trpc/serverClient";
 
 interface FilesImagesListProps {
-  userData: Awaited<ReturnType<(typeof serverClient)["user"]>>;
   initialData: Awaited<ReturnType<(typeof serverClient)["filesImages"]>> | any;
 }
 
-export default function FilesImagesList({ userData, initialData }: FilesImagesListProps) {
+export default function FilesImagesList({ initialData }: FilesImagesListProps) {
   const { ref, inView } = useInView();
 
   const [isPending, setIsPending] = useState<boolean>(false);
@@ -102,7 +101,6 @@ export default function FilesImagesList({ userData, initialData }: FilesImagesLi
     setIsPendingDeleteAll(true);
     await deleteAllMessageMutation.mutateAsync(
       {
-        id: userData?.id as string,
         type: "FILE",
         files: allFiles ? allFiles.map((file) => file.delete_url) : [],
       },
@@ -196,7 +194,7 @@ export default function FilesImagesList({ userData, initialData }: FilesImagesLi
                           key={filesImage.id}
                           className={clsx(
                             !filesImage.is_read && "bg-neutral-200 hover:bg-opacity-80",
-                            "flex w-full cursor-default flex-row items-start gap-x-2 rounded-xl border p-3 overflow-hidden transition duration-100 hover:bg-opacity-50",
+                            "flex w-full cursor-default flex-row items-start gap-x-2 overflow-hidden rounded-xl border p-3 transition duration-100 hover:bg-opacity-50",
                           )}
                         >
                           <div className="flex flex-row items-center gap-x-2">
@@ -235,7 +233,7 @@ export default function FilesImagesList({ userData, initialData }: FilesImagesLi
                               )}
                             </div>
                             <div className="flex max-w-sm flex-1 flex-col gap-y-1">
-                              <h1 className="text-sm font-bold truncate-text">{filesImage.name}</h1>
+                              <h1 className="truncate-text text-sm font-bold">{filesImage.name}</h1>
                               {filesImage.is_anonymous ? (
                                 <p className="text-sm">Anonymous</p>
                               ) : (
@@ -248,7 +246,7 @@ export default function FilesImagesList({ userData, initialData }: FilesImagesLi
                               )}
                             </div>
                           </div>
-                          <div className="flex flex-row items-center justify-end flex-1 gap-x-2">
+                          <div className="flex flex-1 flex-row items-center justify-end gap-x-2">
                             <Link
                               href={filesImage.url}
                               target="_blank"

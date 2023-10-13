@@ -10,10 +10,10 @@ export default async function Home() {
     <DefaultLayout>
       <section className="flex h-full min-h-screen w-full flex-col items-center justify-center p-5">
         <div className="-mt-20 flex w-full max-w-5xl flex-col items-center gap-y-3">
-          <h2 className="text-center font-raleway text-xl md:text-2xl font-bold">
+          <h2 className="text-center font-raleway text-xl font-bold md:text-2xl">
             Discover, Connect and Share.
           </h2>
-          <h1 className="text-center font-raleway text-4xl md:text-[4rem] font-light uppercase leading-normal md:leading-[4rem]">
+          <h1 className="text-center font-raleway text-4xl font-light uppercase leading-normal md:text-[4rem] md:leading-[4rem]">
             Empower your online presence with{" "}
             <span className="font-abril-fatface uppercase">Magaaazine</span>.
           </h1>

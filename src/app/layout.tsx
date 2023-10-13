@@ -1,5 +1,6 @@
 import "./globals.css";
 import clsx from "clsx";
+import cron from "node-cron";
 import NextTopLoader from "nextjs-toploader";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
@@ -13,6 +14,7 @@ import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 
 import { ourFileRouter } from "~/app/api/uploadthing/core";
+import { serverClient } from "./_trpc/serverClient";
 
 const abrilFatface = Abril_Fatface({
   subsets: ["latin"],
@@ -61,6 +63,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const hasCookies = cookies().has(`${process.env.COOKIE_NAME}`);
+
+  // DELETE FILES IN UPLOADTHING AND DATABASE IN EVERY 1 DAY...
+  cron.schedule("0 0 * * *", async () => {
+    console.log("CRON JOB IS TRIGGERED...");
+    const allFiles = await serverClient.allFilesImages();
+    await serverClient.deleteAllFilesImages({
+      type: "FILE",
+      files: allFiles ? allFiles.map((file) => file.delete_url) : [],
+    });
+  });
 
   return (
     <html lang="en">

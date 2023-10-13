@@ -70,7 +70,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     const allFiles = await serverClient.allFilesImages();
     await serverClient.deleteAllFilesImages({
       type: "FILE",
-      files: allFiles ? allFiles.map((file) => file.delete_url) : [],
+      files: allFiles ? allFiles.map((file: { delete_url: string; }) => file.delete_url) : [],
     });
   });
 

@@ -56,6 +56,13 @@ export default function ChatBox({
   const { startUpload } = useUploadThing("mediaPost");
 
   const handleAddImages = (e: any): void => {
+    if (previewImages.length >= 3 || e.target.files.length > 3) {
+      myToast({
+        type: "error",
+        message: "Only up to 3 photos can be uploaded.",
+      });
+      return;
+    }
     for (const file of e.target.files) {
       const imageTypeRegex = /image\/(png|jpg|jpeg|jfif)/gm;
 
@@ -71,14 +78,6 @@ export default function ChatBox({
         myToast({
           type: "error",
           message: "Selected photo size exceeds 2 MB. Choose another one.",
-        });
-        return;
-      }
-
-      if (setPreviewImages.length > 3) {
-        myToast({
-          type: "error",
-          message: "Only up to 3 photos can be uploaded.",
         });
         return;
       }
@@ -99,6 +98,13 @@ export default function ChatBox({
   };
 
   const handleAddFiles = (e: any): void => {
+    if (files.length >= 3 || e.target.files.length > 3) {
+      myToast({
+        type: "error",
+        message: "Only up to 3 files can be uploaded.",
+      });
+      return;
+    }
     for (const file of e.target.files) {
       setFiles(file);
       setFileUrls(file.name);
@@ -292,7 +298,7 @@ export default function ChatBox({
       >
         <div className="flex flex-row items-start gap-x-2">
           <Image
-            className="h-4 w-4 mt-1 bg-white object-cover"
+            className="mt-1 h-4 w-4 bg-white object-cover"
             src="/favicon.ico"
             alt="sea"
             priority
@@ -303,7 +309,7 @@ export default function ChatBox({
           <h1 className="text-sm">Send me a message</h1>
         </div>
         <div className="flex items-center gap-x-2">
-          <span className="text-sm text-right">As anonymous</span>
+          <span className="text-right text-sm">As anonymous</span>
           {!isAuth && <span className="text-2xl text-lime-400">&bull;</span>}
           {isAuth && (
             <Switch

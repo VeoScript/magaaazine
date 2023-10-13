@@ -102,6 +102,10 @@ export const filesImagesRouter = router({
       }),
     )
     .mutation(async ({ input }) => {
+      if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
+        return;
+      }
+
       if (input.type === "FILE" && input.delete_url) {
         await utapi.deleteFiles(input.delete_url);
       }
@@ -126,12 +130,15 @@ export const filesImagesRouter = router({
   deleteAllFilesImages: publicProcedure
     .input(
       z.object({
-        id: z.string(),
         type: z.enum(["IMAGE", "FILE"]),
         files: z.any(),
       }),
     )
     .mutation(async ({ input }) => {
+      if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
+        return;
+      }
+
       if (input.type === "FILE" && input.files) {
         await utapi.deleteFiles(input.files);
       }
@@ -139,8 +146,55 @@ export const filesImagesRouter = router({
       const allFiles = await prisma.filesImages.deleteMany({
         where: {
           receiver: {
-            id: input.id,
+            id: cookies().get(`${process.env.COOKIE_NAME}`)?.value,
           },
+        },
+      });
+
+      if (allFiles) {
+        return {
+          message: "All files/images deleted successfully.",
+        };
+      } else {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Something wrong while deleting all files/images.",
+        });
+      }
+    }),
+  autoDeleteAllFilesImages: publicProcedure
+    .input(
+      z.object({
+        type: z.enum(["IMAGE", "FILE"]),
+        files: z.any(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
+        return;
+      }
+
+      let oneDayAgo = new Date();
+      oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+
+      if (input.type === "FILE" && input.files.length != 0) {
+        await utapi.deleteFiles(input.files);
+      }
+
+      const allFiles = await prisma.filesImages.deleteMany({
+        where: {
+          AND: [
+            {
+              receiver: {
+                id: cookies().get(`${process.env.COOKIE_NAME}`)?.value,
+              },
+            },
+            {
+              created_at: {
+                lt: oneDayAgo,
+              },
+            },
+          ],
         },
       });
 

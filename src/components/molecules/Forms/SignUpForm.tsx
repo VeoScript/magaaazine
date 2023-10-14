@@ -81,8 +81,13 @@ export default function SignUpForm() {
           className={clsx(isPending && "cursor-not-allowed", "custom-input")}
           value={name}
           onChange={(e) => {
+            const value = e.currentTarget.value;
+            const capitalizedValue = value
+              .split(" ")
+              .map((word) => (word ? word.charAt(0).toUpperCase() + word.slice(1) : ""))
+              .join(" ");
             setSignUpFormErrors(null);
-            setName(e.currentTarget.value);
+            setName(capitalizedValue);
           }}
         />
         {signUpFormErrors && signUpFormErrors.name && (

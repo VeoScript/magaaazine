@@ -367,8 +367,13 @@ export default function SettingsForm() {
                   id="name"
                   value={name}
                   onChange={(e) => {
+                    const value = e.currentTarget.value;
+                    const capitalizedValue = value
+                      .split(" ")
+                      .map((word) => (word ? word.charAt(0).toUpperCase() + word.slice(1) : ""))
+                      .join(" ");
                     setBasicInfoFormErrors(null);
-                    setName(e.currentTarget.value);
+                    setName(capitalizedValue);
                   }}
                 />
                 {basicInfoFormErrors && basicInfoFormErrors.name && (

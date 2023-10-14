@@ -143,7 +143,7 @@ export default function DiscoverList({ initialData }: DiscoverListProps) {
                             />
                           </div>
                         ) : (
-                          <div className="flex h-[6rem] w-[6rem] flex-row items-center justify-center rounded-full bg-neutral-300 object-cover">
+                          <div className="z-10 flex h-[6rem] w-[6rem] flex-row items-center justify-center rounded-full bg-neutral-300 object-cover">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="24"

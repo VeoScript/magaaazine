@@ -92,7 +92,7 @@ export default async function UserPage({ params }: { params: { username: string 
           <div
             className={clsx(
               profile?.cover_photo ? "text-white" : "text-black",
-              "absolute z-10 flex w-full flex-col items-center overflow-hidden p-5",
+              "z-10 flex w-full flex-col items-center overflow-hidden p-5",
             )}
           >
             <div className="flex w-full max-w-xl flex-col items-center gap-y-5">

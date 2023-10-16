@@ -162,51 +162,43 @@ export const filesImagesRouter = router({
         });
       }
     }),
-  autoDeleteAllFilesImages: publicProcedure
-    .input(
-      z.object({
-        type: z.enum(["IMAGE", "FILE"]),
-        files: z.any(),
-      }),
-    )
-    .mutation(async ({ input }) => {
-      if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
-        return;
-      }
+  // autoDeleteAllFilesImages: publicProcedure.mutation(async () => {
+  //   // let oneDayAgo = new Date();
+  //   // oneDayAgo.setDate(oneDayAgo.getDate() - 1);
 
-      let oneDayAgo = new Date();
-      oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+  //   const allFiles = await prisma.filesImages.findMany({
+  //     where: {
+  //       type: "FILE",
+  //       // created_at: {
+  //       //   lt: oneDayAgo,
+  //       // },
+  //     },
+  //   });
 
-      if (input.type === "FILE" && input.files.length != 0) {
-        await utapi.deleteFiles(input.files);
-      }
+  //   if (allFiles) {
+  //     const uploadthingDeleteAllFiles = await utapi.deleteFiles(
+  //       allFiles ? allFiles.map((file) => file.delete_url as string) : [],
+  //     );
 
-      const allFiles = await prisma.filesImages.deleteMany({
-        where: {
-          AND: [
-            {
-              receiver: {
-                id: cookies().get(`${process.env.COOKIE_NAME}`)?.value,
-              },
-            },
-            {
-              created_at: {
-                lt: oneDayAgo,
-              },
-            },
-          ],
-        },
-      });
+  //     await prisma.filesImages.deleteMany({
+  //       where: {
+  //         type: "FILE",
+  //         // created_at: {
+  //         //   lt: oneDayAgo,
+  //         // },
+  //       },
+  //     });
 
-      if (allFiles) {
-        return {
-          message: "All files/images deleted successfully.",
-        };
-      } else {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Something wrong while deleting all files/images.",
-        });
-      }
-    }),
+  //     if (uploadthingDeleteAllFiles.success) {
+  //       return {
+  //         message: "All files/images deleted successfully.",
+  //       };
+  //     } else {
+  //       throw new TRPCError({
+  //         code: "BAD_REQUEST",
+  //         message: "Something wrong while deleting all files/images.",
+  //       });
+  //     }
+  //   }
+  // }),
 });

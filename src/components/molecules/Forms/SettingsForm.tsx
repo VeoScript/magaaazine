@@ -292,7 +292,7 @@ export default function SettingsForm() {
               </Switch>
             </div>
             <div className="flex w-full flex-row items-center justify-between gap-x-1">
-              <p className="text-sm">Receive files from anonymous</p>
+              <p className="text-sm">Receive files from anyone</p>
               <Switch
                 disabled={isLoadingUser}
                 checked={receiveFilesAnonymous}
@@ -318,7 +318,7 @@ export default function SettingsForm() {
               </Switch>
             </div>
             <div className="flex w-full flex-row items-center justify-between gap-x-1">
-              <p className="text-sm">Receive images from anonymous</p>
+              <p className="text-sm">Receive images from anyone</p>
               <Switch
                 disabled={isLoadingUser}
                 checked={receiveImagesAnonymous}

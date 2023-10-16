@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron-scheduling/delete-all-files",
+      "schedule": "0 0 * * *"
+    }
+  ]
+}

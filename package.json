@@ -25,7 +25,6 @@
     "moment": "^2.29.4",
     "next": "13.5.3",
     "nextjs-toploader": "^1.4.2",
-    "node-cron": "^3.0.2",
     "plaiceholder": "^3.0.0",
     "react": "^18",
     "react-dom": "^18",
@@ -41,7 +40,6 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/node": "^20",
-    "@types/node-cron": "^3.0.9",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10",

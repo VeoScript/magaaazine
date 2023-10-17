@@ -3,15 +3,9 @@ import { NextResponse } from "next/server";
 import { utapi } from "~/server/uploadthing";
 
 export async function POST(request: Request) {
-  let oneDayAgo = new Date();
-  oneDayAgo.setDate(oneDayAgo.getDate() - 1);
-
   const allFiles = await prisma.filesImages.findMany({
     where: {
       type: "FILE",
-      created_at: {
-        lt: oneDayAgo,
-      },
     },
   });
 
@@ -23,9 +17,6 @@ export async function POST(request: Request) {
     await prisma.filesImages.deleteMany({
       where: {
         type: "FILE",
-        created_at: {
-          lt: oneDayAgo,
-        },
       },
     });
 

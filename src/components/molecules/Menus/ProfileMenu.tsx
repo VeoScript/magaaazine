@@ -88,7 +88,7 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
         </Headless.Menu.Item>
         <Headless.Menu.Item as={Fragment}>
           <Link
-            href="/discover"
+            href="/"
             className="block w-full p-3 text-sm hover:opacity-80 md:hidden"
           >
             Home

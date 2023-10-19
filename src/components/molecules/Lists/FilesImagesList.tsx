@@ -4,6 +4,7 @@ import { useState, useEffect, Fragment } from "react";
 import { useInView } from "react-intersection-observer";
 import Link from "next/link";
 import clsx from "clsx";
+import moment from "moment";
 import AlertModal from "../Modals/AlertModal";
 import ActivityIndicator from "~/components/atoms/ActivityIndicator";
 
@@ -244,6 +245,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                                   @{filesImage.sender?.username}
                                 </Link>
                               )}
+                              <p className="text-xs text-neutral-500">{moment(filesImage.created_at).format("LLLL")}</p>
                             </div>
                           </div>
                           <div className="flex flex-1 flex-row items-center justify-end gap-x-2">

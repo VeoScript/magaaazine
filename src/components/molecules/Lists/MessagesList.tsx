@@ -4,6 +4,8 @@ import { useState, useEffect, Fragment } from "react";
 import { useRouter } from "next/navigation";
 import { useInView } from "react-intersection-observer";
 import clsx from "clsx";
+import moment from "moment";
+import Link from "next/link";
 import Image from "next/image";
 import AlertModal from "../Modals/AlertModal";
 import ActivityIndicator from "~/components/atoms/ActivityIndicator";
@@ -227,8 +229,8 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                           )}
                           <div className="flex flex-1 flex-col gap-y-1">
                             <div className="flex w-full flex-row items-center justify-between">
-                              <button
-                                type="button"
+                              <Link
+                                href={!message.is_anonymous ? `/${message.sender?.username}` : ''}
                                 className={clsx(
                                   message.is_anonymous ? "cursor-default" : "cursor-pointer",
                                   "text-base font-bold",
@@ -237,15 +239,12 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                                   readMessageMutation.mutate({
                                     id: message.id,
                                   });
-                                  if (!message.is_anonymous) {
-                                    router.push(`/${message.sender?.username}`);
-                                  }
                                 }}
                               >
                                 {message.is_anonymous
                                   ? "Anonymous"
                                   : `@${message.sender?.username}`}
-                              </button>
+                              </Link>
                               <button
                                 disabled={isPending && indexIndicator === index}
                                 type="button"
@@ -281,6 +280,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                               </button>
                             </div>
                             <h2 className="text-base text-neutral-800">{message.content}</h2>
+                            <p className="text-xs text-neutral-500">{moment(message.created_at).format("LLLL")}</p>
                           </div>
                         </div>
                       ))}

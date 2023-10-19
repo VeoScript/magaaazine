@@ -230,6 +230,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                           <div className="flex flex-1 flex-col gap-y-1">
                             <div className="flex w-full flex-row items-center justify-between">
                               <Link
+                                scroll={false}
                                 href={!message.is_anonymous ? `/${message.sender?.username}` : ''}
                                 className={clsx(
                                   message.is_anonymous ? "cursor-default" : "cursor-pointer",

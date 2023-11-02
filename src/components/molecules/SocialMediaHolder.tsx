@@ -1,18 +1,20 @@
-"use client"
+"use client";
 
 import Link from "next/link";
 import Image from "next/image";
 
-import facebook from '../../../public/svg/facebook.svg';
-import instagram from '../../../public/svg/instagram.svg';
-import twitter from '../../../public/svg/twitter.svg';
-import linkedin from '../../../public/svg/linkedin.svg';
-import github from '../../../public/svg/github.svg';
+import facebook from "../../../public/svg/facebook.svg";
+import instagram from "../../../public/svg/instagram.svg";
+import twitter from "../../../public/svg/twitter.svg";
+import tiktok from "../../../public/svg/tiktok.svg";
+import linkedin from "../../../public/svg/linkedin.svg";
+import github from "../../../public/svg/github.svg";
 
 interface SocialMediaHolderProps {
   facebook_link: string | null;
   instagram_link: string | null;
   twitterx_link: string | null;
+  tiktok_link: string | null;
   linkedin_link: string | null;
   github_link: string | null;
   website_link: string | null;
@@ -22,6 +24,7 @@ export default function SocialMediaHolder({
   facebook_link,
   instagram_link,
   twitterx_link,
+  tiktok_link,
   linkedin_link,
   github_link,
   website_link,
@@ -32,7 +35,7 @@ export default function SocialMediaHolder({
         <Link
           href={`https://www.facebook.com/${facebook_link}`}
           target="_blank"
-          data-tooltip-id="onlyself-tooltip"
+          data-tooltip-id="magaaazine-tooltip"
           data-tooltip-content="Facebook"
         >
           <Image
@@ -49,7 +52,7 @@ export default function SocialMediaHolder({
         <Link
           href={`https://www.instagram.com/${instagram_link}`}
           target="_blank"
-          data-tooltip-id="onlyself-tooltip"
+          data-tooltip-id="magaaazine-tooltip"
           data-tooltip-content="Instagram"
         >
           <Image
@@ -62,11 +65,21 @@ export default function SocialMediaHolder({
           />
         </Link>
       )}
+      {tiktok_link && (
+        <Link
+          href={`https://www.tiktok.com/@${tiktok_link}`}
+          target="_blank"
+          data-tooltip-id="magaaazine-tooltip"
+          data-tooltip-content="Tiktok"
+        >
+          <Image priority src={tiktok} alt="tiktok" width={100} height={100} className="h-6 w-6" />
+        </Link>
+      )}
       {twitterx_link && (
         <Link
           href={`https://twitter.com/${twitterx_link}`}
           target="_blank"
-          data-tooltip-id="onlyself-tooltip"
+          data-tooltip-id="magaaazine-tooltip"
           data-tooltip-content="Twitter/X"
         >
           <Image
@@ -83,7 +96,7 @@ export default function SocialMediaHolder({
         <Link
           href={`https://www.linkedin.com/in/${linkedin_link}`}
           target="_blank"
-          data-tooltip-id="onlyself-tooltip"
+          data-tooltip-id="magaaazine-tooltip"
           data-tooltip-content="LinkedIn"
         >
           <Image
@@ -100,7 +113,7 @@ export default function SocialMediaHolder({
         <Link
           href={`https://github.com/${github_link}`}
           target="_blank"
-          data-tooltip-id="onlyself-tooltip"
+          data-tooltip-id="magaaazine-tooltip"
           data-tooltip-content="Github"
         >
           <Image priority src={github} alt="github" width={100} height={100} className="h-6 w-6" />
@@ -111,7 +124,7 @@ export default function SocialMediaHolder({
           href={website_link}
           target="_blank"
           aria-label="Website Link"
-          data-tooltip-id="onlyself-tooltip"
+          data-tooltip-id="magaaazine-tooltip"
           data-tooltip-content="Website"
         >
           <svg

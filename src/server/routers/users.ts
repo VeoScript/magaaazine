@@ -21,6 +21,7 @@ export const userRouter = router({
         facebook_link: true,
         instagram_link: true,
         twitterx_link: true,
+        tiktok_link: true,
         linkedin_link: true,
         github_link: true,
         website_link: true,

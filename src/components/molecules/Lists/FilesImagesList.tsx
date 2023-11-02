@@ -3,9 +3,11 @@
 import { useState, useEffect, Fragment } from "react";
 import { useInView } from "react-intersection-observer";
 import Link from "next/link";
+import Image from "next/legacy/image";
 import clsx from "clsx";
 import moment from "moment";
 import AlertModal from "../Modals/AlertModal";
+import AlertModalDynamic from "../Modals/AlertModalDynamic";
 import ActivityIndicator from "~/components/atoms/ActivityIndicator";
 
 import { trpc } from "~/app/_trpc/client";
@@ -21,11 +23,16 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
   const [isPending, setIsPending] = useState<boolean>(false);
   const [isPendingDeleteAll, setIsPendingDeleteAll] = useState<boolean>(false);
   const [indexIndicator, setIndexIndicator] = useState<number>(0);
-  const [isOpenAlertModal, setIsOpenAlertModal] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
 
-  const { data: unreadFilesImages, isSuccess: isSuccessUnreadFilesImages } =
-    trpc.countFilesImages.useQuery();
+  const [isOpenAlertModal, setIsOpenAlertModal] = useState<boolean>(false);
+  const [isOpenAlertModalDynamic, setIsOpenAlertModalDynamic] = useState<boolean>(false);
+  const [fileImageName, setFileImageName] = useState<string>("");
+  const [fileImageId, setFileImageId] = useState<string>("");
+  const [fileImageType, setFileImageType] = useState<"IMAGE" | "FILE">("IMAGE");
+  const [fileImageDeleteURL, setFileImageDeleteURL] = useState<string>("");
+
+  const { data: unreadFilesImages, isSuccess: isSuccessUnreadFilesImages } = trpc.countFilesImages.useQuery();
 
   const { data: allFiles, isLoading: isLoadingAllFiles } = trpc.allFilesImages.useQuery();
 
@@ -93,6 +100,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
           utils.countFilesImages.invalidate();
           utils.filesImages.invalidate();
           setIsPending(false);
+          setIsOpenAlertModalDynamic(false);
         },
       },
     );
@@ -199,8 +207,8 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                           )}
                         >
                           <div className="flex flex-row items-center gap-x-2">
-                            <div className="flex h-[3rem] w-[3rem] flex-row items-center justify-center rounded-full bg-black object-cover">
-                              {filesImage.type === "FILE" && (
+                            {filesImage.type === "FILE" && (
+                              <div className="flex h-[3rem] w-[3rem] flex-row items-center justify-center rounded-full bg-black object-cover">
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   width="24"
@@ -215,24 +223,21 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                                 >
                                   <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
                                 </svg>
-                              )}
-                              {filesImage.type === "IMAGE" && (
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth={1.5}
-                                  stroke="currentColor"
-                                  className="h-6 w-6 text-white"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-                                  />
-                                </svg>
-                              )}
-                            </div>
+                              </div>
+                            )}
+                            {filesImage.type === "IMAGE" && (
+                              <Image
+                                priority
+                                src={filesImage.url}
+                                className="h-6 w-6 rounded-full object-cover"
+                                alt="profile_image"
+                                width={50}
+                                height={50}
+                                quality={100}
+                                placeholder="blur"
+                                blurDataURL={filesImage.url}
+                              />
+                            )}
                             <div className="flex max-w-sm flex-1 flex-col gap-y-1">
                               <h1 className="truncate-text text-sm font-bold">{filesImage.name}</h1>
                               {filesImage.is_anonymous ? (
@@ -245,7 +250,9 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                                   @{filesImage.sender?.username}
                                 </Link>
                               )}
-                              <p className="text-xs text-neutral-500">{moment(filesImage.created_at).format("LLLL")}</p>
+                              <p className="text-xs text-neutral-500">
+                                {moment(filesImage.created_at).format("LLLL")}
+                              </p>
                             </div>
                           </div>
                           <div className="flex flex-1 flex-row items-center justify-end gap-x-2">
@@ -285,11 +292,11 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                               )}
                               onClick={() => {
                                 setIndexIndicator(index);
-                                handleDeleteFileImage(
-                                  filesImage.id,
-                                  filesImage.type,
-                                  filesImage.delete_url as string,
-                                );
+                                setFileImageName(filesImage.name);
+                                setFileImageId(filesImage.id);
+                                setFileImageType(filesImage.type);
+                                setFileImageDeleteURL(filesImage.delete_url as string);
+                                setIsOpenAlertModalDynamic(true);
                               }}
                             >
                               {isPending && indexIndicator === index ? (
@@ -342,6 +349,16 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
         isOpen={isOpenAlertModal}
         setIsOpen={setIsOpenAlertModal}
         modalFunction={handleDeleteAllFilesImages}
+      />
+      <AlertModalDynamic
+        title="Delete File"
+        message={`Are you sure you want to delete this file? ${fileImageName}.`}
+        isPending={isPending}
+        isOpen={isOpenAlertModalDynamic}
+        setIsOpen={setIsOpenAlertModalDynamic}
+        modalFunction={() => {
+          handleDeleteFileImage(fileImageId, fileImageType, fileImageDeleteURL);
+        }}
       />
     </>
   );

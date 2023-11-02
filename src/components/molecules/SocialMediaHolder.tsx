@@ -72,14 +72,7 @@ export default function SocialMediaHolder({
           data-tooltip-id="magaaazine-tooltip"
           data-tooltip-content="Tiktok"
         >
-          <Image
-            priority
-            src={tiktok}
-            alt="tiktok"
-            width={100}
-            height={100}
-            className="h-6 w-6"
-          />
+          <Image priority src={tiktok} alt="tiktok" width={100} height={100} className="h-6 w-6" />
         </Link>
       )}
       {twitterx_link && (

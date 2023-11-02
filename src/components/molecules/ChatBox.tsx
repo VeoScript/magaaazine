@@ -298,7 +298,7 @@ export default function ChatBox({
       >
         <div className="flex flex-row items-start gap-x-2">
           <Image
-            className="mt-1 md:mt-0 h-4 w-4 bg-white object-cover"
+            className="mt-1 h-4 w-4 bg-white object-cover md:mt-0"
             src="/magaaazine.svg"
             alt="sea"
             priority
@@ -426,6 +426,7 @@ export default function ChatBox({
             )}
           </div>
           <button
+            aria-label="Send Message"
             disabled={isPending}
             type="button"
             className="outline-none"

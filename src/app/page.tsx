@@ -18,9 +18,9 @@ export default async function Home() {
             <span className="font-abril-fatface uppercase">Magaaazine</span>.
           </h1>
           <h2 className="text-center font-raleway text-base md:text-xl">
-            With feature of sending <span className="font-bold text-blue-500">messages</span>,{" "}
-            <span className="font-bold text-green-500">images</span>,{" and "}
-            <span className="font-bold text-purple-500">files</span> anonymously.
+            With feature of sending <span className="font-bold text-blue-600">messages</span>,{" "}
+            <span className="font-bold text-blue-600">images</span>,{" and "}
+            <span className="font-bold text-blue-600">files</span> anonymously.
           </h2>
           <div className="mt-5 flex w-full flex-row items-center justify-center gap-x-3">
             <Link href="/discover" className="custom-button">

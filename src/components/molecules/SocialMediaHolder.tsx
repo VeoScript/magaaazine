@@ -110,6 +110,7 @@ export default function SocialMediaHolder({
         <Link
           href={website_link}
           target="_blank"
+          aria-label="Website Link"
           data-tooltip-id="onlyself-tooltip"
           data-tooltip-content="Website"
         >

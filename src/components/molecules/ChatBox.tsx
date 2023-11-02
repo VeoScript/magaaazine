@@ -74,10 +74,10 @@ export default function ChatBox({
         return;
       }
 
-      if (file.size > 2097152) {
+      if (file.size > 5242880) {
         myToast({
           type: "error",
-          message: "Selected photo size exceeds 2 MB. Choose another one.",
+          message: "File is too large. Please select an image smaller than 5MB.",
         });
         return;
       }

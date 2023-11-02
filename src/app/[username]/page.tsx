@@ -4,6 +4,7 @@ import Link from "next/link";
 import clsx from "clsx";
 
 import getBase64 from "~/lib/functions/getBase64";
+import CopyClipboard from "~/components/atoms/CopyClipboard";
 import SocialMediaHolder from "~/components/molecules/SocialMediaHolder";
 import ChatBox from "~/components/molecules/ChatBox";
 import ProfileUpload from "~/components/molecules/Uploads/ProfileUpload";
@@ -65,7 +66,7 @@ export default async function UserPage({ params }: { params: { username: string 
     <>
       {!profile ? (
         <div className="flex h-full min-h-[35rem] w-full flex-col items-center justify-center">
-          <p className="w-full max-w-xl text-center text-base md:text-xl text-neutral-500">
+          <p className="w-full max-w-xl text-center text-base text-neutral-500 md:text-xl">
             No user found from username <br />
             <span className="font-bold">&quot;{params.username}&quot;</span>.
           </p>
@@ -149,6 +150,7 @@ export default async function UserPage({ params }: { params: { username: string 
                     facebook_link={profile.facebook_link}
                     instagram_link={profile.instagram_link}
                     twitterx_link={profile.twitterx_link}
+                    tiktok_link={profile.tiktok_link}
                     linkedin_link={profile.linkedin_link}
                     github_link={profile.github_link}
                     website_link={profile.website_link}
@@ -169,9 +171,26 @@ export default async function UserPage({ params }: { params: { username: string 
                 <q className="text-center text-base">{profile?.favorite_quote}</q>
               )}
               {user && user?.id === profile?.id && (
-                <Link href="/settings" className="custom-button text-xs">
-                  Edit your profile
-                </Link>
+                <div className="flex w-full flex-col items-center gap-y-3">
+                  <div className={clsx(
+                    profile?.cover_photo ? "border-none" : "border",
+                    "flex w-full flex-row items-center justify-between gap-x-3 overflow-hidden rounded-lg bg-white bg-opacity-10 px-5 py-3 text-white backdrop-blur-lg"
+                  )}>
+                    <input
+                      disabled
+                      className={clsx(
+                        profile?.cover_photo ? "text-white" : "text-black",
+                        "w-full border-none bg-transparent text-xs outline-none md:text-sm",
+                      )}
+                      type="text"
+                      value={`${process.env.PROD_URL}/${profile?.username}`}
+                    />
+                    <CopyClipboard textToCopy={`${process.env.PROD_URL}/${profile?.username}`} />
+                  </div>
+                  <Link href="/settings" className="custom-button text-xs">
+                    Edit your profile
+                  </Link>
+                </div>
               )}
               {user?.id !== profile?.id && (
                 <ChatBox

@@ -35,6 +35,7 @@ export default function SettingsForm() {
   const [facebookLink, setFacebookLink] = useState<string>("");
   const [instagramLink, setInstagramLink] = useState<string>("");
   const [twitterxLink, setTwitterxLink] = useState<string>("");
+  const [tiktokLink, setTiktokLink] = useState<string>("");
   const [linkedinLink, setLinkedinLink] = useState<string>("");
   const [githubLink, setGithubLink] = useState<string>("");
   const [websiteLink, setWebsiteLink] = useState<string>("");
@@ -68,6 +69,7 @@ export default function SettingsForm() {
       setFacebookLink(user?.facebook_link ?? "");
       setInstagramLink(user?.instagram_link ?? "");
       setTwitterxLink(user?.twitterx_link ?? "");
+      setTiktokLink(user?.tiktok_link ?? "");
       setLinkedinLink(user?.linkedin_link ?? "");
       setGithubLink(user?.github_link ?? "");
       setWebsiteLink(user?.website_link ?? "");
@@ -174,6 +176,7 @@ export default function SettingsForm() {
         facebook: facebookLink,
         instagram: instagramLink,
         twitterx: twitterxLink,
+        tiktok: tiktokLink,
         linkedin: linkedinLink,
         github: githubLink,
         website: websiteLink,
@@ -521,6 +524,21 @@ export default function SettingsForm() {
                 placeholder="Your twitter/x username"
                 value={twitterxLink}
                 onChange={(e) => setTwitterxLink(e.currentTarget.value)}
+              />
+            </div>
+            <div className="flex w-full flex-col gap-y-1">
+              <label htmlFor="twitterx" className="ml-2 text-sm">
+                Tiktok
+              </label>
+              <input
+                disabled={isLoadingUser}
+                className={clsx(isLoadingUser && "cursor-not-allowed", "custom-input")}
+                autoComplete="off"
+                type="text"
+                id="twitterx"
+                placeholder="Your tiktok username"
+                value={tiktokLink}
+                onChange={(e) => setTiktokLink(e.currentTarget.value)}
               />
             </div>
             <div className="flex w-full flex-col gap-y-1">

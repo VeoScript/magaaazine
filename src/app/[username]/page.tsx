@@ -24,14 +24,16 @@ export async function generateMetadata({
     title: `Magaaazine | ${profile ? `@${profile?.username}` : "Not Found"}`,
     description: "Empower Your Online Presence with Magaaazine",
     metadataBase: new URL(
-      process.env.NODE_ENV === "development" ? `${process.env.DEV_URL}` : `${process.env.PROD_URL}`,
+      process.env.NODE_ENV === "development"
+        ? `${process.env.DEV_URL}/${profile?.username}`
+        : `${process.env.PROD_URL}/${profile?.username}`,
     ),
     openGraph: {
       type: "website",
       url:
         process.env.NODE_ENV === "development"
-          ? `${process.env.DEV_URL}`
-          : `${process.env.PROD_URL}`,
+          ? `${process.env.DEV_URL}/${profile?.username}`
+          : `${process.env.PROD_URL}/${profile?.username}`,
       title: `${profile?.name} | Magaaazine`,
       description: profile?.short_bio ?? "",
       siteName: "Magaaazine",
@@ -172,10 +174,12 @@ export default async function UserPage({ params }: { params: { username: string 
               )}
               {user && user?.id === profile?.id && (
                 <div className="flex w-full flex-col items-center gap-y-3">
-                  <div className={clsx(
-                    profile?.cover_photo ? "border-none" : "border",
-                    "flex w-full flex-row items-center justify-between gap-x-3 overflow-hidden rounded-lg bg-white bg-opacity-10 px-5 py-3 text-white backdrop-blur-lg"
-                  )}>
+                  <div
+                    className={clsx(
+                      profile?.cover_photo ? "border-none" : "border",
+                      "flex w-full flex-row items-center justify-between gap-x-3 overflow-hidden rounded-lg bg-white bg-opacity-10 px-5 py-3 text-white backdrop-blur-lg",
+                    )}
+                  >
                     <input
                       disabled
                       className={clsx(

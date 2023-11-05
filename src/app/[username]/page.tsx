@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -65,7 +66,7 @@ export default async function UserPage({ params }: { params: { username: string 
   });
 
   return (
-    <>
+    <Suspense>
       {!profile ? (
         <div className="flex h-full min-h-[35rem] w-full flex-col items-center justify-center">
           <p className="w-full max-w-xl text-center text-base text-neutral-500 md:text-xl">
@@ -177,7 +178,7 @@ export default async function UserPage({ params }: { params: { username: string 
                   <div
                     className={clsx(
                       profile?.cover_photo ? "border-none" : "border",
-                      "flex w-full flex-row items-center justify-between gap-x-3 overflow-hidden rounded-lg bg-white bg-opacity-10 px-5 py-3 text-white backdrop-blur-lg",
+                      "flex w-full max-w-full flex-row items-center justify-between gap-x-3 overflow-hidden rounded-lg bg-white bg-opacity-10 px-5 py-3 text-white backdrop-blur-lg md:max-w-sm",
                     )}
                   >
                     <input
@@ -187,9 +188,17 @@ export default async function UserPage({ params }: { params: { username: string 
                         "w-full border-none bg-transparent text-xs outline-none md:text-sm",
                       )}
                       type="text"
-                      value={`${process.env.PROD_URL}/${profile?.username}`}
+                      value={`${String(process.env.PROD_URL).replace(
+                        /https:\/\/(www\.)?/,
+                        "",
+                      )}/${profile?.username}`}
                     />
-                    <CopyClipboard textToCopy={`${process.env.PROD_URL}/${profile?.username}`} />
+                    <CopyClipboard
+                      textToCopy={`${String(process.env.PROD_URL).replace(
+                        /https:\/\/(www\.)?/,
+                        "",
+                      )}/${profile?.username}`}
+                    />
                   </div>
                   <Link href="/settings" className="custom-button text-xs">
                     Edit your profile
@@ -210,6 +219,6 @@ export default async function UserPage({ params }: { params: { username: string 
           </div>
         </div>
       )}
-    </>
+    </Suspense>
   );
 }

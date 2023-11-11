@@ -1,18 +1,19 @@
 "use client";
 
 import { useState, useEffect, Fragment } from "react";
-import { useRouter } from "next/navigation";
 import { useInView } from "react-intersection-observer";
 import clsx from "clsx";
 import moment from "moment";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import Image from "next/image";
-import AlertModal from "../Modals/AlertModal";
-import AlertModalDynamic from "../Modals/AlertModalDynamic";
 import ActivityIndicator from "~/components/atoms/ActivityIndicator";
 
 import { trpc } from "~/app/_trpc/client";
 import { serverClient } from "~/app/_trpc/serverClient";
+
+const AlertModal = dynamic(() => import("../Modals/AlertModal"));
+const AlertModalDynamic = dynamic(() => import("../Modals/AlertModalDynamic"));
 
 interface MessagesListProps {
   userData: Awaited<ReturnType<(typeof serverClient)["user"]>>;
@@ -20,8 +21,6 @@ interface MessagesListProps {
 }
 
 export default function MessagesList({ userData, initialData }: MessagesListProps) {
-  const router = useRouter();
-
   const { ref, inView } = useInView();
 
   const [isPending, setIsPending] = useState<boolean>(false);
@@ -257,6 +256,11 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                                   <Link
                                     href="/files-images"
                                     className="rounded-lg border border-blue-600 bg-blue-200 px-2 py-1 text-[10px] font-bold text-blue-900"
+                                    onClick={() => {
+                                      readMessageMutation.mutate({
+                                        id: message.id,
+                                      });
+                                    }}
                                   >
                                     uploaded something
                                   </Link>

@@ -11,6 +11,7 @@ export default function Pricing() {
               className="h-[10rem] w-[10rem] rounded-full object-scale-down"
               src="/magaaazine.png"
               alt="magaaazine"
+              priority
               width={100}
               height={100}
               quality={100}
@@ -51,6 +52,7 @@ export default function Pricing() {
               className="h-[10rem] w-[10rem] rounded-full object-scale-down"
               src="/magaaazine_pro.png"
               alt="magaaazine_pro"
+              priority
               width={100}
               height={100}
               quality={100}

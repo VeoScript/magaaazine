@@ -1,6 +1,8 @@
 import { ReactNode } from "react";
+import dynamic from "next/dynamic";
 import Header from "../organisms/Header";
-import Footer from "../organisms/Footer";
+
+const Footer = dynamic(() => import("../organisms/Footer"));
 
 interface DefaultLayoutProps {
   children: ReactNode;

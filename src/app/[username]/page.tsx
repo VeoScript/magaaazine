@@ -1,15 +1,17 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import clsx from "clsx";
 
 import getBase64 from "~/lib/functions/getBase64";
-import SocialMediaHolder from "~/components/molecules/SocialMediaHolder";
-import ProfileUpload from "~/components/molecules/Uploads/ProfileUpload";
-import CoverUpload from "~/components/molecules/Uploads/CoverUpload";
-import ProfileMainHolder from "~/components/molecules/ProfileMainHolder";
 
 import { serverClient } from "../_trpc/serverClient";
+
+const SocialMediaHolder = dynamic(() => import("~/components/molecules/SocialMediaHolder"));
+const ProfileUpload = dynamic(() => import("~/components/molecules/Uploads/ProfileUpload"));
+const CoverUpload = dynamic(() => import("~/components/molecules/Uploads/CoverUpload"));
+const ProfileMainHolder = dynamic(() => import("~/components/molecules/ProfileMainHolder"));
 
 export async function generateMetadata({
   params,
@@ -167,7 +169,7 @@ export default async function UserPage({ params }: { params: { username: string 
                 )}
               </div>
               {profile?.favorite_quote && (
-                <q className="text-center text-base">{profile?.favorite_quote}</q>
+                <q className="text-center text-xl font-light italic">{profile?.favorite_quote}</q>
               )}
               <ProfileMainHolder profile={profile} />
             </div>

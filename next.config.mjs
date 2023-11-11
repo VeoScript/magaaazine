@@ -4,10 +4,11 @@ import withPlaiceholder from "@plaiceholder/next";
 const nextConfig = {
   images: {
     dangerouslyAllowSVG: true,
-    domains: ["i.ibb.co", "pbs.twimg.com"],
+    domains: ["i.ibb.co", "i.imgur.com", "pbs.twimg.com"],
   },
   env: {
     IMGBB_API_KEY: process.env.IMGBB_API_KEY,
+    IMGUR_API_KEY: process.env.IMGUR_API_KEY,
     PROD_URL: process.env.PROD_URL,
     DEV_URL: process.env.DEV_URL,
   },

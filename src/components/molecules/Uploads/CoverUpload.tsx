@@ -10,6 +10,7 @@ import ActivityIndicator from "~/components/atoms/ActivityIndicator";
 import { trpc } from "~/app/_trpc/client";
 import { myToast } from "~/components/atoms/MyToast";
 import { uploadCoverStore } from "~/lib/stores/uploads/cover";
+import { uploadImage } from "~/lib/functions/uploadImage";
 
 interface CoverUploadProps {
   profileId: string;
@@ -146,18 +147,12 @@ function PreviewCoverImage({ imageUrl, isOpen, setIsOpen }: PreviewCoverImagePro
   const handleUpdateCover = async () => {
     setIsPending(true);
 
-    const coverPhoto = new FormData();
-    coverPhoto.append("image", imageCoverUploaded);
-
-    await fetch(`https://api.imgbb.com/1/upload?key=${process.env.IMGBB_API_KEY}`, {
-      method: "POST",
-      body: coverPhoto,
-    })
-      .then((response) => response.json())
-      .then(async (result) => {
+    uploadImage({
+      imageFile: imageCoverUploaded,
+      async onSuccessFn(result) {
         await uploadCoverMutation.mutateAsync(
           {
-            coverUrl: result.data.url,
+            coverUrl: result.data.link,
           },
           {
             onSuccess: () => {
@@ -181,13 +176,8 @@ function PreviewCoverImage({ imageUrl, isOpen, setIsOpen }: PreviewCoverImagePro
             },
           },
         );
-      })
-      .catch(() => {
-        myToast({
-          type: "error",
-          message: "Upload image failed, try again.",
-        });
-      });
+      },
+    });
   };
 
   return (

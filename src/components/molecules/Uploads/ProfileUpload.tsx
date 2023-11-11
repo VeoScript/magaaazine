@@ -10,6 +10,7 @@ import ActivityIndicator from "~/components/atoms/ActivityIndicator";
 import { trpc } from "~/app/_trpc/client";
 import { myToast } from "~/components/atoms/MyToast";
 import { uploadProfileStore } from "~/lib/stores/uploads/profile";
+import { uploadImage } from "~/lib/functions/uploadImage";
 
 interface ProfileUploadProps {
   profileId: string;
@@ -147,18 +148,12 @@ function PreviewProfileImage({ imageUrl, isOpen, setIsOpen }: PreviewProfileImag
   const handleUpdateProfile = async () => {
     setIsPending(true);
 
-    const profilePhoto = new FormData();
-    profilePhoto.append("image", imageProfileUploaded);
-
-    await fetch(`https://api.imgbb.com/1/upload?key=${process.env.IMGBB_API_KEY}`, {
-      method: "POST",
-      body: profilePhoto,
-    })
-      .then((response) => response.json())
-      .then(async (result) => {
+    uploadImage({
+      imageFile: imageProfileUploaded,
+      async onSuccessFn(result) {
         await uploadProfileMutation.mutateAsync(
           {
-            profileUrl: result.data.url,
+            profileUrl: result.data.link,
           },
           {
             onSuccess: () => {
@@ -182,13 +177,8 @@ function PreviewProfileImage({ imageUrl, isOpen, setIsOpen }: PreviewProfileImag
             },
           },
         );
-      })
-      .catch(() => {
-        myToast({
-          type: "error",
-          message: "Upload image failed, try again.",
-        });
-      });
+      },
+    });
   };
 
   return (

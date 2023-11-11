@@ -22,7 +22,11 @@ interface PreviewCoverImageProps {
 }
 
 export default function CoverUpload({ profileId }: CoverUploadProps) {
-  const { data: user, isLoading: isLoadingUser } = trpc.user.useQuery();
+  const { data: user, isLoading: isLoadingUser } = trpc.user.useQuery(undefined, {
+    cacheTime: 0,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+  });
 
   const { previewCoverImage, setImageCoverUploaded, setPreviewCoverImage } = uploadCoverStore();
 

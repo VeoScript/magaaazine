@@ -32,13 +32,19 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
       refetchInterval: 3000,
     });
 
+  const utils = trpc.useContext();
   const signOutMutation = trpc.signout.useMutation();
 
   const handleSignOut = async () => {
     setIsPending(true);
-    await signOutMutation.mutateAsync();
-    setIsPending(false);
-    router.refresh();
+    await signOutMutation.mutateAsync(undefined, {
+      onSettled: () => {
+        utils.user.reset();
+        utils.profile.reset({ username: user?.username as string });
+        setIsPending(false);
+        router.refresh();
+      },
+    });
   };
 
   return (
@@ -87,10 +93,7 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
           </Link>
         </Headless.Menu.Item>
         <Headless.Menu.Item as={Fragment}>
-          <Link
-            href="/"
-            className="block w-full p-3 text-sm hover:opacity-80 md:hidden"
-          >
+          <Link href="/" className="block w-full p-3 text-sm hover:opacity-80 md:hidden">
             Home
           </Link>
         </Headless.Menu.Item>
@@ -121,18 +124,12 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
           </Link>
         </Headless.Menu.Item>
         <Headless.Menu.Item as={Fragment}>
-          <Link
-            href="/discover"
-            className="block w-full p-3 text-sm hover:opacity-80 md:hidden"
-          >
+          <Link href="/discover" className="block w-full p-3 text-sm hover:opacity-80 md:hidden">
             Discover
           </Link>
         </Headless.Menu.Item>
         <Headless.Menu.Item as={Fragment}>
-          <Link
-            href="/pricing"
-            className="block w-full p-3 text-sm hover:opacity-80 md:hidden"
-          >
+          <Link href="/pricing" className="block w-full p-3 text-sm hover:opacity-80 md:hidden">
             Pricing
           </Link>
         </Headless.Menu.Item>

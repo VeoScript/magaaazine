@@ -14,7 +14,11 @@ interface ProfileMainHolderProps {
 }
 
 export default function ProfileMainHolder({ profile }: ProfileMainHolderProps) {
-  const { data: user, isLoading: isLoadingUser } = trpc.user.useQuery();
+  const { data: user, isLoading: isLoadingUser } = trpc.user.useQuery(undefined, {
+    cacheTime: 0,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+  });
 
   return (
     <>

@@ -12,6 +12,7 @@ import ActivityIndicator from "~/components/atoms/ActivityIndicator";
 
 import { trpc } from "~/app/_trpc/client";
 import { serverClient } from "~/app/_trpc/serverClient";
+import { deleteImage } from "~/lib/functions/deleteImage";
 
 interface FilesImagesListProps {
   initialData: Awaited<ReturnType<(typeof serverClient)["filesImages"]>> | any;
@@ -32,7 +33,8 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
   const [fileImageType, setFileImageType] = useState<"IMAGE" | "FILE">("IMAGE");
   const [fileImageDeleteURL, setFileImageDeleteURL] = useState<string>("");
 
-  const { data: unreadFilesImages, isSuccess: isSuccessUnreadFilesImages } = trpc.countFilesImages.useQuery();
+  const { data: unreadFilesImages, isSuccess: isSuccessUnreadFilesImages } =
+    trpc.countFilesImages.useQuery();
 
   const { data: allFiles, isLoading: isLoadingAllFiles } = trpc.allFilesImages.useQuery();
 
@@ -97,6 +99,12 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
           setIsPending(false);
         },
         onSuccess: () => {
+          if (type === "IMAGE") {
+            // this function will delete the image from IMGUR server...
+            deleteImage({
+              deleteHash: delete_url,
+            });
+          }
           utils.countFilesImages.invalidate();
           utils.filesImages.invalidate();
           setIsPending(false);
@@ -238,7 +246,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                                 blurDataURL={filesImage.url}
                               />
                             )}
-                            <div className="flex max-w-sm flex-1 flex-col gap-y-1">
+                            <div className="flex max-w-sm flex-1 flex-col items-start gap-y-1">
                               <h1 className="truncate-text text-sm font-bold">{filesImage.name}</h1>
                               {filesImage.is_anonymous ? (
                                 <p className="text-sm">Anonymous</p>

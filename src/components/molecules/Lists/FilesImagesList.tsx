@@ -360,7 +360,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
       />
       <AlertModalDynamic
         title="Delete File"
-        message={`Are you sure you want to delete this file? ${fileImageName}.`}
+        message={`Are you sure you want to delete this file? ${fileImageName.substring(0, 20)}...`}
         isPending={isPending}
         isOpen={isOpenAlertModalDynamic}
         setIsOpen={setIsOpenAlertModalDynamic}

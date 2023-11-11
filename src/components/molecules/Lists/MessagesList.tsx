@@ -8,6 +8,7 @@ import moment from "moment";
 import Link from "next/link";
 import Image from "next/image";
 import AlertModal from "../Modals/AlertModal";
+import AlertModalDynamic from "../Modals/AlertModalDynamic";
 import ActivityIndicator from "~/components/atoms/ActivityIndicator";
 
 import { trpc } from "~/app/_trpc/client";
@@ -25,9 +26,12 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
 
   const [isPending, setIsPending] = useState<boolean>(false);
   const [isPendingDeleteAll, setIsPendingDeleteAll] = useState<boolean>(false);
+  const [search, setSearch] = useState<string>("");
+
   const [indexIndicator, setIndexIndicator] = useState<number>(0);
   const [isOpenAlertModal, setIsOpenAlertModal] = useState<boolean>(false);
-  const [search, setSearch] = useState<string>("");
+  const [isOpenAlertModalDynamic, setIsOpenAlertModalDynamic] = useState<boolean>(false);
+  const [messageId, setMessageId] = useState<string>("");
 
   const { data: unreadMessages, isSuccess: isSuccessUnreadMessages } =
     trpc.countMessages.useQuery();
@@ -93,7 +97,9 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
         onSuccess: () => {
           utils.countMessages.invalidate();
           utils.messages.invalidate();
+          setMessageId("");
           setIsPending(false);
+          setIsOpenAlertModalDynamic(false);
         },
       },
     );
@@ -231,7 +237,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                             <div className="flex w-full flex-row items-center justify-between">
                               <Link
                                 scroll={false}
-                                href={!message.is_anonymous ? `/${message.sender?.username}` : ''}
+                                href={!message.is_anonymous ? `/${message.sender?.username}` : ""}
                                 className={clsx(
                                   message.is_anonymous ? "cursor-default" : "cursor-pointer",
                                   "text-base font-bold",
@@ -257,7 +263,8 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                                 )}
                                 onClick={() => {
                                   setIndexIndicator(index);
-                                  handleDeleteMessage(message.id);
+                                  setMessageId(message.id);
+                                  setIsOpenAlertModalDynamic(true);
                                 }}
                               >
                                 {isPending && indexIndicator === index ? (
@@ -281,7 +288,9 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                               </button>
                             </div>
                             <h2 className="text-base text-neutral-800">{message.content}</h2>
-                            <p className="text-xs text-neutral-500">{moment(message.created_at).format("LLLL")}</p>
+                            <p className="text-xs text-neutral-500">
+                              {moment(message.created_at).format("LLLL")}
+                            </p>
                           </div>
                         </div>
                       ))}
@@ -313,6 +322,16 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
         isOpen={isOpenAlertModal}
         setIsOpen={setIsOpenAlertModal}
         modalFunction={handleDeleteAllMessage}
+      />
+      <AlertModalDynamic
+        title="Delete Message"
+        message="Are you sure you want to delete this message?"
+        isPending={isPending}
+        isOpen={isOpenAlertModalDynamic}
+        setIsOpen={setIsOpenAlertModalDynamic}
+        modalFunction={() => {
+          handleDeleteMessage(messageId);
+        }}
       />
     </>
   );

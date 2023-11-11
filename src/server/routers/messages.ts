@@ -36,6 +36,7 @@ export const messagesRouter = router({
           id: true,
           is_read: true,
           is_anonymous: true,
+          has_file: true,
           content: true,
           sender: {
             select: {
@@ -76,6 +77,7 @@ export const messagesRouter = router({
     .input(
       z.object({
         is_anonymous: z.boolean(),
+        has_file: z.boolean(),
         content: z.string(),
         sender_id: z.string(),
         receiver_id: z.string(),
@@ -86,6 +88,7 @@ export const messagesRouter = router({
         data: {
           is_anonymous: input.is_anonymous,
           content: input.content,
+          has_file: input.has_file,
           sender_id: input.is_anonymous ? null : input.sender_id,
           receiver_id: input.receiver_id,
         },

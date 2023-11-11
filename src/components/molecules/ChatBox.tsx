@@ -35,7 +35,9 @@ export default function ChatBox({
 }: ChatBoxProps) {
   const pathname = usePathname();
 
-  const [isPending, setIsPending] = useState<boolean>(false);
+  const [isPendingMessage, setIsPendingMessage] = useState<boolean>(false);
+  const [isPendingImage, setIsPendingImage] = useState<boolean>(false);
+  const [isPendingFile, setIsPendingFile] = useState<boolean>(false);
   const [isAnonymous, setIsAnonymous] = useState<boolean>(true);
   const [messageContent, setMessageContent] = useState<string>("");
 
@@ -138,7 +140,7 @@ export default function ChatBox({
   };
 
   const uploadImages = async () => {
-    setIsPending(true);
+    setIsPendingImage(true);
     for (const image of imagesUploaded) {
       uploadImage({
         imageFile: image,
@@ -155,11 +157,11 @@ export default function ChatBox({
             },
             {
               onError: () => {
-                setIsPending(false);
+                setIsPendingImage(false);
               },
               onSuccess: () => {
                 utils.messages.invalidate();
-                setIsPending(false);
+                setIsPendingImage(false);
                 setDefaultImages();
               },
             },
@@ -170,7 +172,7 @@ export default function ChatBox({
   };
 
   const uploadFiles = async () => {
-    setIsPending(true);
+    setIsPendingFile(true);
     await startUpload(files)
       .then((result) => {
         result?.map(async (file: any) => {
@@ -186,11 +188,11 @@ export default function ChatBox({
             },
             {
               onError: () => {
-                setIsPending(false);
+                setIsPendingFile(false);
               },
               onSuccess: () => {
                 utils.messages.invalidate();
-                setIsPending(false);
+                setIsPendingFile(false);
                 setDefaultFiles();
               },
             },
@@ -206,21 +208,22 @@ export default function ChatBox({
   };
 
   const sendMessage = async () => {
-    setIsPending(true);
+    setIsPendingMessage(true);
     await sendMessageMutation.mutateAsync(
       {
         is_anonymous: isAnonymous,
         content: messageContent,
+        has_file: imagesUploaded.length > 0 || files.length > 0 ? true : false,
         sender_id: senderId,
         receiver_id: receiverId,
       },
       {
         onError: () => {
-          setIsPending(false);
+          setIsPendingMessage(false);
         },
         onSuccess: () => {
           utils.messages.invalidate();
-          setIsPending(false);
+          setIsPendingMessage(false);
           setMessageContent("");
         },
       },
@@ -324,7 +327,7 @@ export default function ChatBox({
         </div>
       </div>
       <textarea
-        disabled={isPending}
+        disabled={isPendingMessage}
         autoComplete="off"
         className="h-full w-full resize-none bg-white p-3 text-black outline-none"
         rows={5}
@@ -347,7 +350,12 @@ export default function ChatBox({
               <>
                 <label
                   htmlFor="sendImage"
-                  className="flex cursor-pointer flex-row items-center gap-x-1 rounded-xl border border-white p-2 outline-none hover:opacity-50"
+                  className={clsx(
+                    isPendingMessage || isPendingImage || isPendingFile
+                      ? "cursor-not-allowed opacity-50"
+                      : "cursor-pointer",
+                    "flex flex-row items-center gap-x-1 rounded-xl border border-white p-2 outline-none hover:opacity-50",
+                  )}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -368,7 +376,7 @@ export default function ChatBox({
                   <span className="text-sm">Send Image</span>
                 </label>
                 <input
-                  disabled={isPending}
+                  disabled={isPendingMessage || isPendingImage || isPendingFile}
                   autoComplete="off"
                   multiple
                   type="file"
@@ -383,7 +391,12 @@ export default function ChatBox({
               <>
                 <label
                   htmlFor="sendFile"
-                  className="flex cursor-pointer flex-row items-center gap-x-1 rounded-xl border border-white p-2 outline-none hover:opacity-50"
+                  className={clsx(
+                    isPendingMessage || isPendingImage || isPendingFile
+                      ? "cursor-not-allowed opacity-50"
+                      : "cursor-pointer",
+                    "flex flex-row items-center gap-x-1 rounded-xl border border-white p-2 outline-none hover:opacity-50",
+                  )}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -406,7 +419,7 @@ export default function ChatBox({
                   <span className="text-sm">Send File</span>
                 </label>
                 <input
-                  disabled={isPending}
+                  disabled={isPendingMessage || isPendingImage || isPendingFile}
                   autoComplete="off"
                   multiple
                   type="file"
@@ -420,12 +433,12 @@ export default function ChatBox({
           </div>
           <button
             aria-label="Send Message"
-            disabled={isPending}
+            disabled={isPendingMessage || isPendingImage || isPendingFile}
             type="button"
             className="outline-none"
             onClick={handleSubmit}
           >
-            {isPending ? (
+            {isPendingMessage || isPendingImage || isPendingFile ? (
               <ActivityIndicator className="h-6 w-6" />
             ) : (
               <svg
@@ -453,7 +466,7 @@ export default function ChatBox({
                 key={link}
                 className="relative flex h-[10rem] w-[10rem] overflow-hidden rounded-md"
               >
-                {!isPending && (
+                {!isPendingImage && (
                   <button
                     type="button"
                     className="absolute right-2 top-2 z-10 rounded-full bg-black bg-opacity-50 p-1 outline-none hover:opacity-50"
@@ -491,7 +504,7 @@ export default function ChatBox({
                 className="flex w-full flex-1 flex-row items-center justify-between overflow-hidden rounded-md"
               >
                 <p className="text-sm">{file}</p>
-                {!isPending && (
+                {!isPendingFile && (
                   <button
                     type="button"
                     className="rounded-full bg-black bg-opacity-50 p-1 outline-none hover:opacity-50"

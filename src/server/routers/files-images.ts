@@ -130,7 +130,7 @@ export const filesImagesRouter = router({
   deleteAllFilesImages: publicProcedure
     .input(
       z.object({
-        type: z.enum(["IMAGE", "FILE"]),
+        allFiles: z.any(),
         files: z.any(),
       }),
     )
@@ -139,7 +139,11 @@ export const filesImagesRouter = router({
         return;
       }
 
-      if (input.type === "FILE" && input.files) {
+      const hasImageFile = input?.allFiles
+        ? input?.allFiles.some((file: { type: string }) => file.type === "FILE")
+        : false;
+
+      if (hasImageFile) {
         await utapi.deleteFiles(input.files);
       }
 

@@ -71,24 +71,26 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
   }, [fetchNextPage, hasNextPage, inView]);
 
   const utils = trpc.useContext();
-  const deleteMessageMutation = trpc.deleteFileImage.useMutation();
-  const deleteAllMessageMutation = trpc.deleteAllFilesImages.useMutation();
+  const deleteFileMutation = trpc.deleteFileImage.useMutation();
+  const deleteAllFilesMutation = trpc.deleteAllFilesImages.useMutation();
   const readFileImageMutation = trpc.readFileImage.useMutation({
     onSuccess: () => {
       utils.countFilesImages.invalidate();
       utils.filesImages.invalidate();
+      utils.allFilesImages.invalidate();
     },
   });
   const readAllFilesImagesMutation = trpc.readAllFilesImages.useMutation({
     onSuccess: () => {
       utils.countFilesImages.invalidate();
       utils.filesImages.invalidate();
+      utils.allFilesImages.invalidate();
     },
   });
 
   const handleDeleteFileImage = async (id: string, type: "IMAGE" | "FILE", delete_url: string) => {
     setIsPending(true);
-    await deleteMessageMutation.mutateAsync(
+    await deleteFileMutation.mutateAsync(
       {
         id,
         type,
@@ -107,6 +109,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
           }
           utils.countFilesImages.invalidate();
           utils.filesImages.invalidate();
+          utils.allFilesImages.invalidate();
           setIsPending(false);
           setIsOpenAlertModalDynamic(false);
         },
@@ -116,23 +119,36 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
 
   const handleDeleteAllFilesImages = async () => {
     setIsPendingDeleteAll(true);
-    await deleteAllMessageMutation.mutateAsync(
-      {
-        type: "FILE",
-        files: allFiles ? allFiles.map((file) => file.delete_url) : [],
-      },
-      {
-        onError: () => {
-          setIsPendingDeleteAll(false);
+    if (allFiles) {
+      await deleteAllFilesMutation.mutateAsync(
+        {
+          allFiles: allFiles,
+          files: allFiles.map((file) => file.delete_url),
         },
-        onSuccess: () => {
-          utils.countFilesImages.invalidate();
-          utils.filesImages.invalidate();
-          setIsPendingDeleteAll(false);
-          setIsOpenAlertModal(false);
+        {
+          onError: () => {
+            setIsPendingDeleteAll(false);
+          },
+          onSuccess: () => {
+            if (allFiles) {
+              for (const image of allFiles) {
+                if (image.type === "IMAGE") {
+                  // this function will delete the image from IMGUR server...
+                  deleteImage({
+                    deleteHash: image.delete_url as string,
+                  });
+                }
+              }
+            }
+            utils.countFilesImages.invalidate();
+            utils.filesImages.invalidate();
+            utils.allFilesImages.invalidate();
+            setIsPendingDeleteAll(false);
+            setIsOpenAlertModal(false);
+          },
         },
-      },
-    );
+      );
+    }
   };
 
   return (
@@ -361,7 +377,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
       <AlertModalDynamic
         title="Delete File"
         message={`Are you sure you want to delete this file? ${fileImageName.substring(0, 20)}...`}
-        isPending={isPending}
+        isPending={isPendingDeleteAll}
         isOpen={isOpenAlertModalDynamic}
         setIsOpen={setIsOpenAlertModalDynamic}
         modalFunction={() => {

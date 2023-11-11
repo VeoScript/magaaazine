@@ -233,25 +233,35 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                               </svg>
                             </div>
                           )}
-                          <div className="flex flex-1 flex-col gap-y-1">
+                          <div className="flex flex-1 flex-col items-start gap-y-1">
                             <div className="flex w-full flex-row items-center justify-between">
-                              <Link
-                                scroll={false}
-                                href={!message.is_anonymous ? `/${message.sender?.username}` : ""}
-                                className={clsx(
-                                  message.is_anonymous ? "cursor-default" : "cursor-pointer",
-                                  "text-base font-bold",
+                              <div className="flex flex-col items-start justify-start gap-x-0 gap-y-1 md:flex-row md:items-center md:gap-x-3 md:gap-y-0">
+                                <Link
+                                  scroll={false}
+                                  href={!message.is_anonymous ? `/${message.sender?.username}` : ""}
+                                  className={clsx(
+                                    message.is_anonymous ? "cursor-default" : "cursor-pointer",
+                                    "text-base font-bold",
+                                  )}
+                                  onClick={() => {
+                                    readMessageMutation.mutate({
+                                      id: message.id,
+                                    });
+                                  }}
+                                >
+                                  {message.is_anonymous
+                                    ? "Anonymous"
+                                    : `@${message.sender?.username}`}
+                                </Link>
+                                {message.has_file && (
+                                  <Link
+                                    href="/files-images"
+                                    className="rounded-lg border border-blue-600 bg-blue-200 px-2 py-1 text-[10px] font-bold text-blue-900"
+                                  >
+                                    uploaded something
+                                  </Link>
                                 )}
-                                onClick={() => {
-                                  readMessageMutation.mutate({
-                                    id: message.id,
-                                  });
-                                }}
-                              >
-                                {message.is_anonymous
-                                  ? "Anonymous"
-                                  : `@${message.sender?.username}`}
-                              </Link>
+                              </div>
                               <button
                                 disabled={isPending && indexIndicator === index}
                                 type="button"
@@ -326,7 +336,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
       <AlertModalDynamic
         title="Delete Message"
         message="Are you sure you want to delete this message?"
-        isPending={isPending}
+        isPending={isPendingDeleteAll}
         isOpen={isOpenAlertModalDynamic}
         setIsOpen={setIsOpenAlertModalDynamic}
         modalFunction={() => {

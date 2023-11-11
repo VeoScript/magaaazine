@@ -42,6 +42,7 @@ model Message {
   id           String    @id @default(cuid())
   is_read      Boolean   @default(false)
   is_anonymous Boolean
+  has_file     Boolean?  @default(false)
   content      String    @db.Text
   created_at   DateTime  @default(now())
   updated_at   DateTime?

@@ -22,7 +22,11 @@ interface PreviewProfileImageProps {
 }
 
 export default function ProfileUpload({ profileId }: ProfileUploadProps) {
-  const { data: user, isLoading: isLoadingUser } = trpc.user.useQuery();
+  const { data: user, isLoading: isLoadingUser } = trpc.user.useQuery(undefined, {
+    cacheTime: 0,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+  });
 
   const { previewProfileImage, setImageProfileUploaded, setPreviewProfileImage } =
     uploadProfileStore();

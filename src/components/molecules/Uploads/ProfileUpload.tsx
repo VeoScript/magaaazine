@@ -5,10 +5,15 @@ import { Dialog } from "@headlessui/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import clsx from "clsx";
+import ActivityIndicator from "~/components/atoms/ActivityIndicator";
 
 import { trpc } from "~/app/_trpc/client";
 import { myToast } from "~/components/atoms/MyToast";
 import { uploadProfileStore } from "~/lib/stores/uploads/profile";
+
+interface ProfileUploadProps {
+  profileId: string;
+}
 
 interface PreviewProfileImageProps {
   imageUrl: string;
@@ -16,7 +21,9 @@ interface PreviewProfileImageProps {
   setIsOpen: (value: boolean) => void;
 }
 
-export default function ProfileUpload() {
+export default function ProfileUpload({ profileId }: ProfileUploadProps) {
+  const { data: user, isLoading: isLoadingUser } = trpc.user.useQuery();
+
   const { previewProfileImage, setImageProfileUploaded, setPreviewProfileImage } =
     uploadProfileStore();
 
@@ -69,38 +76,54 @@ export default function ProfileUpload() {
 
   return (
     <>
-      <label
-        htmlFor="uploadProfile"
-        className="absolute bottom-3 right-3 cursor-pointer rounded-full bg-black bg-opacity-50 p-2 outline-none hover:bg-opacity-20"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="h-5 w-5 text-white"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"
-          />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z"
-          />
-        </svg>
-      </label>
-      <input
-        type="file"
-        id="uploadProfile"
-        className="hidden"
-        onChange={handleUpdateProfileImage}
-        accept=".jpg, .png, .jpeg, .jfif"
-      />
-      <PreviewProfileImage imageUrl={previewProfileImage} isOpen={isOpen} setIsOpen={setIsOpen} />
+      {isLoadingUser ? (
+        <div className="absolute bottom-3 right-3 cursor-pointer rounded-full bg-black bg-opacity-50 p-2 outline-none hover:opacity-50">
+          <ActivityIndicator color="#FFF" className="h-5 w-5 text-white" />
+        </div>
+      ) : (
+        <>
+          {user?.id === profileId && (
+            <>
+              <label
+                htmlFor="uploadProfile"
+                className="absolute bottom-3 right-3 cursor-pointer rounded-full bg-black bg-opacity-50 p-2 outline-none hover:opacity-50"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="h-5 w-5 text-white"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z"
+                  />
+                </svg>
+              </label>
+              <input
+                type="file"
+                id="uploadProfile"
+                className="hidden"
+                onChange={handleUpdateProfileImage}
+                accept=".jpg, .png, .jpeg, .jfif"
+              />
+              <PreviewProfileImage
+                imageUrl={previewProfileImage}
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+              />
+            </>
+          )}
+        </>
+      )}
     </>
   );
 }

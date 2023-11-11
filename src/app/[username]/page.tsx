@@ -1,15 +1,13 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import clsx from "clsx";
 
 import getBase64 from "~/lib/functions/getBase64";
-import CopyClipboard from "~/components/atoms/CopyClipboard";
 import SocialMediaHolder from "~/components/molecules/SocialMediaHolder";
-import ChatBox from "~/components/molecules/ChatBox";
 import ProfileUpload from "~/components/molecules/Uploads/ProfileUpload";
 import CoverUpload from "~/components/molecules/Uploads/CoverUpload";
+import ProfileMainHolder from "~/components/molecules/ProfileMainHolder";
 
 import { serverClient } from "../_trpc/serverClient";
 
@@ -59,8 +57,6 @@ export async function generateMetadata({
 }
 
 export default async function UserPage({ params }: { params: { username: string } }) {
-  const user = await serverClient.user();
-
   const profile = await serverClient.profile({
     username: params.username ?? "",
   });
@@ -92,7 +88,7 @@ export default async function UserPage({ params }: { params: { username: string 
               />
             </>
           )}
-          {user?.id === profile.id && <CoverUpload />}
+          <CoverUpload profileId={profile.id} />
           <div
             className={clsx(
               profile?.cover_photo ? "text-white" : "text-black",
@@ -132,7 +128,7 @@ export default async function UserPage({ params }: { params: { username: string 
                     </svg>
                   </div>
                 )}
-                {user?.id === profile.id && <ProfileUpload />}
+                <ProfileUpload profileId={profile.id} />
               </div>
               <div className="flex w-full flex-col items-center gap-y-3">
                 <div className="flex w-full flex-col items-center">
@@ -173,48 +169,7 @@ export default async function UserPage({ params }: { params: { username: string 
               {profile?.favorite_quote && (
                 <q className="text-center text-base">{profile?.favorite_quote}</q>
               )}
-              {user && user?.id === profile?.id && (
-                <div className="flex w-full flex-col items-center gap-y-3">
-                  <div
-                    className={clsx(
-                      profile?.cover_photo ? "border-none" : "border",
-                      "flex w-full max-w-full flex-row items-center justify-between gap-x-3 overflow-hidden rounded-lg bg-white bg-opacity-10 px-5 py-3 text-white backdrop-blur-lg md:max-w-sm",
-                    )}
-                  >
-                    <input
-                      disabled
-                      className={clsx(
-                        profile?.cover_photo ? "text-white" : "text-black",
-                        "w-full border-none bg-transparent text-xs outline-none md:text-sm",
-                      )}
-                      type="text"
-                      value={`${String(process.env.PROD_URL).replace(
-                        /https:\/\/(www\.)?/,
-                        "",
-                      )}/${profile?.username}`}
-                    />
-                    <CopyClipboard
-                      textToCopy={`${String(process.env.PROD_URL).replace(
-                        /https:\/\/(www\.)?/,
-                        "",
-                      )}/${profile?.username}`}
-                    />
-                  </div>
-                  <Link href="/settings" className="custom-button text-xs">
-                    Edit your profile
-                  </Link>
-                </div>
-              )}
-              {user?.id !== profile?.id && (
-                <ChatBox
-                  isAuth={user ? true : false}
-                  hasCoverPhoto={profile?.cover_photo ? true : false}
-                  receiveFilesAnonymous={profile.is_receive_files_anonymous}
-                  receiveImageAnonymous={profile.is_receive_images_anonymous}
-                  senderId={user?.id ?? ""}
-                  receiverId={profile?.id}
-                />
-              )}
+              <ProfileMainHolder profile={profile} />
             </div>
           </div>
         </div>

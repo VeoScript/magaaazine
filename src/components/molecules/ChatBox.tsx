@@ -12,6 +12,7 @@ import { useUploadThing } from "~/utils/uploadthing";
 
 import { sendFilesStore } from "~/lib/stores/uploads/files";
 import { sendImagesStore } from "~/lib/stores/uploads/images";
+import { uploadImage } from "~/lib/functions/uploadImage";
 
 import { trpc } from "~/app/_trpc/client";
 
@@ -139,22 +140,16 @@ export default function ChatBox({
   const uploadImages = async () => {
     setIsPending(true);
     for (const image of imagesUploaded) {
-      const formData = new FormData();
-      formData.append("image", image);
-
-      await fetch(`https://api.imgbb.com/1/upload?key=${process.env.IMGBB_API_KEY}`, {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => response.json())
-        .then(async (result) => {
+      uploadImage({
+        imageFile: image,
+        async onSuccessFn(result) {
           await uploadFilesImagesMutation.mutateAsync(
             {
               is_anonymous: isAnonymous,
-              name: result.data.image.filename,
+              name: result.data.name,
               type: "IMAGE",
-              url: result.data.url,
-              delete_url: result.data.delete_url,
+              url: result.data.link,
+              delete_url: result.data.deletehash,
               sender_id: senderId,
               receiver_id: receiverId,
             },
@@ -169,10 +164,8 @@ export default function ChatBox({
               },
             },
           );
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+        },
+      });
     }
   };
 

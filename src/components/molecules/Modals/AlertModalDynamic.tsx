@@ -37,7 +37,7 @@ export default function AlertModalDynamic({
               <p className="text-base font-medium text-white">{title}</p>
             </div>
           )}
-          <div className="flex w-full flex-row items-center p-3">
+          <div className="flex w-full flex-row items-center overflow-hidden p-3">
             <p className="text-base font-light text-white">{message}</p>
           </div>
           <div className="flex w-full flex-row items-center justify-end gap-x-1 p-3">

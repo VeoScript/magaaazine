@@ -1,8 +1,9 @@
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import dynamic from "next/dynamic";
 
-import ForgotPasswordForm from "~/components/molecules/Forms/ForgotPasswordForm";
+const ForgotPasswordForm = dynamic(() => import("~/components/molecules/Forms/ForgotPasswordForm"));
 
 export const metadata: Metadata = {
   title: "Magaaazine | Forgot Password?",

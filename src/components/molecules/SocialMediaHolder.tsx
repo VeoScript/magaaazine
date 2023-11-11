@@ -44,7 +44,7 @@ export default function SocialMediaHolder({
             alt="facebook"
             width={100}
             height={100}
-            className="h-6 w-6"
+            className="h-6 w-6 transform transition duration-200 ease-in-out hover:scale-125"
           />
         </Link>
       )}
@@ -61,7 +61,7 @@ export default function SocialMediaHolder({
             alt="instagram"
             width={100}
             height={100}
-            className="h-6 w-6"
+            className="h-6 w-6 transform transition duration-200 ease-in-out hover:scale-125"
           />
         </Link>
       )}
@@ -72,7 +72,14 @@ export default function SocialMediaHolder({
           data-tooltip-id="magaaazine-tooltip"
           data-tooltip-content="Tiktok"
         >
-          <Image priority src={tiktok} alt="tiktok" width={100} height={100} className="h-6 w-6" />
+          <Image
+            priority
+            src={tiktok}
+            alt="tiktok"
+            width={100}
+            height={100}
+            className="h-6 w-6 transform transition duration-200 ease-in-out hover:scale-125"
+          />
         </Link>
       )}
       {twitterx_link && (
@@ -88,7 +95,7 @@ export default function SocialMediaHolder({
             alt="twitter"
             width={100}
             height={100}
-            className="h-6 w-6"
+            className="h-6 w-6 transform transition duration-200 ease-in-out hover:scale-125"
           />
         </Link>
       )}
@@ -105,7 +112,7 @@ export default function SocialMediaHolder({
             alt="linkedin"
             width={100}
             height={100}
-            className="h-6 w-6"
+            className="h-6 w-6 transform transition duration-200 ease-in-out hover:scale-125"
           />
         </Link>
       )}
@@ -116,7 +123,14 @@ export default function SocialMediaHolder({
           data-tooltip-id="magaaazine-tooltip"
           data-tooltip-content="Github"
         >
-          <Image priority src={github} alt="github" width={100} height={100} className="h-6 w-6" />
+          <Image
+            priority
+            src={github}
+            alt="github"
+            width={100}
+            height={100}
+            className="h-6 w-6 transform transition duration-200 ease-in-out hover:scale-125"
+          />
         </Link>
       )}
       {website_link && (
@@ -137,7 +151,7 @@ export default function SocialMediaHolder({
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="h-6 w-6 text-neutral-400"
+            className="h-6 w-6 transform text-neutral-400 transition duration-200 ease-in-out hover:scale-125"
           >
             <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
             <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />

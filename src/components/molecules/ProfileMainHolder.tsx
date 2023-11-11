@@ -1,13 +1,15 @@
 "use client";
 
 import clsx from "clsx";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import ActivityIndicator from "../atoms/ActivityIndicator";
-import CopyClipboard from "../atoms/CopyClipboard";
-import ChatBox from "./ChatBox";
 
 import { trpc } from "~/app/_trpc/client";
 import { serverClient } from "~/app/_trpc/serverClient";
+
+const CopyClipboard = dynamic(() => import("../atoms/CopyClipboard"));
+const ChatBox = dynamic(() => import("./ChatBox"));
 
 interface ProfileMainHolderProps {
   profile: Awaited<ReturnType<(typeof serverClient)["profile"]>>;

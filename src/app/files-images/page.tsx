@@ -1,7 +1,8 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import dynamic from "next/dynamic";
 
-import FilesImagesList from "~/components/molecules/Lists/FilesImagesList";
+const FilesImagesList = dynamic(() => import("~/components/molecules/Lists/FilesImagesList"));
 
 import { serverClient } from "../_trpc/serverClient";
 

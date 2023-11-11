@@ -4,15 +4,17 @@ import { useState, useEffect, Fragment } from "react";
 import { useInView } from "react-intersection-observer";
 import Link from "next/link";
 import Image from "next/legacy/image";
+import dynamic from "next/dynamic";
 import clsx from "clsx";
 import moment from "moment";
-import AlertModal from "../Modals/AlertModal";
-import AlertModalDynamic from "../Modals/AlertModalDynamic";
 import ActivityIndicator from "~/components/atoms/ActivityIndicator";
 
 import { trpc } from "~/app/_trpc/client";
 import { serverClient } from "~/app/_trpc/serverClient";
 import { deleteImage } from "~/lib/functions/deleteImage";
+
+const AlertModal = dynamic(() => import("../Modals/AlertModal"));
+const AlertModalDynamic = dynamic(() => import("../Modals/AlertModalDynamic"));
 
 interface FilesImagesListProps {
   initialData: Awaited<ReturnType<(typeof serverClient)["filesImages"]>> | any;

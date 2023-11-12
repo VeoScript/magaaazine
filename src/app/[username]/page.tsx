@@ -23,7 +23,7 @@ export async function generateMetadata({
   });
   return {
     title: `Magaaazine | ${profile ? `@${profile?.username}` : "Not Found"}`,
-    description: "Empower Your Online Presence with Magaaazine",
+    description: profile?.short_bio ?? "Empower Your Online Presence with Magaaazine",
     metadataBase: new URL(
       process.env.NODE_ENV === "development"
         ? `${process.env.DEV_URL}/${profile?.username}`
@@ -160,7 +160,7 @@ export default async function UserPage({ params }: { params: { username: string 
                 {profile?.short_bio && (
                   <p
                     className={clsx(
-                      profile.cover_photo ? "text-neutral-300" : "text-neutral-500",
+                      profile.cover_photo ? "text-neutral-200" : "text-neutral-800",
                       "text-center text-lg",
                     )}
                   >
@@ -169,7 +169,7 @@ export default async function UserPage({ params }: { params: { username: string 
                 )}
               </div>
               {profile?.favorite_quote && (
-                <q className="text-center text-xl font-light italic">{profile?.favorite_quote}</q>
+                <q className="text-center text-base font-bold italic">{profile?.favorite_quote}</q>
               )}
               <ProfileMainHolder profile={profile} />
             </div>

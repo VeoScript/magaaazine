@@ -88,13 +88,24 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
       </Headless.Menu.Button>
       <Headless.Menu.Items className="divide-accent-3 absolute right-0 z-30 mt-2 flex w-56 origin-top-right flex-col divide-y overflow-hidden rounded-lg border bg-white outline-none">
         <Headless.Menu.Item as={Fragment}>
-          <Link href={`/${user?.username}`} className="w-full p-3 text-sm hover:opacity-80">
-            {user?.name}
+          <Link
+            href={`/${user?.username}`}
+            className="flex w-full flex-row flex-wrap items-center justify-between gap-1 overflow-hidden  p-3 text-sm hover:opacity-80"
+          >
+            <span className="flex-1">{user?.name}</span>
+            <span className="rounded-lg border border-blue-600 bg-blue-200 px-2 text-[10px] font-bold text-blue-900">
+              Profile
+            </span>
           </Link>
         </Headless.Menu.Item>
         <Headless.Menu.Item as={Fragment}>
           <Link href="/" className="block w-full p-3 text-sm hover:opacity-80 md:hidden">
             Home
+          </Link>
+        </Headless.Menu.Item>
+        <Headless.Menu.Item as={Fragment}>
+          <Link href="/discover" className="block w-full p-3 text-sm hover:opacity-80 md:hidden">
+            Discover
           </Link>
         </Headless.Menu.Item>
         <Headless.Menu.Item as={Fragment}>
@@ -121,11 +132,6 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
                 <span>{unreadFilesImages}</span>
               </p>
             )}
-          </Link>
-        </Headless.Menu.Item>
-        <Headless.Menu.Item as={Fragment}>
-          <Link href="/discover" className="block w-full p-3 text-sm hover:opacity-80 md:hidden">
-            Discover
           </Link>
         </Headless.Menu.Item>
         <Headless.Menu.Item as={Fragment}>

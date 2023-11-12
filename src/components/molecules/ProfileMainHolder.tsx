@@ -25,8 +25,16 @@ export default function ProfileMainHolder({ profile }: ProfileMainHolderProps) {
   return (
     <>
       {isLoadingUser ? (
-        <div className="flex w-full flex-col items-center justify-center gap-y-3 rounded-lg bg-white bg-opacity-10 p-10 backdrop-blur-lg">
-          <ActivityIndicator color="#FFF" className="h-10 w-10 text-white" />
+        <div
+          className={clsx(
+            profile?.cover_photo ? "bg-white" : "bg-black",
+            "flex w-full flex-col items-center justify-center gap-y-3 rounded-xl bg-opacity-10 p-10 backdrop-blur-lg",
+          )}
+        >
+          <ActivityIndicator
+            color={profile?.cover_photo ? "#FFF" : "#333"}
+            className="h-10 w-10 text-white"
+          />
           <p className="text-sm">Loading...</p>
         </div>
       ) : (

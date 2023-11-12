@@ -14,7 +14,7 @@ export default function Footer() {
           </Link>
         </div>
         <p className="w-full text-center md:text-right">
-          Developed with 🧸 by{" "}
+          Developed with ❤️🧸 by{" "}
           <Link href="https://www.jeromevillaruel.cf" target="_blank" className="hover:underline">
             Choco
           </Link>

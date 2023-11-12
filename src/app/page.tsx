@@ -8,8 +8,8 @@ export default async function Home() {
 
   return (
     <DefaultLayout>
-      <section className="flex h-full min-h-screen w-full flex-col items-center justify-center p-5">
-        <div className="-mt-20 flex w-full max-w-5xl flex-col items-center gap-y-3">
+      <section className="flex h-full min-h-full md:min-h-screen w-full flex-col items-center justify-start md:justify-center p-2 md:p-5">
+        <div className="mt-10 md:-mt-20 flex w-full max-w-full md:max-w-5xl flex-col items-center gap-y-3">
           <h2 className="text-center font-raleway text-xl font-bold md:text-2xl">
             Discover, Connect and Share.
           </h2>

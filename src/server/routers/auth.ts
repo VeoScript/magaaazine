@@ -102,6 +102,8 @@ export const authRouter = router({
         value: user.id,
         httpOnly: true,
         path: "/",
+        maxAge: 30 * 24 * 60 * 60,
+        expires: 24 * 60 * 60,
       });
 
       return user;
@@ -147,6 +149,8 @@ export const authRouter = router({
         value: user.id,
         httpOnly: true,
         path: "/",
+        maxAge: 30 * 24 * 60 * 60,
+        expires: 24 * 60 * 60,
       });
 
       return {

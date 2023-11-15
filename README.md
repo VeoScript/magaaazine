@@ -13,16 +13,17 @@ Discover, connect and share. Empower your online presence with Magaaazine. With 
 ### Dependencies
 
 #### Front-End
-* NextJS 13 (App Router).
-* Zustand
-* Tanstack React-Query
-* Tailwind CSS
+* [NextJS 13 (App Router)](https://nextjs.org)
+* [Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction)
+* [Tanstack React-Query](https://tanstack.com/query/latest)
+* [Tailwind CSS](https://tailwindcss.com/)
 
 #### Back-End
-* tRPC
-* Prisma
-* Supabase
-* PostgreSQL
+* [Mergent](https://mergent.co/)
+* [tRPC](https://trpc.io/)
+* [Prisma](https://www.prisma.io/)
+* [Supabase](https://supabase.com/)
+* [PostgreSQL](https://www.postgresql.org/)
 
 ### Installing
 ```

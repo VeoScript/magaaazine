@@ -1,6 +1,4 @@
-import dynamic from "next/dynamic";
-
-const DefaultLayout = dynamic(() => import("~/components/templates/DefaultLayout"));
+import DefaultLayout from "~/components/templates/DefaultLayout";
 
 export default function UserPageLayout({ children }: { children: React.ReactNode }) {
   return (

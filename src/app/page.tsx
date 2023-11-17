@@ -8,8 +8,8 @@ export default async function Home() {
 
   return (
     <DefaultLayout>
-      <section className="flex h-full min-h-full md:min-h-screen w-full flex-col items-center justify-start md:justify-center p-2 md:p-5">
-        <div className="mt-10 md:-mt-20 flex w-full max-w-full md:max-w-5xl flex-col items-center gap-y-3">
+      <section className="flex h-full min-h-full w-full flex-col items-center justify-start p-2 md:min-h-screen md:justify-center md:p-5">
+        <div className="mt-10 flex w-full max-w-full flex-col items-center gap-y-5 md:-mt-20 md:max-w-5xl md:gap-y-10">
           <h2 className="text-center font-raleway text-xl font-bold md:text-2xl">
             Discover, Connect and Share.
           </h2>
@@ -22,7 +22,7 @@ export default async function Home() {
             <span className="font-bold text-blue-600">images</span>,{" and "}
             <span className="font-bold text-blue-600">files</span> anonymously.
           </h2>
-          <div className="mt-5 flex w-full flex-row items-center justify-center gap-x-3">
+          <div className="flex w-full flex-row items-center justify-center gap-x-3">
             <Link href="/discover" className="custom-button">
               Discover
             </Link>

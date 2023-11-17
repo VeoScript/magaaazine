@@ -5,6 +5,7 @@ import { useInView } from "react-intersection-observer";
 import clsx from "clsx";
 import Link from "next/link";
 import Image from "next/legacy/image";
+import Verified from "~/components/atoms/Verified";
 import ActivityIndicator from "~/components/atoms/ActivityIndicator";
 
 import { trpc } from "~/app/_trpc/client";
@@ -162,14 +163,17 @@ export default function DiscoverList({ initialData }: DiscoverListProps) {
                           </div>
                         )}
                         <div className="z-10 flex flex-col">
-                          <h1
-                            className={clsx(
-                              user.cover_photo ? "text-white" : "text-black",
-                              "text-sm font-bold",
-                            )}
-                          >
-                            {user.name}
-                          </h1>
+                          <span className="flex flex-row items-center justify-start gap-x-1">
+                            <h1
+                              className={clsx(
+                                user.cover_photo ? "text-white" : "text-black",
+                                "text-sm font-bold",
+                              )}
+                            >
+                              {user.name}
+                            </h1>
+                            {user.is_verified && <Verified />}
+                          </span>
                           <h2
                             className={clsx(
                               user.cover_photo ? "text-neutral-300" : "text-black",

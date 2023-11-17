@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import clsx from "clsx";
+import Verified from "~/components/atoms/Verified";
 
 import getBase64 from "~/lib/functions/getBase64";
 
@@ -134,9 +135,12 @@ export default async function UserPage({ params }: { params: { username: string 
               </div>
               <div className="flex w-full flex-col items-center gap-y-3">
                 <div className="flex w-full flex-col items-center">
-                  <h1 className="text-2xl font-bold">
-                    {profile.is_display_name ? profile.name : `@${profile.username}`}
-                  </h1>
+                  <span className="flex w-full flex-row items-center justify-center gap-x-1.5">
+                    <h1 className="text-2xl font-bold">
+                      {profile.is_display_name ? profile.name : `@${profile.username}`}
+                    </h1>
+                    {profile.is_verified && <Verified />}
+                  </span>
                   {profile.is_display_name && (
                     <h2 className="text-base font-medium">@{profile?.username}</h2>
                   )}

@@ -25,6 +25,7 @@ export const userRouter = router({
         linkedin_link: true,
         github_link: true,
         website_link: true,
+        is_verified: true,
         is_display_name: true,
         is_receive_files_anonymous: true,
         is_receive_images_anonymous: true,
@@ -32,59 +33,62 @@ export const userRouter = router({
       },
     });
   }),
-  users: publicProcedure.input(
-    z.object({
-      limit: z.number().min(1).max(100).nullish(),
-      cursor: z.string().nullish(),
-      search: z.string().nullish(),
+  users: publicProcedure
+    .input(
+      z.object({
+        limit: z.number().min(1).max(100).nullish(),
+        cursor: z.string().nullish(),
+        search: z.string().nullish(),
+      }),
+    )
+    .query(async (opts) => {
+      const { input } = opts;
+      const limit = input.limit ?? 10;
+      const { search, cursor } = input;
+
+      const users = await prisma.user.findMany({
+        where: {
+          OR: [
+            {
+              name: {
+                contains: search as string,
+                mode: "insensitive",
+              },
+            },
+            {
+              username: {
+                contains: search as string,
+                mode: "insensitive",
+              },
+            },
+          ],
+        },
+        select: {
+          id: true,
+          cover_photo: true,
+          profile_photo: true,
+          name: true,
+          email: true,
+          username: true,
+          is_verified: true,
+        },
+        orderBy: {
+          created_at: "desc",
+        },
+        take: limit + 1,
+        cursor: cursor ? { id: cursor } : undefined,
+      });
+
+      let nextCursor: typeof cursor | undefined = undefined;
+
+      if (users.length > limit) {
+        const nextItem = users.pop();
+        nextCursor = nextItem!.id;
+      }
+
+      return {
+        users,
+        nextCursor,
+      };
     }),
-  ).query(async (opts) => {
-    const { input } = opts;
-    const limit = input.limit ?? 10;
-    const { search, cursor } = input;
-
-    const users = await prisma.user.findMany({
-      where: {
-        OR: [
-          {
-            name: {
-              contains: search as string,
-              mode: 'insensitive',
-            },
-          },
-          {
-            username: {
-              contains: search as string,
-              mode: 'insensitive',
-            },
-          },
-        ],
-      },
-      select: {
-        id: true,
-        cover_photo: true,
-        profile_photo: true,
-        name: true,
-        email: true,
-        username: true,
-      },
-      orderBy: {
-        created_at: 'desc',
-      },
-      take: limit + 1,
-      cursor: cursor ? { id: cursor } : undefined,
-    });
-
-    let nextCursor: typeof cursor | undefined = undefined;
-
-    if (users.length > limit) {
-      const nextItem = users.pop();
-      nextCursor = nextItem!.id;
-    }
-
-    return {
-      users,
-      nextCursor,
-    };
-  }),
 });

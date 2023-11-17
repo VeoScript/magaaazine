@@ -94,7 +94,7 @@ export default async function UserPage({ params }: { params: { username: string 
           <div
             className={clsx(
               profile?.cover_photo ? "text-white" : "text-black",
-              "z-10 flex w-full flex-col items-center overflow-hidden p-5",
+              "z-10 flex w-full flex-col items-center overflow-hidden mt-10 p-5",
             )}
           >
             <div className="flex w-full max-w-xl flex-col items-center gap-y-5">
@@ -169,7 +169,7 @@ export default async function UserPage({ params }: { params: { username: string 
                 )}
               </div>
               {profile?.favorite_quote && (
-                <q className="text-center text-base font-bold italic">{profile?.favorite_quote}</q>
+                <q className="text-center text-base md:text-xl font-bold italic">{profile?.favorite_quote}</q>
               )}
               <ProfileMainHolder profile={profile} />
             </div>

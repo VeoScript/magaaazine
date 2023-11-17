@@ -64,7 +64,7 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
             blurDataURL={imageBlurUrl}
           />
         ) : (
-          <div className="flex h-8 w-8 flex-row items-center justify-center rounded-full bg-neutral-300 object-cover">
+          <div className="flex h-8 w-8 flex-row items-center justify-center rounded-full bg-neutral-300 object-cover dark:bg-slate-700">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -87,23 +87,27 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
           <div className="absolute right-0 top-0 h-3 w-3 rounded-full bg-red-500" />
         )}
       </Headless.Menu.Button>
-      <Headless.Menu.Items className="divide-accent-3 absolute right-0 z-30 mt-5 flex w-56 origin-top-right flex-col divide-y divide-neutral-300 dark:divide-slate-700 overflow-hidden rounded-lg bg-white dark:bg-default-black shadow-xl outline-none">
+      <Headless.Menu.Items className="divide-accent-3 absolute right-0 z-30 mt-5 flex w-56 origin-top-right flex-col divide-y divide-neutral-300 overflow-hidden rounded-lg bg-white shadow-xl outline-none dark:divide-slate-700 dark:bg-default-black">
         <Headless.Menu.Item as={Fragment}>
           <Link
             href={`/${user?.username}`}
             className="relative w-full overflow-hidden hover:opacity-80"
           >
-            <Image
-              className="aspect-square h-[10rem] w-full bg-center object-cover opacity-80"
-              src={imageSrc}
-              alt="sea"
-              priority
-              width={500}
-              height={500}
-              quality={100}
-              placeholder="blur"
-              blurDataURL={imageBlurUrl}
-            />
+            {user?.profile_photo ? (
+              <Image
+                className="aspect-square h-[10rem] w-full bg-center object-cover opacity-80"
+                src={imageSrc}
+                alt="sea"
+                priority
+                width={500}
+                height={500}
+                quality={100}
+                placeholder="blur"
+                blurDataURL={imageBlurUrl}
+              />
+            ) : (
+              <div className="flex aspect-square h-[10rem] w-full flex-row items-center justify-center bg-neutral-300 object-cover dark:bg-slate-700" />
+            )}
             <div className="absolute bottom-0 -mb-10 flex h-full w-full bg-gradient-to-t from-black from-15% to-transparent"></div>
             <div className="absolute inset-0 flex w-full flex-col items-center justify-center overflow-hidden p-3 text-center text-white">
               <div className="flex w-full flex-row flex-wrap items-center justify-center gap-x-1">

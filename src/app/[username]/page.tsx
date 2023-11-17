@@ -113,7 +113,7 @@ export default async function UserPage({ params }: { params: { username: string 
                     blurDataURL={await getBase64(profile?.profile_photo)}
                   />
                 ) : (
-                  <div className="flex h-[13rem] w-[13rem] flex-row items-center justify-center rounded-full bg-neutral-300 dark:bg-black object-cover">
+                  <div className="flex h-[13rem] w-[13rem] flex-row items-center justify-center rounded-full bg-neutral-300 object-cover dark:bg-slate-700">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -164,7 +164,9 @@ export default async function UserPage({ params }: { params: { username: string 
                 {profile?.short_bio && (
                   <p
                     className={clsx(
-                      profile.cover_photo ? "text-neutral-200" : "text-neutral-800 dark:text-neutral-300",
+                      profile.cover_photo
+                        ? "text-neutral-200"
+                        : "text-neutral-800 dark:text-neutral-300",
                       "text-center text-base font-medium md:text-lg",
                     )}
                   >

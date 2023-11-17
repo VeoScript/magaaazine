@@ -12,7 +12,7 @@ import { useUploadThing } from "~/utils/uploadthing";
 
 import { sendFilesStore } from "~/lib/stores/uploads/files";
 import { sendImagesStore } from "~/lib/stores/uploads/images";
-import { uploadImage } from "~/lib/functions/uploadImage";
+import { uploadImageImgbb } from "~/lib/functions/uploadImage";
 
 import { trpc } from "~/app/_trpc/client";
 
@@ -142,16 +142,16 @@ export default function ChatBox({
   const uploadImages = async () => {
     setIsPendingImage(true);
     for (const image of imagesUploaded) {
-      uploadImage({
+      uploadImageImgbb({
         imageFile: image,
         async onSuccessFn(result) {
           await uploadFilesImagesMutation.mutateAsync(
             {
               is_anonymous: isAnonymous,
-              name: result.data.name,
+              name: result.data.image.filename,
               type: "IMAGE",
-              url: result.data.link,
-              delete_url: result.data.deletehash,
+              url: result.data.url,
+              delete_url: result.data.delete_url,
               sender_id: senderId,
               receiver_id: receiverId,
             },

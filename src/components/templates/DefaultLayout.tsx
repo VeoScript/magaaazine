@@ -10,7 +10,7 @@ interface DefaultLayoutProps {
 
 export default function DefaultLayout({ children }: DefaultLayoutProps) {
   return (
-    <main className="relative flex h-full min-h-screen w-full flex-col items-center">
+    <main className="text-default-black dark:bg-default-black relative flex h-full min-h-screen w-full flex-col items-center bg-white dark:bg-default-black dark:text-white">
       <Header />
       <section className="h-full w-full flex-grow">{children}</section>
       <Footer />

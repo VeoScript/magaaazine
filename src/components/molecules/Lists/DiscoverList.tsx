@@ -51,7 +51,7 @@ export default function DiscoverList() {
   return (
     <div className="flex h-full w-full flex-col items-center overflow-y-auto">
       <div className="flex h-full w-full max-w-xl flex-col items-center rounded-xl">
-        <div className="sticky top-0 z-10 flex w-full flex-row items-start justify-between bg-white">
+        <div className="sticky top-0 z-10 flex w-full flex-row items-start justify-between">
           <div className="flex w-full flex-col items-start justify-center gap-y-5 p-3">
             <div className="flex w-full flex-row items-center justify-center">
               <label htmlFor="search_people" className="ml-3 text-center text-xl font-bold">
@@ -88,7 +88,7 @@ export default function DiscoverList() {
         <div className="flex w-full flex-col items-start gap-y-1 px-3 pb-3">
           {isLoadingUsers ? (
             <div className="my-3 flex w-full flex-col items-center">
-              <ActivityIndicator color="#333" className="h-8 w-8 text-black" />
+              <ActivityIndicator color="#657487" className="h-8 w-8 text-black" />
             </div>
           ) : (
             <>
@@ -104,7 +104,7 @@ export default function DiscoverList() {
                       <Link
                         key={user.id}
                         href={`/${user.username}`}
-                        className="relative flex w-full flex-row items-center gap-x-3 overflow-hidden rounded-xl border bg-white bg-opacity-80 bg-center bg-no-repeat px-3 py-2 backdrop-blur-sm transition duration-100 hover:opacity-80"
+                        className="dark:bg-default-black relative flex w-full flex-row items-center gap-x-3 overflow-hidden rounded-xl border bg-white bg-opacity-80 bg-center bg-no-repeat px-3 py-2 backdrop-blur-sm transition duration-100 hover:opacity-80 dark:border dark:border-slate-700"
                       >
                         {user.cover_photo && (
                           <>
@@ -139,7 +139,7 @@ export default function DiscoverList() {
                             />
                           </div>
                         ) : (
-                          <div className="z-10 flex h-[6rem] w-[6rem] flex-row items-center justify-center rounded-full bg-neutral-300 object-cover">
+                          <div className="z-10 flex h-[6rem] w-[6rem] flex-row items-center justify-center rounded-full bg-neutral-300 object-cover dark:bg-black">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="24"
@@ -161,7 +161,7 @@ export default function DiscoverList() {
                           <span className="flex flex-row items-center justify-start gap-x-1">
                             <h1
                               className={clsx(
-                                user.cover_photo ? "text-white" : "text-black",
+                                user.cover_photo ? "text-white" : "text-black dark:text-white",
                                 "text-sm font-bold",
                               )}
                             >
@@ -171,7 +171,9 @@ export default function DiscoverList() {
                           </span>
                           <h2
                             className={clsx(
-                              user.cover_photo ? "text-neutral-300" : "text-black",
+                              user.cover_photo
+                                ? "text-neutral-300"
+                                : "text-black dark:text-neutral-300",
                               "text-xs",
                             )}
                           >
@@ -189,7 +191,7 @@ export default function DiscoverList() {
                 disabled={!hasNextPage || isFetchingNextPage}
               >
                 {isFetchingNextPage ? (
-                  <ActivityIndicator color="#333" className="h-8 w-8" />
+                  <ActivityIndicator color="#657487" className="h-8 w-8" />
                 ) : hasNextPage ? (
                   ""
                 ) : (

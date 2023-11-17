@@ -257,7 +257,7 @@ export default function SettingsForm() {
   return (
     <div className="flex h-full w-full flex-col items-center overflow-y-auto py-5 md:py-0">
       <div className="flex h-full w-full max-w-2xl flex-col items-center gap-y-10 rounded-xl">
-        <div className="flex w-full flex-row items-start justify-between bg-white">
+        <div className="flex w-full flex-row items-start justify-between bg-white dark:bg-default-black">
           <div className="flex w-full flex-row items-center justify-center">
             <h1 className="ml-3 text-center text-xl font-bold">Settings</h1>
           </div>
@@ -288,7 +288,7 @@ export default function SettingsForm() {
               >
                 <span
                   className={clsx(
-                    displayName ? "translate-x-6 bg-white" : "translate-x-1 bg-green-500",
+                    displayName ? "translate-x-6 bg-white dark:bg-default-black" : "translate-x-1 bg-green-500",
                     "inline-block h-4 w-4 transform rounded-full transition",
                   )}
                 />
@@ -314,7 +314,7 @@ export default function SettingsForm() {
               >
                 <span
                   className={clsx(
-                    receiveFilesAnonymous ? "translate-x-6 bg-white" : "translate-x-1 bg-green-500",
+                    receiveFilesAnonymous ? "translate-x-6 bg-white dark:bg-default-black" : "translate-x-1 bg-green-500",
                     "inline-block h-4 w-4 transform rounded-full transition",
                   )}
                 />
@@ -341,7 +341,7 @@ export default function SettingsForm() {
                 <span
                   className={clsx(
                     receiveImagesAnonymous
-                      ? "translate-x-6 bg-white"
+                      ? "translate-x-6 bg-white dark:bg-default-black"
                       : "translate-x-1 bg-green-500",
                     "inline-block h-4 w-4 transform rounded-full transition",
                   )}

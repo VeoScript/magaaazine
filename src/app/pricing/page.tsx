@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import clsx from "clsx";
 import Image from "next/image";
@@ -7,10 +7,10 @@ export default function Pricing() {
   return (
     <div className="flex w-full flex-col items-center">
       <div className="flex w-full max-w-[1210px] flex-col items-center justify-center gap-x-10 gap-y-2 p-5 md:flex-row md:items-start md:gap-y-0 md:p-0">
-        <div className="flex h-full w-full max-w-md flex-col items-center rounded-lg border p-5">
+        <div className="flex h-full w-full max-w-md flex-col items-center rounded-lg border border-neutral-300 p-5 dark:border dark:border-slate-700">
           <div className="flex w-full flex-col items-center">
             <Image
-              className="h-[10rem] w-[10rem] rounded-full object-scale-down"
+              className="h-[10rem] w-[10rem] rounded-full bg-white object-scale-down"
               src="/magaaazine.png"
               alt="magaaazine"
               priority
@@ -22,7 +22,7 @@ export default function Pricing() {
             />
           </div>
           <div className="flex w-full flex-col items-center gap-y-3">
-            <h1 className="font-poppins text-[3rem] font-bold text-neutral-800">
+            <h1 className="font-poppins text-[3rem] font-bold text-neutral-800 dark:text-blue-500">
               <span className="text-xl font-normal">₱</span> 0
               <span className="text-xl font-normal">/month</span>
             </h1>
@@ -48,10 +48,10 @@ export default function Pricing() {
             </ul>
           </div>
         </div>
-        <div className="flex h-full w-full max-w-md flex-col items-center gap-y-5 rounded-lg border p-5">
+        <div className="flex h-full w-full max-w-md flex-col items-center gap-y-5 rounded-lg border border-neutral-300 p-5 dark:border dark:border-slate-700">
           <div className="flex w-full flex-col items-center">
             <Image
-              className="h-[10rem] w-[10rem] rounded-full object-scale-down"
+              className="h-[10rem] w-[10rem] rounded-full bg-white object-scale-down"
               src="/magaaazine_pro.png"
               alt="magaaazine_pro"
               priority
@@ -63,7 +63,7 @@ export default function Pricing() {
             />
           </div>
           <div className="flex w-full flex-col items-center gap-y-3">
-            <h1 className="font-poppins text-[3rem] font-bold text-neutral-800">
+            <h1 className="font-poppins text-[3rem] font-bold text-neutral-800 dark:text-blue-500">
               <span className="text-xl font-normal">₱</span> 250
               <span className="text-xl font-normal">/month</span>
             </h1>

@@ -128,7 +128,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
     <>
       <div className="flex h-full w-full flex-col items-center overflow-y-auto">
         <div className="flex h-full w-full max-w-xl flex-col items-center rounded-xl">
-          <div className="sticky top-0 z-10 flex w-full flex-row items-start justify-between bg-white">
+          <div className="dark:bg-default-black sticky top-0 z-10 flex w-full flex-row items-start justify-between bg-white">
             <div className="flex w-full flex-col items-start justify-center gap-y-5 p-3">
               <div className="flex w-full flex-col items-center justify-between md:flex-row">
                 <h1 className="ml-0 py-3 text-center text-xl font-bold md:ml-3">Messages</h1>
@@ -183,7 +183,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
           <div className="flex w-full flex-col items-start gap-y-1 px-3 pb-3">
             {isLoadingMessages || isPendingDeleteAll ? (
               <div className="my-3 flex w-full flex-col items-center">
-                <ActivityIndicator color="#333" className="h-8 w-8 text-black" />
+                <ActivityIndicator color="#657487" className="h-8 w-8 text-black dark:text-white" />
               </div>
             ) : (
               <>
@@ -199,8 +199,9 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                         <div
                           key={message.id}
                           className={clsx(
-                            !message.is_read && "bg-neutral-200 hover:bg-opacity-80",
-                            "flex w-full cursor-default flex-row items-start gap-x-2 rounded-xl border p-3 transition duration-100 hover:bg-opacity-50",
+                            !message.is_read &&
+                              "bg-neutral-200 hover:bg-opacity-80 dark:bg-slate-800",
+                            "flex w-full cursor-default flex-row items-start gap-x-2 rounded-xl border p-3 transition duration-100 hover:bg-opacity-50 dark:border dark:border-slate-700",
                           )}
                         >
                           {message.sender ? (
@@ -232,7 +233,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                               </svg>
                             </div>
                           )}
-                          <div className="flex flex-1 flex-col items-start gap-y-1">
+                          <div className="flex flex-1 flex-col items-start gap-y-3">
                             <div className="flex w-full flex-row items-center justify-between">
                               <div className="flex flex-col items-start justify-start gap-x-0 gap-y-1 md:flex-row md:items-center md:gap-x-3 md:gap-y-0">
                                 <Link
@@ -290,7 +291,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                                     viewBox="0 0 24 24"
                                     strokeWidth={1.5}
                                     stroke="currentColor"
-                                    className="h-4 w-4 text-black hover:text-opacity-50"
+                                    className="h-4 w-4 text-black hover:text-opacity-50 dark:text-white"
                                   >
                                     <path
                                       strokeLinecap="round"
@@ -301,8 +302,10 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                                 )}
                               </button>
                             </div>
-                            <h2 className="text-base text-neutral-800">{message.content}</h2>
-                            <p className="text-xs text-neutral-500">
+                            <h2 className="text-base text-neutral-800 dark:text-neutral-300">
+                              {message.content}
+                            </h2>
+                            <p className="text-xs text-neutral-500 dark:text-slate-500">
                               {moment(message.created_at).format("LLLL")}
                             </p>
                           </div>
@@ -317,7 +320,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                   disabled={!hasNextPage || isFetchingNextPage}
                 >
                   {isFetchingNextPage ? (
-                    <ActivityIndicator color="#333" className="h-8 w-8" />
+                    <ActivityIndicator color="#657487" className="h-8 w-8" />
                   ) : hasNextPage ? (
                     ""
                   ) : (

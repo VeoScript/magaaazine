@@ -106,11 +106,19 @@ const pricingFree = [
   },
   {
     feature: "Auto delete received files after 1 day.",
+    status: true,
+  },
+  {
+    feature: "Verified account. (as of now)",
     status: false,
   },
 ];
 
 const pricingPro = [
+  {
+    feature: "Verified account.",
+    status: true,
+  },
   {
     feature: "Send messages to all users.",
     status: true,

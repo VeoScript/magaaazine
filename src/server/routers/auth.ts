@@ -35,6 +35,7 @@ export const authRouter = router({
         linkedin_link: true,
         github_link: true,
         website_link: true,
+        is_verified: true,
         is_display_name: true,
         is_receive_files_anonymous: true,
         is_receive_images_anonymous: true,

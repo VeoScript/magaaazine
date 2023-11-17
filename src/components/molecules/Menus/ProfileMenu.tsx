@@ -4,6 +4,7 @@ import { useState, Fragment } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import Verified from "~/components/atoms/Verified";
 import * as Headless from "@headlessui/react";
 
 import { trpc } from "~/app/_trpc/client";
@@ -105,8 +106,11 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
             />
             <div className="absolute bottom-0 -mb-10 flex h-full w-full bg-gradient-to-t from-black from-15% to-transparent"></div>
             <div className="absolute inset-0 flex w-full flex-col flex-wrap items-center justify-center overflow-hidden p-3 text-center text-white">
-              <span className="text-base font-bold">{user?.name}</span>
-              <span className="text-sm font-medium">@{user?.username}</span>
+              <div className="flex w-full flex-row items-center justify-center gap-x-1">
+                <h3 className="text-base font-bold">{user?.name}</h3>
+                {user?.is_verified && <Verified />}
+              </div>
+              <h6 className="text-sm font-medium">@{user?.username}</h6>
             </div>
           </Link>
         </Headless.Menu.Item>

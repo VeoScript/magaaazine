@@ -3,7 +3,7 @@
 export default function Verified(): JSX.Element {
   return (
     <div className="relative flex h-4 w-4 flex-row items-center justify-center">
-      <span className="absolute h-3 w-3 rounded-full bg-white" />
+      <span className="absolute h-3 w-3 rounded-full bg-white dark:bg-default-black" />
       <svg
         fill="currentColor"
         className="absolute h-full w-full text-blue-500"

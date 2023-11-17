@@ -30,7 +30,7 @@ export default function AlertModal({
         className="absolute h-full w-full flex-1 cursor-default bg-transparent outline-none"
         onClick={() => setIsOpen(false)}
       />
-      <div className="font-poppins z-[60] flex h-auto w-full max-w-sm flex-col items-center justify-center overflow-hidden rounded-lg bg-white bg-opacity-20 text-white backdrop-blur-sm">
+      <div className="font-poppins z-[60] flex h-auto w-full max-w-sm flex-col items-center justify-center overflow-hidden rounded-lg bg-white dark:bg-default-black bg-opacity-20 text-white backdrop-blur-sm">
         <div className="flex w-full flex-col items-start justify-center p-3">
           {title && (
             <div className="flex w-full flex-row items-center p-3">

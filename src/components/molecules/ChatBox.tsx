@@ -282,14 +282,14 @@ export default function ChatBox({
   return (
     <div
       className={clsx(
-        !hasCoverPhoto && "border border-neutral-300",
+        !hasCoverPhoto && "border border-neutral-300 dark:border-slate-700",
         "flex w-full flex-col items-center overflow-hidden rounded-xl",
       )}
     >
       <div
         className={clsx(
-          !hasCoverPhoto && "border-b border-neutral-300",
-          "flex w-full flex-row items-center justify-between bg-white bg-opacity-20 p-3 backdrop-blur-sm",
+          !hasCoverPhoto && "border-b border-neutral-300 dark:border-slate-700",
+          "dark:bg-default-black flex w-full flex-row items-center justify-between bg-white bg-opacity-20 p-3 backdrop-blur-sm dark:bg-opacity-50 dark:backdrop-blur-sm",
         )}
       >
         <div className="flex flex-row items-start gap-x-2">
@@ -318,7 +318,9 @@ export default function ChatBox({
             >
               <span
                 className={clsx(
-                  isAnonymous ? "translate-x-6 bg-white" : "translate-x-1 bg-green-500",
+                  isAnonymous
+                    ? "dark:bg-default-black translate-x-6 bg-white"
+                    : "translate-x-1 bg-green-500",
                   "inline-block h-4 w-4 transform rounded-full transition",
                 )}
               />
@@ -329,7 +331,7 @@ export default function ChatBox({
       <textarea
         disabled={isPendingMessage}
         autoComplete="off"
-        className="h-full w-full resize-none bg-white p-3 text-black outline-none"
+        className="dark:bg-default-black h-full w-full resize-none bg-white p-3 text-black outline-none dark:text-white"
         rows={5}
         cols={40}
         spellCheck={false}
@@ -340,8 +342,8 @@ export default function ChatBox({
       />
       <div
         className={clsx(
-          !hasCoverPhoto && "border-t border-neutral-300",
-          "flex w-full flex-col gap-y-3 bg-white bg-opacity-20 p-3 backdrop-blur-sm",
+          !hasCoverPhoto && "border-t border-neutral-300 dark:border-slate-700",
+          "dark:bg-default-black flex w-full flex-col gap-y-3 bg-white bg-opacity-20 p-3 backdrop-blur-sm dark:bg-opacity-50 dark:backdrop-blur-sm",
         )}
       >
         <div className="flex w-full flex-row items-center justify-between gap-x-1">

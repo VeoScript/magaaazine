@@ -94,7 +94,7 @@ export default async function UserPage({ params }: { params: { username: string 
           <CoverUpload profileId={profile.id} />
           <div
             className={clsx(
-              profile?.cover_photo ? "text-white" : "text-black",
+              profile?.cover_photo ? "text-white" : "text-black dark:text-white",
               "z-10 mt-10 flex w-full flex-col items-center overflow-hidden p-5",
             )}
           >
@@ -113,7 +113,7 @@ export default async function UserPage({ params }: { params: { username: string 
                     blurDataURL={await getBase64(profile?.profile_photo)}
                   />
                 ) : (
-                  <div className="flex h-[13rem] w-[13rem] flex-row items-center justify-center rounded-full bg-neutral-300 object-cover">
+                  <div className="flex h-[13rem] w-[13rem] flex-row items-center justify-center rounded-full bg-neutral-300 dark:bg-black object-cover">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -164,7 +164,7 @@ export default async function UserPage({ params }: { params: { username: string 
                 {profile?.short_bio && (
                   <p
                     className={clsx(
-                      profile.cover_photo ? "text-neutral-200" : "text-neutral-800",
+                      profile.cover_photo ? "text-neutral-200" : "text-neutral-800 dark:text-neutral-300",
                       "text-center text-base font-medium md:text-lg",
                     )}
                   >

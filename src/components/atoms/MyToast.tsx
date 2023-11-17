@@ -25,7 +25,7 @@ export function myToast({
         return toast.success(message, {
           style: {
             borderRadius: "10px",
-            background: "#333",
+            background: "#121518",
             color: "#fff",
             fontSize: "13px",
           },
@@ -36,7 +36,7 @@ export function myToast({
         return toast.error(message, {
           style: {
             borderRadius: "10px",
-            background: "#333",
+            background: "#121518",
             color: "#fff",
             fontSize: "13px",
           },
@@ -54,7 +54,7 @@ export function myToast({
           {
             style: {
               borderRadius: "10px",
-              background: "#333",
+              background: "#121518",
               color: "#fff",
               fontSize: "13px",
             },
@@ -66,7 +66,7 @@ export function myToast({
         return toast(message, {
           style: {
             borderRadius: "10px",
-            background: "#333",
+            background: "#121518",
             color: "#fff",
             fontSize: "13px",
           },

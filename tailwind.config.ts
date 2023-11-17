@@ -9,6 +9,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        "default-black": "#20252B",
+      },
       fontFamily: {
         poppins: ["var(--font-poppins)", ...fontFamily.sans],
         raleway: ["var(--font-raleway)", ...fontFamily.sans],

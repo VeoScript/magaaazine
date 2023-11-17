@@ -122,7 +122,7 @@ export default function ResetPasswordForm({ token }: ResetPasswordProps) {
         >
           {isPending ? "Loading..." : "Reset"}
         </button>
-        <Link href="/forgot-password" className="text-sm hover:underline">
+        <Link href="/" className="text-sm hover:underline">
           Back to Home page
         </Link>
       </div>

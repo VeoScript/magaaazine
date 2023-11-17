@@ -27,12 +27,12 @@ export default function ProfileMainHolder({ profile }: ProfileMainHolderProps) {
       {isLoadingUser ? (
         <div
           className={clsx(
-            profile?.cover_photo ? "bg-white" : "bg-black",
-            "flex w-full flex-col items-center justify-center gap-y-3 rounded-xl bg-opacity-10 p-10 backdrop-blur-lg",
+            profile?.cover_photo ? "dark:bg-default-black bg-white" : "bg-black",
+            "flex w-full flex-col items-center justify-center gap-y-3 rounded-xl bg-opacity-10 p-10 backdrop-blur-lg dark:bg-opacity-50 dark:backdrop-blur-lg",
           )}
         >
           <ActivityIndicator
-            color={profile?.cover_photo ? "#FFF" : "#333"}
+            color={profile?.cover_photo ? "#FFF" : "#657487"}
             className="h-10 w-10 text-white"
           />
           <p className="text-sm">Loading...</p>
@@ -44,7 +44,7 @@ export default function ProfileMainHolder({ profile }: ProfileMainHolderProps) {
               <div
                 className={clsx(
                   profile?.cover_photo ? "border-none" : "border",
-                  "flex w-full max-w-full flex-row items-center justify-between gap-x-3 overflow-hidden rounded-lg bg-white bg-opacity-10 px-5 py-3 text-white backdrop-blur-lg md:max-w-sm",
+                  "dark:bg-default-black flex w-full max-w-full flex-row items-center justify-between gap-x-3 overflow-hidden rounded-lg bg-white bg-opacity-10 px-5 py-3 text-white backdrop-blur-lg dark:bg-opacity-10 dark:backdrop-blur-lg md:max-w-sm",
                 )}
               >
                 <input

@@ -87,7 +87,7 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
           <div className="absolute right-0 top-0 h-3 w-3 rounded-full bg-red-500" />
         )}
       </Headless.Menu.Button>
-      <Headless.Menu.Items className="divide-accent-3 absolute right-0 z-30 mt-5 flex w-56 origin-top-right flex-col divide-y overflow-hidden rounded-lg bg-white shadow-xl outline-none">
+      <Headless.Menu.Items className="divide-accent-3 absolute right-0 z-30 mt-5 flex w-56 origin-top-right flex-col divide-y divide-neutral-300 dark:divide-slate-700 overflow-hidden rounded-lg bg-white dark:bg-default-black shadow-xl outline-none">
         <Headless.Menu.Item as={Fragment}>
           <Link
             href={`/${user?.username}`}

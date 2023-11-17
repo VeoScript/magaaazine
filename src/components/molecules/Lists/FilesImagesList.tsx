@@ -157,7 +157,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
     <>
       <div className="flex h-full w-full flex-col items-center overflow-y-auto">
         <div className="flex h-full w-full max-w-xl flex-col items-center rounded-xl">
-          <div className="sticky top-0 z-10 flex w-full flex-row items-start justify-between bg-white">
+          <div className="dark:bg-default-black sticky top-0 z-10 flex w-full flex-row items-start justify-between bg-white">
             <div className="flex w-full flex-col items-start justify-center gap-y-5 p-3">
               <div className="flex w-full flex-col items-center justify-between md:flex-row">
                 <h1 className="ml-0 py-3 text-center text-xl font-bold md:ml-3">Files & Images</h1>
@@ -212,7 +212,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
           <div className="flex w-full flex-col items-start gap-y-1 px-3 pb-3">
             {isLoadingFilesImages || isLoadingAllFiles || isPendingDeleteAll ? (
               <div className="my-3 flex w-full flex-col items-center">
-                <ActivityIndicator color="#333" className="h-8 w-8 text-black" />
+                <ActivityIndicator color="#657487" className="h-8 w-8 text-black dark:text-white" />
               </div>
             ) : (
               <>
@@ -228,8 +228,9 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                         <div
                           key={filesImage.id}
                           className={clsx(
-                            !filesImage.is_read && "bg-neutral-200 hover:bg-opacity-80",
-                            "flex w-full cursor-default flex-row items-start gap-x-2 overflow-hidden rounded-xl border p-3 transition duration-100 hover:bg-opacity-50",
+                            !filesImage.is_read &&
+                              "bg-neutral-200 hover:bg-opacity-80 dark:bg-slate-800",
+                            "flex w-full cursor-default flex-row items-start gap-x-2 overflow-hidden rounded-xl border p-3 transition duration-100 hover:bg-opacity-50 dark:border dark:border-slate-700",
                           )}
                         >
                           <div className="flex flex-row items-center gap-x-2">
@@ -271,12 +272,12 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                               ) : (
                                 <Link
                                   href={`/${filesImage.sender?.username}`}
-                                  className="text-sm text-black hover:underline"
+                                  className="text-sm text-black hover:underline dark:text-white"
                                 >
                                   @{filesImage.sender?.username}
                                 </Link>
                               )}
-                              <p className="text-xs text-neutral-500">
+                              <p className="text-xs text-neutral-500 dark:text-slate-500">
                                 {moment(filesImage.created_at).format("LLLL")}
                               </p>
                             </div>
@@ -334,7 +335,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                                   viewBox="0 0 24 24"
                                   strokeWidth={1.5}
                                   stroke="currentColor"
-                                  className="h-5 w-5 text-black hover:text-opacity-50"
+                                  className="h-5 w-5 text-black hover:text-opacity-50 dark:text-white"
                                 >
                                   <path
                                     strokeLinecap="round"
@@ -356,7 +357,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                   disabled={!hasNextPage || isFetchingNextPage}
                 >
                   {isFetchingNextPage ? (
-                    <ActivityIndicator color="#333" className="h-8 w-8" />
+                    <ActivityIndicator color="#657487" className="h-8 w-8" />
                   ) : hasNextPage ? (
                     ""
                   ) : (

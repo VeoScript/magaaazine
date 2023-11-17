@@ -12,7 +12,7 @@ export default async function Header() {
   const profileBlurUrl = user ? await getBase64(user?.profile_photo as string) : "";
 
   return (
-    <nav className="sticky top-0 z-30 flex w-full flex-col items-center rounded-b-xl bg-white bg-opacity-50 backdrop-blur-sm">
+    <nav className="dark:bg-default-black sticky top-0 z-30 flex w-full flex-col items-center bg-white bg-opacity-50 backdrop-blur-sm dark:bg-opacity-50 dark:backdrop-blur-sm">
       <nav
         className={clsx(
           user

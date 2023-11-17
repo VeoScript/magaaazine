@@ -138,7 +138,7 @@ export default async function UserPage({ params }: { params: { username: string 
                     {profile.is_display_name ? profile.name : `@${profile.username}`}
                   </h1>
                   {profile.is_display_name && (
-                    <h2 className="text-base font-light">@{profile?.username}</h2>
+                    <h2 className="text-base font-medium">@{profile?.username}</h2>
                   )}
                 </div>
                 {(profile.facebook_link ||
@@ -161,7 +161,7 @@ export default async function UserPage({ params }: { params: { username: string 
                   <p
                     className={clsx(
                       profile.cover_photo ? "text-neutral-200" : "text-neutral-800",
-                      "text-center text-lg",
+                      "font-medium text-center text-lg",
                     )}
                   >
                     {profile?.short_bio}

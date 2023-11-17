@@ -50,7 +50,7 @@ export default function ProfileMainHolder({ profile }: ProfileMainHolderProps) {
                 <input
                   disabled
                   className={clsx(
-                    profile?.cover_photo ? "text-white" : "text-black",
+                    profile?.cover_photo ? "text-white" : "text-black dark:text-white",
                     "w-full border-none bg-transparent text-xs outline-none md:text-sm",
                   )}
                   type="text"

@@ -185,7 +185,7 @@ function PreviewProfileImage({ imageUrl, isOpen, setIsOpen }: PreviewProfileImag
     <Dialog open={isOpen} onClose={() => !isPending && setIsOpen(false)} className="relative z-50">
       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" aria-hidden="true" />
       <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-        <Dialog.Panel className="mx-auto flex h-auto w-full max-w-sm flex-col gap-y-5 rounded-lg bg-white dark:bg-default-black p-5">
+        <Dialog.Panel className="mx-auto flex h-auto w-full max-w-sm flex-col gap-y-5 rounded-lg bg-white p-5 text-black dark:bg-default-black dark:text-white">
           <div className="flex w-full flex-row items-center justify-between">
             <p>Change Profile</p>
             {!isPending && (

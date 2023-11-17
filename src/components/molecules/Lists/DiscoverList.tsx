@@ -139,7 +139,7 @@ export default function DiscoverList() {
                             />
                           </div>
                         ) : (
-                          <div className="z-10 flex h-[6rem] w-[6rem] flex-row items-center justify-center rounded-full bg-neutral-300 object-cover dark:bg-black">
+                          <div className="z-10 flex h-[6rem] w-[6rem] flex-row items-center justify-center rounded-full bg-neutral-300 object-cover dark:bg-slate-700">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="24"

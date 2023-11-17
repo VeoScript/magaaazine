@@ -184,7 +184,7 @@ function PreviewCoverImage({ imageUrl, isOpen, setIsOpen }: PreviewCoverImagePro
     <Dialog open={isOpen} onClose={() => !isPending && setIsOpen(false)} className="relative z-50">
       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" aria-hidden="true" />
       <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-        <Dialog.Panel className="mx-auto flex h-auto w-full max-w-3xl flex-col gap-y-5 overflow-y-auto rounded-lg bg-white dark:bg-default-black p-5">
+        <Dialog.Panel className="mx-auto flex h-auto w-full max-w-3xl flex-col gap-y-5 overflow-y-auto rounded-lg bg-white p-5 text-black dark:bg-default-black dark:text-white">
           <div className="flex w-full flex-row items-center justify-between">
             <p>Change Cover</p>
             {!isPending && (

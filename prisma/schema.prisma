@@ -27,6 +27,7 @@ model User {
   github_link                 String?
   tiktok_link                 String?
   website_link                String?
+  is_verified                 Boolean?      @default(true)
   is_display_name             Boolean       @default(false)
   is_receive_files_anonymous  Boolean       @default(false)
   is_receive_images_anonymous Boolean       @default(false)

@@ -86,11 +86,14 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
           <div className="absolute right-0 top-0 h-3 w-3 rounded-full bg-red-500" />
         )}
       </Headless.Menu.Button>
-      <Headless.Menu.Items className="divide-accent-3 absolute right-0 z-30 mt-2 flex w-56 origin-top-right flex-col divide-y overflow-hidden rounded-lg bg-white shadow-xl outline-none">
+      <Headless.Menu.Items className="divide-accent-3 absolute right-0 z-30 mt-5 flex w-56 origin-top-right flex-col divide-y overflow-hidden rounded-lg bg-white shadow-xl outline-none">
         <Headless.Menu.Item as={Fragment}>
-          <Link href={`/${user?.username}`} className="relative w-full overflow-hidden hover:opacity-80">
+          <Link
+            href={`/${user?.username}`}
+            className="relative w-full overflow-hidden hover:opacity-80"
+          >
             <Image
-              className="aspect-square h-[10rem] w-full bg-cover object-cover opacity-50"
+              className="aspect-square h-[10rem] w-full bg-center object-cover opacity-80"
               src={imageSrc}
               alt="sea"
               priority
@@ -100,7 +103,7 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
               placeholder="blur"
               blurDataURL={imageBlurUrl}
             />
-            <div className="absolute bottom-0 -mb-3 flex h-full w-full bg-gradient-to-t from-black to-transparent"></div>
+            <div className="absolute bottom-0 -mb-10 flex h-full w-full bg-gradient-to-t from-black from-15% to-transparent"></div>
             <div className="absolute inset-0 flex w-full flex-col flex-wrap items-center justify-center overflow-hidden p-3 text-center text-white">
               <span className="text-base font-bold">{user?.name}</span>
               <span className="text-sm font-medium">@{user?.username}</span>

@@ -9,13 +9,8 @@ import Verified from "~/components/atoms/Verified";
 import ActivityIndicator from "~/components/atoms/ActivityIndicator";
 
 import { trpc } from "~/app/_trpc/client";
-import { serverClient } from "~/app/_trpc/serverClient";
 
-interface DiscoverListProps {
-  initialData: Awaited<ReturnType<(typeof serverClient)["users"]>>;
-}
-
-export default function DiscoverList({ initialData }: DiscoverListProps) {
+export default function DiscoverList() {
   const { ref, inView } = useInView();
 
   const [search, setSearch] = useState<string>("");
@@ -32,17 +27,17 @@ export default function DiscoverList({ initialData }: DiscoverListProps) {
       search,
     },
     {
-      initialData: () => {
-        const data = initialData;
-        if (data) {
-          return {
-            pageParams: [undefined],
-            pages: [data],
-          };
-        }
-      },
-      refetchOnMount: false,
-      refetchOnReconnect: false,
+      // initialData: () => {
+      //   const data = initialData;
+      //   if (data) {
+      //     return {
+      //       pageParams: [undefined],
+      //       pages: [data],
+      //     };
+      //   }
+      // },
+      // refetchOnMount: false,
+      // refetchOnReconnect: false,
       getNextPageParam: (lastPage) => lastPage.nextCursor,
     },
   );

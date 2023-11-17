@@ -105,8 +105,8 @@ export default function ProfileMenu({ user, imageSrc, imageBlurUrl }: ProfileMen
               blurDataURL={imageBlurUrl}
             />
             <div className="absolute bottom-0 -mb-10 flex h-full w-full bg-gradient-to-t from-black from-15% to-transparent"></div>
-            <div className="absolute inset-0 flex w-full flex-col flex-wrap items-center justify-center overflow-hidden p-3 text-center text-white">
-              <div className="flex w-full flex-row items-center justify-center gap-x-1">
+            <div className="absolute inset-0 flex w-full flex-col items-center justify-center overflow-hidden p-3 text-center text-white">
+              <div className="flex w-full flex-row flex-wrap items-center justify-center gap-x-1">
                 <h3 className="text-base font-bold">{user?.name}</h3>
                 {user?.is_verified && <Verified />}
               </div>

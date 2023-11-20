@@ -20,7 +20,7 @@ const CookieConsent = (): JSX.Element => {
     setCookie("magaazine-cookie-consent", "true", {});
   };
 
-  if (showConsent || pathname === "/privacy-policy" || pathname === "/pricing") {
+  if (showConsent || pathname === "/terms-and-conditions" || pathname === "/pricing") {
     return <></>;
   }
 
@@ -30,13 +30,13 @@ const CookieConsent = (): JSX.Element => {
         <span className="w-full text-center text-base text-default-black dark:text-white md:text-left">
           This website uses cookies to improve user experience. By using our website you consent to
           all cookies in accordance with our{" "}
-          <Link href="/privacy-policy" className="font-medium hover:underline">
+          <Link href="/terms-and-conditions/#cookies" className="font-medium hover:underline">
             Cookie Policy
           </Link>
           .
         </span>
         <button
-          className="rounded bg-green-500 px-8 py-2 text-white transition duration-200 ease-in-out hover:opacity-50"
+          className="rounded bg-green-700 px-8 py-2 text-white transition duration-200 ease-in-out hover:opacity-50"
           onClick={acceptCookie}
         >
           Accept

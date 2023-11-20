@@ -4,6 +4,18 @@
   <p align="center">EMPOWER YOUR ONLINE PRESENCE WITH MAGAAAZINE.</p>
 </p>
 
+<p align="center">
+  <a href="https://github.com/veoscript/magaaazine/blob/master/LICENSE">
+    <img alt="GitHub" src="https://img.shields.io/github/license/veoscript/magaaazine.svg?color=blue">
+  </a>
+  <a href="https://github.com/veoscript/magaaazine/releases">
+    <img alt="GitHub release" src="https://img.shields.io/github/release/veoscript/magaaazine.svg">
+  </a>
+  <a href="CODE_OF_CONDUCT.md">
+    <img alt="Contributor Covenant" src="https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg">
+  </a>
+</p>
+
 ## Description
 
 Discover, connect and share. Empower your online presence with Magaaazine. With feature of sending messages, images, and files anonymously.

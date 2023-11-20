@@ -88,7 +88,7 @@ export default function DiscoverList() {
         <div className="flex w-full flex-col items-start gap-y-1 px-3 pb-3">
           {isLoadingUsers ? (
             <div className="my-3 flex w-full flex-col items-center">
-              <ActivityIndicator color="#657487" className="h-8 w-8 text-black" />
+              <ActivityIndicator className="h-8 w-8 text-black" />
             </div>
           ) : (
             <>
@@ -191,7 +191,7 @@ export default function DiscoverList() {
                 disabled={!hasNextPage || isFetchingNextPage}
               >
                 {isFetchingNextPage ? (
-                  <ActivityIndicator color="#657487" className="h-8 w-8" />
+                  <ActivityIndicator className="h-8 w-8" />
                 ) : hasNextPage ? (
                   ""
                 ) : (

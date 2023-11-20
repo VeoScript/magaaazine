@@ -3,7 +3,17 @@ interface ActivityIndicatorProps {
   color?: string;
 }
 
-export default function ActivityIndicator({ className, color }: ActivityIndicatorProps): JSX.Element {
+export default function ActivityIndicator({
+  className,
+  color,
+}: ActivityIndicatorProps): JSX.Element {
+  const getCurrentTheme = () =>
+    typeof window !== "undefined"
+      ? window.matchMedia("(prefers-color-scheme: dark)").matches
+      : () => {};
+
+  const isDarkMode = getCurrentTheme();
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -17,7 +27,7 @@ export default function ActivityIndicator({ className, color }: ActivityIndicato
         cx="50"
         cy="50"
         fill="none"
-        stroke={color ?? '#FFFFFF'}
+        stroke={color ?? isDarkMode ? "#FFF" : "#000"}
         strokeWidth="10"
         r="35"
         strokeDasharray="164.93361431346415 56.97787143782138"

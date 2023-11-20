@@ -3,7 +3,7 @@ import clsx from "clsx";
 import NextTopLoader from "nextjs-toploader";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
-import { Toaster } from "react-hot-toast";
+import { Toaster } from "sonner";
 import { Abril_Fatface, Raleway, Poppins } from "next/font/google";
 
 import Provider from "./_trpc/Provider";
@@ -83,7 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             routerConfig={extractRouterConfig(ourFileRouter)}
           />
           <CheckAuth hasCookies={hasCookies} />
-          <Toaster position="bottom-right" reverseOrder={false} />
+          <Toaster position="bottom-right" expand={true} />
           <NextTopLoader
             color="#2299DD"
             initialPosition={0.08}

@@ -4,15 +4,17 @@ export default function TermsAndConditions() {
   return (
     <div className="flex w-full flex-col items-center p-3">
       <div className="flex w-full max-w-2xl flex-col items-start gap-y-5">
-        <h1 className="font-bold text-2xl">
-          Terms and Conditions
-        </h1>
+        <h1 className="text-2xl font-bold">Terms and Conditions</h1>
 
         <p>Welcome to Magaaazine!</p>
 
         <p>
-          These terms and conditions outline the rules and regulations for the use of Magaaazine&apos;s
-          Website, located at https://www.magaaazine.online/.
+          These terms and conditions outline the rules and regulations for the use of
+          Magaaazine&apos;s Website, located at{" "}
+          <Link href="https://www.magaaazine.online/" className="text-blue-400 hover:underline">
+            https://www.magaaazine.online/
+          </Link>
+          .
         </p>
 
         <p>
@@ -23,21 +25,23 @@ export default function TermsAndConditions() {
 
         <p>
           The following terminology applies to these Terms and Conditions, Privacy Statement and
-          Disclaimer Notice and all Agreements: <q>Client</q>, <q>You</q> and <q>Your</q> refers to you, the person
-          log on this website and compliant to the Company&apos;s terms and conditions. <q>The Company</q>,
-          <q>Ourselves</q>, <q>We</q>, <q>Our</q> and <q>Us</q>, refers to our Company. <q>Party</q>, <q>Parties</q>, or <q>Us</q>,
-          refers to both the Client and ourselves. All terms refer to the offer, acceptance and
-          consideration of payment necessary to undertake the process of our assistance to the
-          Client in the most appropriate manner for the express purpose of meeting the Client&apos;s
-          needs in respect of provision of the Company&apos;s stated services, in accordance with and
-          subject to, prevailing law of ph. Any use of the above terminology or other words in the
-          singular, plural, capitalization and/or he/she or they, are taken as interchangeable and
-          therefore as referring to same.
+          Disclaimer Notice and all Agreements: <q>Client</q>, <q>You</q> and <q>Your</q> refers to
+          you, the person log on this website and compliant to the Company&apos;s terms and
+          conditions. <q>The Company</q>,<q>Ourselves</q>, <q>We</q>, <q>Our</q> and <q>Us</q>,
+          refers to our Company. <q>Party</q>, <q>Parties</q>, or <q>Us</q>, refers to both the
+          Client and ourselves. All terms refer to the offer, acceptance and consideration of
+          payment necessary to undertake the process of our assistance to the Client in the most
+          appropriate manner for the express purpose of meeting the Client&apos;s needs in respect
+          of provision of the Company&apos;s stated services, in accordance with and subject to,
+          prevailing law of ph.
         </p>
 
-        <h2 className="font-bold text-xl">
-          Cookies
-        </h2>
+        <p id="cookies">
+          Any use of the above terminology or other words in the singular, plural, capitalization
+          and/or he/she or they, are taken as interchangeable and therefore as referring to same.
+        </p>
+
+        <h2 className="text-xl font-bold">Cookies</h2>
 
         <p>
           We employ the use of cookies. By accessing Magaaazine, you agreed to use cookies in
@@ -51,9 +55,7 @@ export default function TermsAndConditions() {
           may also use cookies.
         </p>
 
-        <h2 className="font-bold text-xl">
-          License
-        </h2>
+        <h2 className="text-xl font-bold">License</h2>
 
         <p>
           Unless otherwise stated, Magaaazine and/or its licensors own the intellectual property
@@ -122,9 +124,7 @@ export default function TermsAndConditions() {
           media.
         </p>
 
-        <h2 className="font-bold text-xl">
-          Hyperlinking to our Content
-        </h2>
+        <h2 className="text-xl font-bold">Hyperlinking to our Content</h2>
 
         <p>The following organizations may link to our Website without prior written approval:</p>
 
@@ -174,8 +174,8 @@ export default function TermsAndConditions() {
         <p>
           These organizations may link to our home page so long as the link: (a) is not in any way
           deceptive; (b) does not falsely imply sponsorship, endorsement or approval of the linking
-          party and its products or services; and (c) fits within the context of the linking party&apos;s
-          site.
+          party and its products or services; and (c) fits within the context of the linking
+          party&apos;s site.
         </p>
 
         <p>
@@ -202,18 +202,14 @@ export default function TermsAndConditions() {
           trademark license agreement.
         </p>
 
-        <h2 className="font-bold text-xl">
-          iFrames
-        </h2>
+        <h2 className="text-xl font-bold">iFrames</h2>
 
         <p>
           Without prior approval and written permission, you may not create frames around our
           Webpages that alter in any way the visual presentation or appearance of our Website.
         </p>
 
-        <h2 className="font-bold text-xl">
-          Content Liability
-        </h2>
+        <h2 className="text-xl font-bold">Content Liability</h2>
 
         <p>
           We shall not be hold responsible for any content that appears on your Website. You agree
@@ -223,21 +219,17 @@ export default function TermsAndConditions() {
           any third party rights.
         </p>
 
-        <h2 className="font-bold text-xl">
-          Reservation of Rights
-        </h2>
+        <h2 className="text-xl font-bold">Reservation of Rights</h2>
 
         <p>
           We reserve the right to request that you remove all links or any particular link to our
           Website. You approve to immediately remove all links to our Website upon request. We also
-          reserve the right to amen these terms and conditions and it&apos;s linking policy at any time.
-          By continuously linking to our Website, you agree to be bound to and follow these linking
-          terms and conditions.
+          reserve the right to amen these terms and conditions and it&apos;s linking policy at any
+          time. By continuously linking to our Website, you agree to be bound to and follow these
+          linking terms and conditions.
         </p>
 
-        <h2 className="font-bold text-xl">
-          Removal of links from our website
-        </h2>
+        <h2 className="text-xl font-bold">Removal of links from our website</h2>
 
         <p>
           If you find any link on our Website that is offensive for any reason, you are free to
@@ -251,9 +243,7 @@ export default function TermsAndConditions() {
           or that the material on the website is kept up to date.
         </p>
 
-        <h2 className="font-bold text-xl">
-          Disclaimer
-        </h2>
+        <h2 className="text-xl font-bold">Disclaimer</h2>
 
         <p>
           To the maximum extent permitted by applicable law, we exclude all representations,

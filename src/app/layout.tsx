@@ -1,5 +1,6 @@
 import "./globals.css";
 import clsx from "clsx";
+import dynamic from "next/dynamic";
 import NextTopLoader from "nextjs-toploader";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
@@ -8,12 +9,13 @@ import { Abril_Fatface, Raleway, Poppins } from "next/font/google";
 
 import Provider from "./_trpc/Provider";
 import CheckAuth from "~/components/organisms/CheckAuth";
-import CookieConsent from "~/components/organisms/CookieConsent";
 
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 
 import { ourFileRouter } from "~/app/api/uploadthing/core";
+
+const CookieConsent = dynamic(() => import("~/components/organisms/CookieConsent"));
 
 const abrilFatface = Abril_Fatface({
   subsets: ["latin"],

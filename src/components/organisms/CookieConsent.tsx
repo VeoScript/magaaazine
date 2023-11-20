@@ -11,13 +11,23 @@ const CookieConsent = (): JSX.Element => {
 
   const [showConsent, setShowConsent] = useState(true);
 
+  // Calculate the time for one month in milliseconds
+  const oneMonth = 30 * 24 * 60 * 60 * 1000; // 30 days * 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
+
+  // Create a new Date object for the expiration date
+  const expirationDate = new Date();
+  expirationDate.setTime(expirationDate.getTime() + oneMonth);
+
   useEffect(() => {
     setShowConsent(hasCookie("magaazine-cookie-consent"));
   }, []);
 
   const acceptCookie = () => {
     setShowConsent(true);
-    setCookie("magaazine-cookie-consent", "true", {});
+    setCookie("magaazine-cookie-consent", "true", {
+      maxAge: oneMonth,
+      expires: expirationDate,
+    });
   };
 
   if (showConsent || pathname === "/terms-and-conditions" || pathname === "/pricing") {

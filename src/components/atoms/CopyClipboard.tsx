@@ -51,7 +51,7 @@ export default function CopyClipboard({ textToCopy }: CopyClipboardProps): JSX.E
         <>
           {isShowDone ? (
             <div className="relative flex h-6 w-6 flex-row items-center justify-center">
-              <span className="absolute h-3 w-3 rounded-full bg-white dark:bg-default-black" />
+              <span className="absolute h-3 w-3 rounded-full bg-white" />
               <svg
                 fill="currentColor"
                 viewBox="0 0 24 24"

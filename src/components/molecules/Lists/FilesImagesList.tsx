@@ -327,7 +327,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                               }}
                             >
                               {isPending && indexIndicator === index ? (
-                                <ActivityIndicator color="#000" className="h-5 w-5" />
+                                <ActivityIndicator className="h-5 w-5" />
                               ) : (
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"

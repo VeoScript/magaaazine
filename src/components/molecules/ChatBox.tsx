@@ -441,7 +441,7 @@ export default function ChatBox({
             onClick={handleSubmit}
           >
             {isPendingMessage || isPendingImage || isPendingFile ? (
-              <ActivityIndicator className="h-6 w-6" />
+              <ActivityIndicator color="#FFF" className="h-6 w-6" />
             ) : (
               <svg
                 xmlns="http://www.w3.org/2000/svg"

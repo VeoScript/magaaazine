@@ -30,24 +30,26 @@ export function myToast({
     case "success":
       if (message) {
         return toast.success(message, {
+          className: "font-poppins",
           style: {
-            borderColor: "#20252B",
+            border: "none",
             borderRadius: "10px",
             background: "#ECFDF3",
             color: "#008A2E",
-            fontSize: "13px",
+            fontSize: "12px",
           },
         });
       }
     case "error":
       if (message) {
         return toast.error(message, {
+          className: "font-poppins",
           style: {
-            borderColor: "#20252B",
+            border: "none",
             borderRadius: "10px",
             background: "#FFF0F0",
             color: "#E60000",
-            fontSize: "13px",
+            fontSize: "12px",
           },
         });
       }
@@ -101,24 +103,26 @@ export function myToast({
               </div>
             );
           },
+          className: "font-poppins",
           style: {
-            borderColor: "#20252B",
+            border: "none",
             borderRadius: "10px",
             background: `${isDarkMode ? "#121518" : "#FFFFFF"}`,
             color: `${isDarkMode ? "#FFFFFF" : "#121518"}`,
-            fontSize: "13px",
+            fontSize: "12px",
           },
         });
       }
     default:
       if (message) {
         return toast(message, {
+          className: "font-poppins",
           style: {
-            borderColor: "#20252B",
+            border: "none",
             borderRadius: "10px",
             background: `${isDarkMode ? "#121518" : "#FFFFFF"}`,
             color: `${isDarkMode ? "#FFFFFF" : "#121518"}`,
-            fontSize: "13px",
+            fontSize: "12px",
           },
         });
       }

@@ -7,7 +7,8 @@ import { Toaster } from "sonner";
 import { Abril_Fatface, Raleway, Poppins } from "next/font/google";
 
 import Provider from "./_trpc/Provider";
-import CheckAuth from "~/components/molecules/CheckAuth";
+import CheckAuth from "~/components/organisms/CheckAuth";
+import CookieConsent from "~/components/organisms/CookieConsent";
 
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
@@ -60,7 +61,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const hasCookies = cookies().has(`${process.env.COOKIE_NAME}`);
+  const hasAuthCookie = cookies().has(`${process.env.COOKIE_NAME}`);
 
   return (
     <html lang="en">
@@ -82,7 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
              */
             routerConfig={extractRouterConfig(ourFileRouter)}
           />
-          <CheckAuth hasCookies={hasCookies} />
+          <CheckAuth hasCookies={hasAuthCookie} />
           <Toaster position="bottom-right" expand={true} />
           <NextTopLoader
             color="#2299DD"
@@ -96,6 +97,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             shadow="0 0 10px #2299DD,0 0 5px #2299DD"
           />
           {children}
+          <CookieConsent />
         </body>
       </Provider>
     </html>

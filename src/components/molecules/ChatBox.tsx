@@ -12,7 +12,7 @@ import { useUploadThing } from "~/utils/uploadthing";
 
 import { sendFilesStore } from "~/lib/stores/uploads/files";
 import { sendImagesStore } from "~/lib/stores/uploads/images";
-import { uploadImageImgbb } from "~/lib/functions/uploadImage";
+import { uploadImage } from "~/lib/functions/uploadImage";
 
 import { trpc } from "~/app/_trpc/client";
 
@@ -142,16 +142,16 @@ export default function ChatBox({
   const uploadImages = async () => {
     setIsPendingImage(true);
     for (const image of imagesUploaded) {
-      uploadImageImgbb({
+      uploadImage({
         imageFile: image,
         async onSuccessFn(result) {
           await uploadFilesImagesMutation.mutateAsync(
             {
               is_anonymous: isAnonymous,
-              name: result.data.image.filename,
+              name: result.data.name,
               type: "IMAGE",
-              url: result.data.url,
-              delete_url: result.data.delete_url,
+              url: result.data.link,
+              delete_url: result.data.deletehash,
               sender_id: senderId,
               receiver_id: receiverId,
             },
@@ -289,7 +289,7 @@ export default function ChatBox({
       <div
         className={clsx(
           !hasCoverPhoto && "border-b border-neutral-300 dark:border-slate-700",
-          "dark:bg-default-black flex w-full flex-row items-center justify-between bg-white bg-opacity-20 p-3 backdrop-blur-sm dark:bg-opacity-50 dark:backdrop-blur-sm",
+          "flex w-full flex-row items-center justify-between bg-white bg-opacity-20 p-3 backdrop-blur-sm dark:bg-default-black dark:bg-opacity-50 dark:backdrop-blur-sm",
         )}
       >
         <div className="flex flex-row items-start gap-x-2">
@@ -319,7 +319,7 @@ export default function ChatBox({
               <span
                 className={clsx(
                   isAnonymous
-                    ? "dark:bg-default-black translate-x-6 bg-white"
+                    ? "translate-x-6 bg-white dark:bg-default-black"
                     : "translate-x-1 bg-green-500",
                   "inline-block h-4 w-4 transform rounded-full transition",
                 )}
@@ -331,7 +331,7 @@ export default function ChatBox({
       <textarea
         disabled={isPendingMessage}
         autoComplete="off"
-        className="dark:bg-default-black h-full w-full resize-none bg-white p-3 text-black outline-none dark:text-white"
+        className="h-full w-full resize-none bg-white p-3 text-black outline-none dark:bg-default-black dark:text-white"
         rows={5}
         cols={40}
         spellCheck={false}
@@ -343,7 +343,7 @@ export default function ChatBox({
       <div
         className={clsx(
           !hasCoverPhoto && "border-t border-neutral-300 dark:border-slate-700",
-          "dark:bg-default-black flex w-full flex-col gap-y-3 bg-white bg-opacity-20 p-3 backdrop-blur-sm dark:bg-opacity-50 dark:backdrop-blur-sm",
+          "flex w-full flex-col gap-y-3 bg-white bg-opacity-20 p-3 backdrop-blur-sm dark:bg-default-black dark:bg-opacity-50 dark:backdrop-blur-sm",
         )}
       >
         <div className="flex w-full flex-row items-center justify-between gap-x-1">

@@ -7,6 +7,7 @@ import Image from "next/legacy/image";
 import dynamic from "next/dynamic";
 import clsx from "clsx";
 import moment from "moment";
+import Verified from "~/components/atoms/Verified";
 import ActivityIndicator from "~/components/atoms/ActivityIndicator";
 
 import { trpc } from "~/app/_trpc/client";
@@ -256,7 +257,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                               </div>
                             </button>
                           )}
-                          <div className="flex flex-row items-center gap-x-3">
+                          <div className="flex flex-row items-start gap-x-3">
                             {filesImage.type === "FILE" && (
                               <div className="flex h-[3rem] w-[3rem] flex-row items-center justify-center rounded-md bg-black object-cover">
                                 <svg
@@ -288,18 +289,19 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                                 blurDataURL={filesImage.url}
                               />
                             )}
-                            <div className="flex max-w-sm flex-1 flex-col items-start gap-y-1">
-                              <h1 className="truncate-text text-sm font-bold">{filesImage.name}</h1>
+                            <div className="flex max-w-sm flex-1 flex-col items-start gap-y-3">
                               {filesImage.is_anonymous ? (
                                 <p className="text-sm">Anonymous</p>
                               ) : (
                                 <Link
                                   href={`/${filesImage.sender?.username}`}
-                                  className="text-sm text-black hover:underline dark:text-white"
+                                  className="flex flex-row items-center gap-x-1 text-sm font-semibold text-black hover:underline dark:text-white"
                                 >
-                                  @{filesImage.sender?.username}
+                                  <span>@{filesImage.sender?.username}</span>
+                                  {filesImage.sender?.is_verified && <Verified />}
                                 </Link>
                               )}
+                              <h3 className="truncate-text text-sm">Filename: {filesImage.name}</h3>
                               <p className="text-xs text-neutral-500 dark:text-slate-500">
                                 {moment(filesImage.created_at).format("LLLL")}
                               </p>

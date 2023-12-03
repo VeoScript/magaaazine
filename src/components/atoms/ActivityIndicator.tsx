@@ -27,7 +27,7 @@ export default function ActivityIndicator({
         cx="50"
         cy="50"
         fill="none"
-        stroke={color ?? isDarkMode ? "#FFF" : "#000"}
+        stroke={color ? color : isDarkMode ? "#FFF" : "#000"}
         strokeWidth="10"
         r="35"
         strokeDasharray="164.93361431346415 56.97787143782138"

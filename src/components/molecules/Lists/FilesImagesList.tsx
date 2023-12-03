@@ -230,15 +230,35 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                       {page?.filesImages.map((filesImage, index) => (
                         <div
                           key={filesImage.id}
-                          className={clsx(
-                            !filesImage.is_read &&
-                              "bg-neutral-200 hover:bg-opacity-80 dark:bg-slate-800",
-                            "flex w-full cursor-default flex-row items-start gap-x-2 overflow-hidden rounded-xl border p-3 transition duration-100 hover:bg-opacity-50 dark:border dark:border-slate-700",
-                          )}
+                          className="relative flex w-full cursor-default flex-row items-start gap-x-2 overflow-hidden rounded-xl border p-3 transition duration-100 hover:bg-opacity-50 dark:border dark:border-slate-700"
                         >
-                          <div className="flex flex-row items-center gap-x-2">
+                          {!filesImage.is_read && (
+                            <button
+                              title="Unread Message"
+                              type="button"
+                              className="absolute inset-0 z-20 flex h-full w-full flex-col items-center justify-center rounded-xl bg-neutral-200 bg-opacity-50 outline-none backdrop-blur-sm hover:bg-opacity-30 dark:bg-slate-900 dark:bg-opacity-50 dark:backdrop-blur-sm"
+                              onClick={() =>
+                                readFileImageMutation.mutate({
+                                  id: filesImage.id,
+                                })
+                              }
+                            >
+                              <div className="flex flex-row items-center justify-center overflow-hidden rounded-xl border-2 border-black bg-white p-3">
+                                <Image
+                                  priority
+                                  src="/favicon.ico"
+                                  className="object-cover"
+                                  alt="profile_image"
+                                  width={30}
+                                  height={30}
+                                  quality={100}
+                                />
+                              </div>
+                            </button>
+                          )}
+                          <div className="flex flex-row items-center gap-x-3">
                             {filesImage.type === "FILE" && (
-                              <div className="flex h-[3rem] w-[3rem] flex-row items-center justify-center rounded-full bg-black object-cover">
+                              <div className="flex h-[3rem] w-[3rem] flex-row items-center justify-center rounded-md bg-black object-cover">
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   width="24"
@@ -259,7 +279,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                               <Image
                                 priority
                                 src={filesImage.url}
-                                className="h-6 w-6 rounded-full object-cover"
+                                className="h-6 w-6 rounded-md object-cover"
                                 alt="profile_image"
                                 width={50}
                                 height={50}
@@ -293,9 +313,6 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                                 onClick={() => {
                                   setFileImageUrl(filesImage.url);
                                   setIsOpenViewImageModal(true);
-                                  readFileImageMutation.mutate({
-                                    id: filesImage.id,
-                                  });
                                 }}
                               >
                                 <svg
@@ -315,15 +332,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                                 </svg>
                               </button>
                             ) : (
-                              <Link
-                                href={filesImage.url}
-                                target="_blank"
-                                onClick={() =>
-                                  readFileImageMutation.mutate({
-                                    id: filesImage.id,
-                                  })
-                                }
-                              >
+                              <Link href={filesImage.url} target="_blank">
                                 <svg
                                   fill="none"
                                   stroke="currentColor"

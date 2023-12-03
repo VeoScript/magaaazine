@@ -424,6 +424,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
         imageUrl={fileImageUrl}
         isOpen={isOpenViewImageModal}
         setIsOpen={setIsOpenViewImageModal}
+        setImageUrl={() => setFileImageUrl("")}
       />
     </>
   );

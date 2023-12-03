@@ -7,9 +7,15 @@ interface ViewImageModalProps {
   imageUrl: string;
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
+  setImageUrl: () => void;
 }
 
-export default function ViewImageModal({ imageUrl, isOpen, setIsOpen }: ViewImageModalProps) {
+export default function ViewImageModal({
+  imageUrl,
+  isOpen,
+  setIsOpen,
+  setImageUrl,
+}: ViewImageModalProps) {
   return (
     <div
       className={clsx(
@@ -20,7 +26,10 @@ export default function ViewImageModal({ imageUrl, isOpen, setIsOpen }: ViewImag
       <button
         title="Close"
         className="absolute right-3 top-3 z-[70] rounded-full bg-neutral-800 p-2 outline-none hover:opacity-50"
-        onClick={() => setIsOpen(false)}
+        onClick={() => {
+          setImageUrl();
+          setIsOpen(false);
+        }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

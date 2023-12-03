@@ -13,6 +13,7 @@ import { trpc } from "~/app/_trpc/client";
 import { serverClient } from "~/app/_trpc/serverClient";
 import { deleteImage } from "~/lib/functions/deleteImage";
 
+const ViewImageModal = dynamic(() => import("../Modals/ViewImageModal"));
 const AlertModal = dynamic(() => import("../Modals/AlertModal"));
 const AlertModalDynamic = dynamic(() => import("../Modals/AlertModalDynamic"));
 
@@ -28,8 +29,10 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
   const [indexIndicator, setIndexIndicator] = useState<number>(0);
   const [search, setSearch] = useState<string>("");
 
+  const [isOpenViewImageModal, setIsOpenViewImageModal] = useState<boolean>(false);
   const [isOpenAlertModal, setIsOpenAlertModal] = useState<boolean>(false);
   const [isOpenAlertModalDynamic, setIsOpenAlertModalDynamic] = useState<boolean>(false);
+  const [fileImageUrl, setFileImageUrl] = useState<string>("");
   const [fileImageName, setFileImageName] = useState<string>("");
   const [fileImageId, setFileImageId] = useState<string>("");
   const [fileImageType, setFileImageType] = useState<"IMAGE" | "FILE">("IMAGE");
@@ -157,7 +160,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
     <>
       <div className="flex h-full w-full flex-col items-center overflow-y-auto">
         <div className="flex h-full w-full max-w-xl flex-col items-center rounded-xl">
-          <div className="dark:bg-default-black sticky top-0 z-10 flex w-full flex-row items-start justify-between bg-white">
+          <div className="sticky top-0 z-10 flex w-full flex-row items-start justify-between bg-white dark:bg-default-black">
             <div className="flex w-full flex-col items-start justify-center gap-y-5 p-3">
               <div className="flex w-full flex-col items-center justify-between md:flex-row">
                 <h1 className="ml-0 py-3 text-center text-xl font-bold md:ml-3">Files & Images</h1>
@@ -283,31 +286,61 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                             </div>
                           </div>
                           <div className="flex flex-1 flex-row items-center justify-end gap-x-2">
-                            <Link
-                              href={filesImage.url}
-                              target="_blank"
-                              onClick={() =>
-                                readFileImageMutation.mutate({
-                                  id: filesImage.id,
-                                })
-                              }
-                            >
-                              <svg
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth={1.5}
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                                aria-hidden="true"
-                                className="h-5 w-5 hover:text-blue-400"
+                            {filesImage.type === "IMAGE" ? (
+                              <button
+                                type="button"
+                                className="outline-none"
+                                onClick={() => {
+                                  setFileImageUrl(filesImage.url);
+                                  setIsOpenViewImageModal(true);
+                                  readFileImageMutation.mutate({
+                                    id: filesImage.id,
+                                  });
+                                }}
                               >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
-                                />
-                              </svg>
-                            </Link>
+                                <svg
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth={1.5}
+                                  viewBox="0 0 24 24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  aria-hidden="true"
+                                  className="h-5 w-5 hover:text-blue-400"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+                                  />
+                                </svg>
+                              </button>
+                            ) : (
+                              <Link
+                                href={filesImage.url}
+                                target="_blank"
+                                onClick={() =>
+                                  readFileImageMutation.mutate({
+                                    id: filesImage.id,
+                                  })
+                                }
+                              >
+                                <svg
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth={1.5}
+                                  viewBox="0 0 24 24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  aria-hidden="true"
+                                  className="h-5 w-5 hover:text-blue-400"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+                                  />
+                                </svg>
+                              </Link>
+                            )}
                             <button
                               disabled={isPending && indexIndicator === index}
                               type="button"
@@ -386,6 +419,11 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
         modalFunction={() => {
           handleDeleteFileImage(fileImageId, fileImageType, fileImageDeleteURL);
         }}
+      />
+      <ViewImageModal
+        imageUrl={fileImageUrl}
+        isOpen={isOpenViewImageModal}
+        setIsOpen={setIsOpenViewImageModal}
       />
     </>
   );

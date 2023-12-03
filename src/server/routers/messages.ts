@@ -43,6 +43,7 @@ export const messagesRouter = router({
               id: true,
               profile_photo: true,
               username: true,
+              is_verified: true,
             },
           },
           receiver: {
@@ -50,6 +51,7 @@ export const messagesRouter = router({
               id: true,
               profile_photo: true,
               username: true,
+              is_verified: true,
             },
           },
           created_at: true,

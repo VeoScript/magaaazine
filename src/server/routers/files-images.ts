@@ -64,12 +64,14 @@ export const filesImagesRouter = router({
             select: {
               id: true,
               username: true,
+              is_verified: true,
             },
           },
           receiver: {
             select: {
               id: true,
               username: true,
+              is_verified: true,
             },
           },
           created_at: true,

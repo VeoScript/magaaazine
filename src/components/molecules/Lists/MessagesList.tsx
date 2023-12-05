@@ -15,6 +15,7 @@ import { serverClient } from "~/app/_trpc/serverClient";
 
 const AlertModal = dynamic(() => import("../Modals/AlertModal"));
 const AlertModalDynamic = dynamic(() => import("../Modals/AlertModalDynamic"));
+const MessagesListSkeletonLoader = dynamic(() => import("../Skeletons/MessagesListSkeletonLoader"));
 
 interface MessagesListProps {
   userData: Awaited<ReturnType<(typeof serverClient)["user"]>>;
@@ -130,27 +131,27 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
       <div className="flex h-full w-full flex-col items-center overflow-y-auto">
         <div className="flex h-full w-full max-w-xl flex-col items-center gap-y-5 rounded-xl">
           <div className="sticky top-0 z-10 flex w-full flex-row items-start justify-between bg-white dark:bg-default-black">
-            <div className="flex w-full flex-col items-start justify-center gap-y-5 p-3">
+            <div className="flex w-full flex-col items-start justify-center gap-y-5 px-3">
               <div className="flex w-full flex-col items-center justify-between md:flex-row">
                 <h1 className="ml-0 py-3 text-center text-xl font-bold md:ml-3">Messages</h1>
                 {messages && messages?.pages[0]?.messages.length != 0 && (
                   <div className="flex flex-row items-center gap-x-1">
-                    <button
-                      type="button"
-                      className="custom-button-outlined text-xs font-semibold"
-                      onClick={() => setIsOpenAlertModal(true)}
-                    >
-                      Clear all
-                    </button>
                     {isSuccessUnreadMessages && unreadMessages != 0 && (
                       <button
                         type="button"
-                        className="custom-button-outlined text-xs font-semibold"
+                        className="custom-button-outlined px-3 py-2 text-xs md:px-5 md:py-3"
                         onClick={() => readAllMessagesMutation.mutate()}
                       >
                         Mark all as read
                       </button>
                     )}
+                    <button
+                      type="button"
+                      className="custom-button-outlined text-xs"
+                      onClick={() => setIsOpenAlertModal(true)}
+                    >
+                      Clear all
+                    </button>
                   </div>
                 )}
               </div>
@@ -181,11 +182,9 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
               </div>
             </div>
           </div>
-          <div className="flex w-full flex-col items-start gap-y-10 px-3 pb-3">
+          <div className="mt-2 flex w-full flex-col items-start gap-y-10 px-3 pb-3">
             {isLoadingMessages || isPendingDeleteAll ? (
-              <div className="my-3 flex w-full flex-col items-center">
-                <ActivityIndicator color="#657487" className="h-8 w-8 text-black dark:text-white" />
-              </div>
+              <MessagesListSkeletonLoader />
             ) : (
               <>
                 {messages && messages?.pages[0]?.messages.length == 0 && (
@@ -217,7 +216,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                                   priority
                                   src="/favicon.ico"
                                   className="object-cover"
-                                  alt="profile_image"
+                                  alt="favicon"
                                   width={35}
                                   height={35}
                                   quality={100}
@@ -322,7 +321,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                               <h2
                                 className={clsx(
                                   !message.is_read && "line-clamp-2",
-                                  "text-xl font-bold text-neutral-800 dark:text-neutral-300",
+                                  "text-center text-xl font-bold text-neutral-800 dark:text-neutral-300",
                                 )}
                               >
                                 {message.content}
@@ -342,16 +341,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                   onClick={() => fetchNextPage()}
                   disabled={!hasNextPage || isFetchingNextPage}
                 >
-                  {isFetchingNextPage ? (
-                    <ActivityIndicator
-                      color="#657487"
-                      className="h-8 w-8 text-black dark:text-white"
-                    />
-                  ) : hasNextPage ? (
-                    ""
-                  ) : (
-                    ""
-                  )}
+                  {isFetchingNextPage ? <MessagesListSkeletonLoader /> : hasNextPage ? "" : ""}
                 </button>
               </>
             )}

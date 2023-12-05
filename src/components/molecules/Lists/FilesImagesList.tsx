@@ -17,6 +17,9 @@ import { deleteImage } from "~/lib/functions/deleteImage";
 const ViewImageModal = dynamic(() => import("../Modals/ViewImageModal"));
 const AlertModal = dynamic(() => import("../Modals/AlertModal"));
 const AlertModalDynamic = dynamic(() => import("../Modals/AlertModalDynamic"));
+const FilesImagesListSkeletonLoader = dynamic(
+  () => import("../Skeletons/FilesImagesListSkeletonLoader"),
+);
 
 interface FilesImagesListProps {
   initialData: Awaited<ReturnType<(typeof serverClient)["filesImages"]>> | any;
@@ -215,9 +218,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
           </div>
           <div className="flex w-full flex-col items-start gap-y-1 px-3 pb-3">
             {isLoadingFilesImages || isLoadingAllFiles || isPendingDeleteAll ? (
-              <div className="my-3 flex w-full flex-col items-center">
-                <ActivityIndicator color="#657487" className="h-8 w-8 text-black dark:text-white" />
-              </div>
+              <FilesImagesListSkeletonLoader />
             ) : (
               <>
                 {filesImages && filesImages?.pages[0]?.filesImages.length == 0 && (
@@ -249,7 +250,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                                   priority
                                   src="/favicon.ico"
                                   className="object-cover"
-                                  alt="profile_image"
+                                  alt="favicon"
                                   width={30}
                                   height={30}
                                   quality={100}
@@ -400,13 +401,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                   onClick={() => fetchNextPage()}
                   disabled={!hasNextPage || isFetchingNextPage}
                 >
-                  {isFetchingNextPage ? (
-                    <ActivityIndicator color="#657487" className="h-8 w-8" />
-                  ) : hasNextPage ? (
-                    ""
-                  ) : (
-                    ""
-                  )}
+                  {isFetchingNextPage ? <FilesImagesListSkeletonLoader /> : hasNextPage ? "" : ""}
                 </button>
               </>
             )}

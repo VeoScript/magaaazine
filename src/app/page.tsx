@@ -9,23 +9,29 @@ export default async function Home() {
   return (
     <DefaultLayout>
       <section className="flex h-full min-h-full w-full flex-col items-center justify-start p-2 md:min-h-screen md:justify-center md:p-5">
-        <div className="mt-10 flex w-full max-w-full flex-col items-center gap-y-5 md:-mt-20 md:max-w-5xl md:gap-y-10">
+        <div className="mt-[5rem] flex w-full max-w-full flex-col items-center gap-y-5 md:-mt-20 md:max-w-5xl md:gap-y-10">
           <h2 className="text-center font-raleway text-xl font-bold md:text-2xl">
             Discover, Connect and Share.
           </h2>
           <h1 className="text-center font-raleway text-4xl font-light uppercase leading-normal md:text-[4rem] md:leading-[4rem]">
             Empower your online presence with{" "}
-            <span className="font-abril-fatface uppercase">Magaaazine</span>.
+            <span className="text-shadow-neutral font-abril-fatface uppercase">Magaaazine</span>.
           </h1>
           <h2 className="text-center font-raleway text-base md:text-xl">
-            With feature of sending <span className="font-bold text-blue-600">messages</span>,{" "}
-            <span className="font-bold text-blue-600">images</span>,{" and "}
-            <span className="font-bold text-blue-600">files</span> anonymously.
+            With feature of sending{" "}
+            <span className="text-shadow-blue font-bold text-blue-600">messages</span>,{" "}
+            <span className="text-shadow-blue font-bold text-blue-600">images</span>,{" and "}
+            <span className="text-shadow-blue font-bold text-blue-600">files</span> anonymously.
           </h2>
-          <div className="flex w-full flex-row items-center justify-center gap-x-3">
-            <Link href="/discover" className="custom-button">
-              Discover
-            </Link>
+          <div className="mt-1 flex w-full flex-row items-center justify-center gap-x-3 md:mt-0">
+            <div className="relative">
+              <div className="absolute -top-5 right-0 z-10 rotate-45">
+                <p className="animate-bounce text-xl">👇</p>
+              </div>
+              <Link href="/discover" className="custom-button">
+                Discover
+              </Link>
+            </div>
             {!user && (
               <Link href="/signin" className="custom-button-outlined">
                 Sign in

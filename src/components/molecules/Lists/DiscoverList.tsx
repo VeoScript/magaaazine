@@ -2,11 +2,13 @@
 
 import { useState, useEffect, Fragment } from "react";
 import { useInView } from "react-intersection-observer";
+import dynamic from "next/dynamic";
 import clsx from "clsx";
 import Link from "next/link";
 import Image from "next/legacy/image";
 import Verified from "~/components/atoms/Verified";
-import ActivityIndicator from "~/components/atoms/ActivityIndicator";
+
+const DiscoverListSkeletonLoader = dynamic(() => import("../Skeletons/DiscoverListSkeletonLoader"));
 
 import { trpc } from "~/app/_trpc/client";
 
@@ -87,9 +89,7 @@ export default function DiscoverList() {
         </div>
         <div className="flex w-full flex-col items-start gap-y-1 px-3 pb-3">
           {isLoadingUsers ? (
-            <div className="my-3 flex w-full flex-col items-center">
-              <ActivityIndicator className="h-8 w-8 text-black" />
-            </div>
+            <DiscoverListSkeletonLoader />
           ) : (
             <>
               {users && users.pages[0].users.length == 0 && (
@@ -104,7 +104,7 @@ export default function DiscoverList() {
                       <Link
                         key={user.id}
                         href={`/${user.username}`}
-                        className="dark:bg-default-black relative flex w-full flex-row items-center gap-x-3 overflow-hidden rounded-xl border bg-white bg-opacity-80 bg-center bg-no-repeat px-3 py-2 backdrop-blur-sm transition duration-100 hover:opacity-80 dark:border dark:border-slate-700"
+                        className="relative flex w-full flex-row items-center gap-x-3 overflow-hidden rounded-xl border bg-white bg-opacity-80 bg-center bg-no-repeat px-3 py-2 backdrop-blur-sm transition duration-100 hover:opacity-80 dark:border dark:border-slate-700 dark:bg-default-black"
                       >
                         {user.cover_photo && (
                           <>
@@ -190,13 +190,7 @@ export default function DiscoverList() {
                 onClick={() => fetchNextPage()}
                 disabled={!hasNextPage || isFetchingNextPage}
               >
-                {isFetchingNextPage ? (
-                  <ActivityIndicator className="h-8 w-8" />
-                ) : hasNextPage ? (
-                  ""
-                ) : (
-                  ""
-                )}
+                {isFetchingNextPage ? <DiscoverListSkeletonLoader /> : hasNextPage ? "" : ""}
               </button>
             </>
           )}

@@ -9,6 +9,8 @@ import twitter from "../../../public/svg/twitter.svg";
 import tiktok from "../../../public/svg/tiktok.svg";
 import linkedin from "../../../public/svg/linkedin.svg";
 import github from "../../../public/svg/github.svg";
+import youtube from "../../../public/svg/youtube.svg";
+import spotify from "../../../public/svg/spotify.svg";
 
 interface SocialMediaHolderProps {
   facebook_link: string | null;
@@ -17,6 +19,8 @@ interface SocialMediaHolderProps {
   tiktok_link: string | null;
   linkedin_link: string | null;
   github_link: string | null;
+  youtube_link: string | null;
+  spotify_link: string | null;
   website_link: string | null;
 }
 
@@ -27,6 +31,8 @@ export default function SocialMediaHolder({
   tiktok_link,
   linkedin_link,
   github_link,
+  youtube_link,
+  spotify_link,
   website_link,
 }: SocialMediaHolderProps) {
   return (
@@ -127,6 +133,40 @@ export default function SocialMediaHolder({
             priority
             src={github}
             alt="github"
+            width={100}
+            height={100}
+            className="h-6 w-6 transform transition duration-200 ease-in-out hover:scale-125"
+          />
+        </Link>
+      )}
+      {youtube_link && (
+        <Link
+          href={`${youtube_link}`}
+          target="_blank"
+          data-tooltip-id="magaaazine-tooltip"
+          data-tooltip-content="Youtube"
+        >
+          <Image
+            priority
+            src={youtube}
+            alt="youtube"
+            width={100}
+            height={100}
+            className="h-6 w-6 transform transition duration-200 ease-in-out hover:scale-125"
+          />
+        </Link>
+      )}
+      {spotify_link && (
+        <Link
+          href={`${spotify_link}`}
+          target="_blank"
+          data-tooltip-id="magaaazine-tooltip"
+          data-tooltip-content="Spotify"
+        >
+          <Image
+            priority
+            src={spotify}
+            alt="spotify"
             width={100}
             height={100}
             className="h-6 w-6 transform transition duration-200 ease-in-out hover:scale-125"

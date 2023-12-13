@@ -158,6 +158,8 @@ export default async function UserPage({ params }: { params: { username: string 
                     tiktok_link={profile.tiktok_link}
                     linkedin_link={profile.linkedin_link}
                     github_link={profile.github_link}
+                    youtube_link={profile.youtube_link}
+                    spotify_link={profile.spotify_link}
                     website_link={profile.website_link}
                   />
                 )}

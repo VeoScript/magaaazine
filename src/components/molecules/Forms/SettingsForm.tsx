@@ -38,6 +38,8 @@ export default function SettingsForm() {
   const [tiktokLink, setTiktokLink] = useState<string>("");
   const [linkedinLink, setLinkedinLink] = useState<string>("");
   const [githubLink, setGithubLink] = useState<string>("");
+  const [youtubeLink, setYoutubeLink] = useState<string>("");
+  const [spotifyLink, setSpotifyLink] = useState<string>("");
   const [websiteLink, setWebsiteLink] = useState<string>("");
 
   // change password states...
@@ -179,6 +181,8 @@ export default function SettingsForm() {
         tiktok: tiktokLink,
         linkedin: linkedinLink,
         github: githubLink,
+        youtube: youtubeLink,
+        spotify: spotifyLink,
         website: websiteLink,
       },
       {
@@ -265,7 +269,7 @@ export default function SettingsForm() {
         <div className="flex w-full flex-col gap-y-5 px-3 pb-3">
           {/* PRIVACY OPTIONS */}
           <div className="flex w-full flex-col gap-y-3">
-            <div className="flex w-full flex-row items-center justify-start">
+            <div className="mb-3 flex w-full flex-row items-center justify-start">
               <h2 className="font-bold">Privacy Options</h2>
             </div>
             <div className="flex w-full flex-row items-center justify-between gap-x-1">
@@ -288,7 +292,9 @@ export default function SettingsForm() {
               >
                 <span
                   className={clsx(
-                    displayName ? "translate-x-6 bg-white dark:bg-default-black" : "translate-x-1 bg-green-500",
+                    displayName
+                      ? "translate-x-6 bg-white dark:bg-default-black"
+                      : "translate-x-1 bg-green-500",
                     "inline-block h-4 w-4 transform rounded-full transition",
                   )}
                 />
@@ -314,7 +320,9 @@ export default function SettingsForm() {
               >
                 <span
                   className={clsx(
-                    receiveFilesAnonymous ? "translate-x-6 bg-white dark:bg-default-black" : "translate-x-1 bg-green-500",
+                    receiveFilesAnonymous
+                      ? "translate-x-6 bg-white dark:bg-default-black"
+                      : "translate-x-1 bg-green-500",
                     "inline-block h-4 w-4 transform rounded-full transition",
                   )}
                 />
@@ -354,7 +362,7 @@ export default function SettingsForm() {
             onSubmit={handleUpdateBasicInfo}
             className="flex w-full flex-col items-start gap-y-3"
           >
-            <div className="flex w-full flex-row items-center justify-start">
+            <div className="mb-3 flex w-full flex-row items-center justify-start">
               <h2 className="font-bold">Basic Information</h2>
             </div>
             <div className="flex w-full flex-col items-center gap-x-0 gap-y-3 md:flex-row md:items-start md:gap-x-3 md:gap-y-0">
@@ -478,113 +486,145 @@ export default function SettingsForm() {
           </form>
           {/* SOCIAL LINKS */}
           <form onSubmit={handleUpdateSocialLinks} className="flex w-full flex-col gap-y-3">
-            <div className="flex w-full flex-row items-center justify-start">
+            <div className="mb-3 flex w-full flex-row items-center justify-start">
               <h2 className="font-bold">Social Links</h2>
             </div>
-            <div className="flex w-full flex-col gap-y-1">
-              <label htmlFor="facebook" className="ml-2 text-sm">
-                Facebook
-              </label>
-              <input
-                disabled={isLoadingUser}
-                className={clsx(isLoadingUser && "cursor-not-allowed", "custom-input")}
-                autoComplete="off"
-                type="text"
-                id="facebook"
-                placeholder="Your facebook username"
-                value={facebookLink}
-                onChange={(e) => setFacebookLink(e.currentTarget.value)}
-              />
-            </div>
-            <div className="flex w-full flex-col gap-y-1">
-              <label htmlFor="instagram" className="ml-2 text-sm">
-                Instagram
-              </label>
-              <input
-                disabled={isLoadingUser}
-                className={clsx(isLoadingUser && "cursor-not-allowed", "custom-input")}
-                autoComplete="off"
-                type="text"
-                id="instagram"
-                placeholder="Your instagram username"
-                value={instagramLink}
-                onChange={(e) => setInstagramLink(e.currentTarget.value)}
-              />
-            </div>
-            <div className="flex w-full flex-col gap-y-1">
-              <label htmlFor="twitterx" className="ml-2 text-sm">
-                Twitter/X
-              </label>
-              <input
-                disabled={isLoadingUser}
-                className={clsx(isLoadingUser && "cursor-not-allowed", "custom-input")}
-                autoComplete="off"
-                type="text"
-                id="twitterx"
-                placeholder="Your twitter/x username"
-                value={twitterxLink}
-                onChange={(e) => setTwitterxLink(e.currentTarget.value)}
-              />
-            </div>
-            <div className="flex w-full flex-col gap-y-1">
-              <label htmlFor="twitterx" className="ml-2 text-sm">
-                Tiktok
-              </label>
-              <input
-                disabled={isLoadingUser}
-                className={clsx(isLoadingUser && "cursor-not-allowed", "custom-input")}
-                autoComplete="off"
-                type="text"
-                id="twitterx"
-                placeholder="Your tiktok username"
-                value={tiktokLink}
-                onChange={(e) => setTiktokLink(e.currentTarget.value)}
-              />
-            </div>
-            <div className="flex w-full flex-col gap-y-1">
-              <label htmlFor="linkedin" className="ml-2 text-sm">
-                LinkedIn
-              </label>
-              <input
-                disabled={isLoadingUser}
-                className={clsx(isLoadingUser && "cursor-not-allowed", "custom-input")}
-                autoComplete="off"
-                type="text"
-                id="linkedin"
-                placeholder="Your linkedin username"
-                value={linkedinLink}
-                onChange={(e) => setLinkedinLink(e.currentTarget.value)}
-              />
-            </div>
-            <div className="flex w-full flex-col gap-y-1">
-              <label htmlFor="github" className="ml-2 text-sm">
-                GitHub
-              </label>
-              <input
-                disabled={isLoadingUser}
-                className={clsx(isLoadingUser && "cursor-not-allowed", "custom-input")}
-                autoComplete="off"
-                type="text"
-                id="github"
-                placeholder="Your github username"
-                value={githubLink}
-                onChange={(e) => setGithubLink(e.currentTarget.value)}
-              />
-            </div>
-            <div className="flex w-full flex-col gap-y-1">
-              <label htmlFor="website" className="ml-2 text-sm">
-                Website
-              </label>
-              <input
-                disabled={isLoadingUser}
-                className={clsx(isLoadingUser && "cursor-not-allowed", "custom-input")}
-                autoComplete="off"
-                type="text"
-                id="website"
-                placeholder="Website url"
-                value={websiteLink}
-                onChange={(e) => setWebsiteLink(e.currentTarget.value)}
-              />
+            <div className="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
+              <div className="flex w-full flex-col gap-y-1">
+                <label htmlFor="facebook" className="ml-2 text-sm">
+                  Facebook
+                </label>
+                <input
+                  disabled={isLoadingUser}
+                  className={clsx(isLoadingUser && "cursor-not-allowed", "custom-input")}
+                  autoComplete="off"
+                  type="text"
+                  id="facebook"
+                  placeholder="Your facebook username"
+                  value={facebookLink}
+                  onChange={(e) => setFacebookLink(e.currentTarget.value)}
+                />
+              </div>
+              <div className="flex w-full flex-col gap-y-1">
+                <label htmlFor="instagram" className="ml-2 text-sm">
+                  Instagram
+                </label>
+                <input
+                  disabled={isLoadingUser}
+                  className={clsx(isLoadingUser && "cursor-not-allowed", "custom-input")}
+                  autoComplete="off"
+                  type="text"
+                  id="instagram"
+                  placeholder="Your instagram username"
+                  value={instagramLink}
+                  onChange={(e) => setInstagramLink(e.currentTarget.value)}
+                />
+              </div>
+              <div className="flex w-full flex-col gap-y-1">
+                <label htmlFor="twitterx" className="ml-2 text-sm">
+                  Twitter/X
+                </label>
+                <input
+                  disabled={isLoadingUser}
+                  className={clsx(isLoadingUser && "cursor-not-allowed", "custom-input")}
+                  autoComplete="off"
+                  type="text"
+                  id="twitterx"
+                  placeholder="Your twitter/x username"
+                  value={twitterxLink}
+                  onChange={(e) => setTwitterxLink(e.currentTarget.value)}
+                />
+              </div>
+              <div className="flex w-full flex-col gap-y-1">
+                <label htmlFor="twitterx" className="ml-2 text-sm">
+                  Tiktok
+                </label>
+                <input
+                  disabled={isLoadingUser}
+                  className={clsx(isLoadingUser && "cursor-not-allowed", "custom-input")}
+                  autoComplete="off"
+                  type="text"
+                  id="twitterx"
+                  placeholder="Your tiktok username"
+                  value={tiktokLink}
+                  onChange={(e) => setTiktokLink(e.currentTarget.value)}
+                />
+              </div>
+              <div className="flex w-full flex-col gap-y-1">
+                <label htmlFor="linkedin" className="ml-2 text-sm">
+                  LinkedIn
+                </label>
+                <input
+                  disabled={isLoadingUser}
+                  className={clsx(isLoadingUser && "cursor-not-allowed", "custom-input")}
+                  autoComplete="off"
+                  type="text"
+                  id="linkedin"
+                  placeholder="Your linkedin username"
+                  value={linkedinLink}
+                  onChange={(e) => setLinkedinLink(e.currentTarget.value)}
+                />
+              </div>
+              <div className="flex w-full flex-col gap-y-1">
+                <label htmlFor="github" className="ml-2 text-sm">
+                  GitHub
+                </label>
+                <input
+                  disabled={isLoadingUser}
+                  className={clsx(isLoadingUser && "cursor-not-allowed", "custom-input")}
+                  autoComplete="off"
+                  type="text"
+                  id="github"
+                  placeholder="Your github username"
+                  value={githubLink}
+                  onChange={(e) => setGithubLink(e.currentTarget.value)}
+                />
+              </div>
+              <div className="flex w-full flex-col gap-y-1">
+                <label htmlFor="github" className="ml-2 text-sm">
+                  Youtube
+                </label>
+                <input
+                  disabled={isLoadingUser}
+                  className={clsx(isLoadingUser && "cursor-not-allowed", "custom-input")}
+                  autoComplete="off"
+                  type="text"
+                  id="youtube"
+                  placeholder="Your youtube channel link"
+                  value={youtubeLink}
+                  onChange={(e) => setYoutubeLink(e.currentTarget.value)}
+                />
+              </div>
+              <div className="flex w-full flex-col gap-y-1">
+                <label htmlFor="github" className="ml-2 text-sm">
+                  Spotify
+                </label>
+                <input
+                  disabled={isLoadingUser}
+                  className={clsx(isLoadingUser && "cursor-not-allowed", "custom-input")}
+                  autoComplete="off"
+                  type="text"
+                  id="spotify"
+                  placeholder="Your spotify playlist link"
+                  value={spotifyLink}
+                  onChange={(e) => setSpotifyLink(e.currentTarget.value)}
+                />
+              </div>
+              <div className="flex w-full flex-col gap-y-1">
+                <label htmlFor="website" className="ml-2 text-sm">
+                  Website
+                </label>
+                <input
+                  disabled={isLoadingUser}
+                  className={clsx(isLoadingUser && "cursor-not-allowed", "custom-input")}
+                  autoComplete="off"
+                  type="text"
+                  id="website"
+                  placeholder="Website url"
+                  value={websiteLink}
+                  onChange={(e) => setWebsiteLink(e.currentTarget.value)}
+                />
+              </div>
             </div>
             <div className="flex w-full flex-row items-center justify-end">
               <button
@@ -601,7 +641,7 @@ export default function SettingsForm() {
           </form>
           {/* CHANGE PASSWORD */}
           <form onSubmit={handleUpdatePassword} className="flex w-full flex-col gap-y-3">
-            <div className="flex w-full flex-row items-center justify-start">
+            <div className="mb-3 flex w-full flex-row items-center justify-start">
               <h2 className="font-bold">Change Password</h2>
             </div>
             <div className="flex w-full flex-col gap-y-1">

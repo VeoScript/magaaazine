@@ -34,6 +34,8 @@ export const authRouter = router({
         tiktok_link: true,
         linkedin_link: true,
         github_link: true,
+        youtube_link: true,
+        spotify_link: true,
         website_link: true,
         is_verified: true,
         is_display_name: true,

@@ -26,6 +26,8 @@ model User {
   linkedin_link               String?
   github_link                 String?
   tiktok_link                 String?
+  youtube_link                String?
+  spotify_link                String?
   website_link                String?
   is_verified                 Boolean?      @default(true)
   is_display_name             Boolean       @default(false)

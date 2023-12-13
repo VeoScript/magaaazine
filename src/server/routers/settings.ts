@@ -109,6 +109,8 @@ export const settingsRouter = router({
         tiktok: z.string(),
         linkedin: z.string(),
         github: z.string(),
+        youtube: z.string(),
+        spotify: z.string(),
         website: z.string(),
       }),
     )
@@ -130,6 +132,8 @@ export const settingsRouter = router({
           tiktok_link: input.tiktok,
           linkedin_link: input.linkedin,
           github_link: input.github,
+          youtube_link: input.youtube,
+          spotify_link: input.spotify,
           website_link: input.website,
         },
         select: {

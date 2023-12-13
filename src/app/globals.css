@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .custom-button {
-  @apply rounded-lg bg-black px-5 py-3 text-white transition-all duration-200 ease-in-out hover:opacity-80;
+  @apply rounded-lg border border-transparent bg-black px-5 py-3 text-white transition-all duration-200 ease-in-out hover:opacity-50;
 }
 
 .custom-button-outlined {
@@ -22,9 +22,13 @@
 }
 
 .text-shadow-blue {
-  text-shadow: 0px 0px, 1px 1px 14px #255FE0;
+  text-shadow:
+    0px 0px,
+    1px 1px 14px #255fe0;
 }
 
 .text-shadow-neutral {
-  text-shadow: 0px 0px, 1px 1px 14px #c3c3c3;
+  text-shadow:
+    0px 0px,
+    1px 1px 14px #c3c3c3;
 }

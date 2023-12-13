@@ -19,7 +19,13 @@ const CookieConsent = (): JSX.Element => {
   expirationDate.setTime(expirationDate.getTime() + oneMonth);
 
   useEffect(() => {
-    setShowConsent(hasCookie("magaazine-cookie-consent"));
+    const timeout = setTimeout(() => {
+      setShowConsent(hasCookie("magaazine-cookie-consent"));
+    }, 5000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
   }, []);
 
   const acceptCookie = () => {

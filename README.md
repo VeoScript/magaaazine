@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://github.com/veoscript/magaaazine/blob/master/LICENSE">
-    <img alt="GitHub" src="https://img.shields.io/github/license/veoscript/magaaazine.svg?color=blue">
+    <img alt="GitHub" src="https://img.shields.io/github/license/veoscript/magaaazine.svg?color=green">
   </a>
   <a href="https://github.com/veoscript/magaaazine/releases">
     <img alt="GitHub release" src="https://img.shields.io/github/release/veoscript/magaaazine.svg">

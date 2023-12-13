@@ -24,14 +24,9 @@ export default async function Home() {
             <span className="text-shadow-blue font-bold text-blue-600">files</span> anonymously.
           </h2>
           <div className="mt-1 flex w-full flex-row items-center justify-center gap-x-3 md:mt-0">
-            <div className="relative">
-              <div className="absolute -top-5 right-0 z-10 rotate-45">
-                <p className="animate-bounce text-xl">👇</p>
-              </div>
-              <Link href="/discover" className="custom-button">
-                Discover
-              </Link>
-            </div>
+            <Link href="/discover" className="custom-button">
+              Discover
+            </Link>
             {!user && (
               <Link href="/signin" className="custom-button-outlined">
                 Sign in

@@ -69,7 +69,7 @@ export default function CopyClipboard({ textToCopy }: CopyClipboardProps): JSX.E
           ) : (
             <button
               type="button"
-              className="w-30 rounded-full bg-black px-3 py-1 text-[10px] outline-none hover:bg-opacity-50 md:w-20"
+              className="w-30 rounded-full bg-black px-3 py-1 text-[10px] outline-none hover:bg-opacity-50 md:w-[8rem] md:py-2 md:text-xs"
               onClick={() => {
                 handleCopyClick(textToCopy);
               }}

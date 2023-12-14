@@ -22,7 +22,7 @@ export default async function Header() {
         )}
       >
         <Link href="/">
-          <h1 className="font-abril-fatface text-2xl uppercase">Magaaazine</h1>
+          <h1 className="font-abril-fatface text-lg md:text-2xl uppercase">Magaaazine</h1>
         </Link>
         <div className="flex flex-row items-center gap-x-5">
           <Link

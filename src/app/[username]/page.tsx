@@ -150,6 +150,8 @@ export default async function UserPage({ params }: { params: { username: string 
                   profile.twitterx_link ||
                   profile.linkedin_link ||
                   profile.github_link ||
+                  profile.youtube_link ||
+                  profile.spotify_link ||
                   profile.website_link) && (
                   <SocialMediaHolder
                     facebook_link={profile.facebook_link}

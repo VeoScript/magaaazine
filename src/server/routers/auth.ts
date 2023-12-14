@@ -163,6 +163,6 @@ export const authRouter = router({
       };
     }),
   signout: publicProcedure.mutation(async () => {
-    cookies().delete('magaaazine');
-  })
+    cookies().delete("magaaazine");
+  }),
 });

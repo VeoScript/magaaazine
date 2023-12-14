@@ -74,6 +74,8 @@ export default function SettingsForm() {
       setTiktokLink(user?.tiktok_link ?? "");
       setLinkedinLink(user?.linkedin_link ?? "");
       setGithubLink(user?.github_link ?? "");
+      setYoutubeLink(user?.youtube_link ?? "");
+      setSpotifyLink(user?.spotify_link ?? "");
       setWebsiteLink(user?.website_link ?? "");
     }
   }, [user]);

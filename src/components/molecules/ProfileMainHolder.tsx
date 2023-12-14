@@ -40,18 +40,18 @@ export default function ProfileMainHolder({ profile }: ProfileMainHolderProps) {
       ) : (
         <>
           {user?.id === profile?.id && (
-            <div className="flex w-full flex-col items-center gap-y-3">
+            <div className="flex w-full flex-col items-center gap-y-5">
               <div
                 className={clsx(
                   profile?.cover_photo ? "border-none" : "border",
-                  "dark:bg-default-black flex w-full max-w-full flex-row items-center justify-between gap-x-3 overflow-hidden rounded-lg bg-white bg-opacity-10 px-5 py-3 text-white backdrop-blur-lg dark:bg-opacity-10 dark:backdrop-blur-lg md:max-w-sm",
+                  "dark:bg-default-black flex w-full max-w-full flex-row items-center justify-between gap-x-3 overflow-hidden rounded-lg bg-white bg-opacity-10 px-5 py-3 md:py-5 text-white backdrop-blur-lg dark:bg-opacity-10 dark:backdrop-blur-lg md:max-w-lg",
                 )}
               >
                 <input
                   disabled
                   className={clsx(
                     profile?.cover_photo ? "text-white" : "text-black dark:text-white",
-                    "w-full border-none bg-transparent text-xs outline-none md:text-sm",
+                    "w-full border-none bg-transparent text-sm outline-none md:text-base",
                   )}
                   type="text"
                   value={`${String(process.env.PROD_URL).replace(

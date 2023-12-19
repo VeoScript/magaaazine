@@ -46,7 +46,7 @@ const CookieConsent = (): JSX.Element => {
         <span className="w-full text-center text-base text-default-black dark:text-white md:text-left">
           This website uses cookies to improve user experience. By using our website you consent to
           all cookies in accordance with our{" "}
-          <Link href="/terms-and-conditions/#cookies" className="font-medium hover:underline">
+          <Link href="/terms-and-conditions/#cookies" className="font-bold hover:underline">
             Cookie Policy
           </Link>
           .

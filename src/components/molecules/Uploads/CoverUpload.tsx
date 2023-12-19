@@ -51,12 +51,12 @@ export default function CoverUpload({ profileId }: CoverUploadProps) {
         return;
       }
 
-      if (e.target.files[0].size > 2097152) {
+      if (e.target.files[0].size > 10485760) {
         setImageCoverUploaded("");
         setPreviewCoverImage("");
         myToast({
           type: "error",
-          message: "Selected photo size exceeds 2 MB. Choose another one.",
+          message: "File is too large. Please select an image smaller than 10MB.",
         });
         return;
       }

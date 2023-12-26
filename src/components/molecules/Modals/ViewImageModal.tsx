@@ -2,6 +2,7 @@
 
 import clsx from "clsx";
 import Image from "next/legacy/image";
+import ActivityIndicator from "~/components/atoms/ActivityIndicator";
 
 interface ViewImageModalProps {
   imageUrl: string;
@@ -42,6 +43,11 @@ export default function ViewImageModal({
           <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
+      {isOpen && (
+        <div className="flex h-full w-full flex-col  items-center justify-center bg-transparent">
+          <ActivityIndicator color="#fff" className="h-10 w-10 bg-transparent" />
+        </div>
+      )}
       <div className="z-[60] flex h-auto w-auto flex-col items-center justify-center overflow-hidden">
         <Image
           priority

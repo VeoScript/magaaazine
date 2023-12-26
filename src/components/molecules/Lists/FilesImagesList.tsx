@@ -292,7 +292,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                             )}
                             <div className="flex max-w-sm flex-1 flex-col items-start gap-y-3">
                               {filesImage.is_anonymous ? (
-                                <p className="text-sm">Anonymous</p>
+                                <p className="text-sm font-semibold">Anonymous</p>
                               ) : (
                                 <Link
                                   href={`/${filesImage.sender?.username}`}

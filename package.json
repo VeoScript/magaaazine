@@ -12,7 +12,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.17",
     "@plaiceholder/next": "^3.0.0",
-    "@prisma/client": "^5.7.0",
+    "@prisma/client": "^5.10.2",
     "@react-email/components": "^0.0.7",
     "@tanstack/react-query": "^4.36.1",
     "@trpc/client": "^10.43.3",
@@ -51,7 +51,7 @@
     "postcss": "^8",
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.5",
-    "prisma": "^5.7.0",
+    "prisma": "^5.10.2",
     "tailwindcss": "^3",
     "typescript": "^5"
   }

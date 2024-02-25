@@ -16,7 +16,7 @@ export default function Footer() {
         <p className="w-full text-center md:text-right">
           Developed with ❤️ by{" "}
           <Link
-            href="https://www.jeromevillaruel.online"
+            href="https://www.jeromevillaruel.com"
             target="_blank"
             className="hover:underline"
           >

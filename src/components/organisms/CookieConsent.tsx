@@ -12,11 +12,11 @@ const CookieConsent = (): JSX.Element => {
   const [showConsent, setShowConsent] = useState(true);
 
   // Calculate the time for one month in milliseconds
-  const oneMonth = 30 * 24 * 60 * 60 * 1000; // 30 days * 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
+  const oneMonth = 30 * 24 * 60 * 60;
 
   // Create a new Date object for the expiration date
   const expirationDate = new Date();
-  expirationDate.setTime(expirationDate.getTime() + oneMonth);
+  expirationDate.setTime(expirationDate.getTime() + 24 * 60 * 60);
 
   useEffect(() => {
     const timeout = setTimeout(() => {

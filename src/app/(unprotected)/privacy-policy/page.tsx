@@ -35,7 +35,7 @@ export default function PrivacyPolicy() {
         </p>
         <h3 className="font-bold">Definitions</h3>
         <p>For the purposes of this Privacy Policy:</p>
-        <ul className="list-disc ml-10">
+        <ul className="ml-10 list-disc">
           <li>
             <p>
               <strong>Account</strong> means a unique account created for You to access our Service
@@ -131,7 +131,7 @@ export default function PrivacyPolicy() {
           information that can be used to contact or identify You. Personally identifiable
           information may include, but is not limited to:
         </p>
-        <ul className="list-disc ml-10">
+        <ul className="ml-10 list-disc">
           <li>
             <p>Email address</p>
           </li>
@@ -168,7 +168,7 @@ export default function PrivacyPolicy() {
           collect and track information and to improve and analyze Our Service. The technologies We
           use may include:
         </p>
-        <ul className="list-disc ml-10">
+        <ul className="ml-10 list-disc">
           <li>
             <strong>Cookies or Browser Cookies.</strong> A cookie is a small file placed on Your
             Device. You can instruct Your browser to refuse all Cookies or to indicate when a Cookie
@@ -199,7 +199,7 @@ export default function PrivacyPolicy() {
           article.
         </p>
         <p>We use both Session and Persistent Cookies for the purposes set out below:</p>
-        <ul className="list-disc ml-10">
+        <ul className="ml-10 list-disc">
           <li>
             <p>
               <strong>Necessary / Essential Cookies</strong>
@@ -245,7 +245,7 @@ export default function PrivacyPolicy() {
         </p>
         <h3 className="font-bold">Use of Your Personal Data</h3>
         <p>The Company may use Personal Data for the following purposes:</p>
-        <ul className="list-disc ml-10">
+        <ul className="ml-10 list-disc">
           <li>
             <p>
               <strong>To provide and maintain our Service</strong>, including to monitor the usage
@@ -307,7 +307,7 @@ export default function PrivacyPolicy() {
           </li>
         </ul>
         <p>We may share Your personal information in the following situations:</p>
-        <ul className="list-disc ml-10">
+        <ul className="ml-10 list-disc">
           <li>
             <strong>With Service Providers:</strong> We may share Your personal information with
             Service Providers to monitor and analyze the use of our Service, to contact You.
@@ -407,7 +407,7 @@ export default function PrivacyPolicy() {
           The Company may disclose Your Personal Data in the good faith belief that such action is
           necessary to:
         </p>
-        <ul className="list-disc ml-10">
+        <ul className="ml-10 list-disc">
           <li>Comply with a legal obligation</li>
           <li>Protect and defend the rights or property of the Company</li>
           <li>Prevent or investigate possible wrongdoing in connection with the Service</li>
@@ -461,7 +461,7 @@ export default function PrivacyPolicy() {
         </p>
         <h2 className="text-xl font-bold">Contact Us</h2>
         <p>If you have any questions about this Privacy Policy, You can contact us:</p>
-        <ul className="list-disc ml-10">
+        <ul className="ml-10 list-disc">
           <li>By email: magaaazine.online@gmail.com</li>
         </ul>
       </div>

@@ -7,7 +7,7 @@ import Verified from "~/components/atoms/Verified";
 
 import getBase64 from "~/lib/functions/getBase64";
 
-import { serverClient } from "../_trpc/serverClient";
+import { serverClient } from "../../_trpc/serverClient";
 
 const SocialMediaHolder = dynamic(() => import("~/components/molecules/SocialMediaHolder"));
 const ProfileUpload = dynamic(() => import("~/components/molecules/Uploads/ProfileUpload"));

@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 
 const FilesImagesList = dynamic(() => import("~/components/molecules/Lists/FilesImagesList"));
 
-import { serverClient } from "../_trpc/serverClient";
+import { serverClient } from "../../_trpc/serverClient";
 
 export default async function FilesImages() {
   if (!cookies().has(`${process.env.COOKIE_NAME}`)) redirect("/signin");

@@ -231,39 +231,25 @@ export default function ChatBox({
   };
 
   const handleSubmit = async () => {
-    if (messageContent.trim() === "")
-      return myToast({
-        message: "Message is required.",
-      });
+  if (messageContent.trim() === "")
+    return myToast({ message: "Message is required." });
 
-    if (imagesUploaded.length > 0) {
-      myToast({
-        type: "promise",
-        buttonFunction: async () => uploadImages(),
-        buttonLoadingMessage: "Uploading images...",
-        buttonFunctionSuccessMessage: "Images uploaded successfully!",
-        buttonFunctionErrorMessage: "Failed to upload images, try again.",
-      });
-    }
-
-    if (files.length > 0) {
-      myToast({
-        type: "promise",
-        buttonFunction: async () => uploadFiles(),
-        buttonLoadingMessage: "Uploading files...",
-        buttonFunctionSuccessMessage: "Files uploaded successfully!",
-        buttonFunctionErrorMessage: "Failed to upload files, try again.",
-      });
-    }
+  try {
+    if (imagesUploaded.length > 0) await uploadImages();
+    if (files.length > 0) await uploadFiles();
+    await sendMessage();
 
     myToast({
-      type: "promise",
-      buttonFunction: async () => sendMessage(),
-      buttonLoadingMessage: "Sending message...",
-      buttonFunctionSuccessMessage: "Message sent successfully.",
-      buttonFunctionErrorMessage: "Failed to sent message, try again.",
+      type: "success", // or however your toast handles success
+      message: "Message sent successfully.",
     });
-  };
+  } catch (error) {
+    myToast({
+      type: "error",
+      message: "Something went wrong. Please try again.",
+    });
+  }
+};
 
   const onEnterPress = (e: React.KeyboardEvent) => {
     if (e.keyCode == 13 && e.shiftKey == false) {

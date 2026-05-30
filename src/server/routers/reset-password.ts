@@ -43,9 +43,9 @@ export const resetPasswordRouter = router({
         const token = encode(payload, secret);
 
         const emailData = await resend.emails.send({
-          from: "Magaaazine <magaaazine_social@magaaazine.online>",
+          from: "Magaaazine <noreply@jeromevillaruel.com>",
           to: input.email,
-          subject: "Reset Password",
+          subject: "Reset your Magaaazine password",
           react: EmailTemplate({ name: user.name, token }) as React.ReactElement,
         });
 

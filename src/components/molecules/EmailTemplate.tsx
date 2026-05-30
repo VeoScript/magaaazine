@@ -30,8 +30,8 @@ export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
           className="rounded-lg bg-black px-5 py-3 text-white"
           href={
             process.env.NODE_ENV === "production"
-              ? `https://magaaazine.online/reset-password/${token}`
-              : `http://localhost:3000/reset-password/${token}`
+              ? `${process.env.PROD_URL}/reset-password/${token}`
+              : `${process.env.DEV_URL}/reset-password/${token}`
           }
         >
           Reset Your Password

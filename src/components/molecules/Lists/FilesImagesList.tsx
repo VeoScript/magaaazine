@@ -6,13 +6,14 @@ import Link from "next/link";
 import Image from "next/legacy/image";
 import dynamic from "next/dynamic";
 import clsx from "clsx";
-import moment from "moment";
 import Verified from "~/components/atoms/Verified";
 import ActivityIndicator from "~/components/atoms/ActivityIndicator";
 
 import { trpc } from "~/app/_trpc/client";
 import { serverClient } from "~/app/_trpc/serverClient";
 import { deleteImage } from "~/lib/functions/deleteImage";
+
+const dateFormatter = new Intl.DateTimeFormat("en", { dateStyle: "full", timeStyle: "short" });
 
 const ViewImageModal = dynamic(() => import("../Modals/ViewImageModal"));
 const AlertModal = dynamic(() => import("../Modals/AlertModal"));
@@ -22,7 +23,7 @@ const FilesImagesListSkeletonLoader = dynamic(
 );
 
 interface FilesImagesListProps {
-  initialData: Awaited<ReturnType<(typeof serverClient)["filesImages"]>> | any;
+  initialData: Awaited<ReturnType<(typeof serverClient)["filesImages"]>>;
 }
 
 export default function FilesImagesList({ initialData }: FilesImagesListProps) {
@@ -42,6 +43,16 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
   const [fileImageType, setFileImageType] = useState<"IMAGE" | "FILE">("IMAGE");
   const [fileImageDeleteURL, setFileImageDeleteURL] = useState<string>("");
 
+  const initialPage = initialData
+    ? {
+        ...initialData,
+        filesImages: initialData.filesImages.map((file) => ({
+          ...file,
+          created_at: file.created_at.toISOString(),
+        })),
+      }
+    : undefined;
+
   const { data: unreadFilesImages, isSuccess: isSuccessUnreadFilesImages } =
     trpc.countFilesImages.useQuery();
 
@@ -59,16 +70,15 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
       search,
     },
     {
-      initialData: () => {
-        const data = initialData;
-        if (data) {
-          return {
-            pageParams: [undefined],
-            pages: [data],
-          };
-        }
-      },
-      cacheTime: 0,
+      ...(initialPage
+        ? {
+            initialData: {
+              pageParams: [undefined],
+              pages: [initialPage],
+            },
+          }
+        : {}),
+      gcTime: 0,
       getNextPageParam: (lastPage) => lastPage?.nextCursor,
     },
   );
@@ -232,13 +242,13 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                       {page?.filesImages.map((filesImage, index) => (
                         <div
                           key={filesImage.id}
-                          className="relative flex w-full cursor-default flex-row items-start gap-x-2 overflow-hidden rounded-xl border p-3 transition duration-100 hover:bg-opacity-50 dark:border dark:border-slate-700"
+                          className="relative flex w-full cursor-default flex-row items-start gap-x-2 overflow-hidden rounded-xl border p-3 transition duration-100 hover:bg-neutral-100/70 dark:border dark:border-slate-700 dark:hover:bg-slate-800/70"
                         >
                           {!filesImage.is_read && (
                             <button
                               title="Unread Message"
                               type="button"
-                              className="absolute inset-0 z-20 flex h-full w-full flex-col items-center justify-center rounded-xl bg-neutral-200 bg-opacity-50 outline-none backdrop-blur-sm hover:bg-opacity-30 dark:bg-slate-900 dark:bg-opacity-50 dark:backdrop-blur-sm"
+                              className="absolute inset-0 z-20 flex h-full w-full flex-col items-center justify-center rounded-xl bg-neutral-200/50 outline-none backdrop-blur-sm hover:bg-neutral-200/30 dark:bg-slate-900/50 dark:backdrop-blur-sm"
                               onClick={() =>
                                 readFileImageMutation.mutate({
                                   id: filesImage.id,
@@ -304,7 +314,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                               )}
                               <h3 className="truncate-text text-sm">Filename: {filesImage.name}</h3>
                               <p className="text-xs text-neutral-500 dark:text-slate-500">
-                                {moment(filesImage.created_at).format("LLLL")}
+                                {dateFormatter.format(new Date(filesImage.created_at))}
                               </p>
                             </div>
                           </div>
@@ -380,7 +390,7 @@ export default function FilesImagesList({ initialData }: FilesImagesListProps) {
                                   viewBox="0 0 24 24"
                                   strokeWidth={1.5}
                                   stroke="currentColor"
-                                  className="h-5 w-5 text-black hover:text-opacity-50 dark:text-white"
+                                  className="h-5 w-5 text-black hover:text-black/50 dark:text-white dark:hover:text-white/50"
                                 >
                                   <path
                                     strokeLinecap="round"

@@ -14,13 +14,14 @@ const ProfileUpload = dynamic(() => import("~/components/molecules/Uploads/Profi
 const CoverUpload = dynamic(() => import("~/components/molecules/Uploads/CoverUpload"));
 const ProfileMainHolder = dynamic(() => import("~/components/molecules/ProfileMainHolder"));
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { username: string };
-}): Promise<Metadata> {
+interface UserPageProps {
+  params: Promise<{ username: string }>;
+}
+
+export async function generateMetadata({ params }: UserPageProps): Promise<Metadata> {
+  const { username } = await params;
   const profile = await serverClient.profile({
-    username: params.username ?? "",
+    username,
   });
   return {
     title: `Magaaazine | ${profile ? `@${profile?.username}` : "Not Found"}`,
@@ -59,9 +60,10 @@ export async function generateMetadata({
   };
 }
 
-export default async function UserPage({ params }: { params: { username: string } }) {
+export default async function UserPage({ params }: UserPageProps) {
+  const { username } = await params;
   const profile = await serverClient.profile({
-    username: params.username ?? "",
+    username,
   });
 
   return (
@@ -70,14 +72,14 @@ export default async function UserPage({ params }: { params: { username: string 
         <div className="flex h-full min-h-[35rem] w-full flex-col items-center justify-center">
           <p className="w-full max-w-xl text-center text-base text-neutral-500 md:text-xl">
             No user found from username <br />
-            <span className="font-bold">&quot;{params.username}&quot;</span>.
+            <span className="font-bold">&quot;{username}&quot;</span>.
           </p>
         </div>
       ) : (
         <div className="flex w-full flex-col items-center">
           {profile?.cover_photo && (
             <>
-              <div className="fixed z-10 h-full w-full bg-black bg-opacity-50 backdrop-blur-sm" />
+              <div className="fixed z-10 h-full w-full bg-black/50 backdrop-blur-sm" />
               <Image
                 className="fixed h-full w-full object-cover"
                 src={profile?.cover_photo}

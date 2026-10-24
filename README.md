@@ -18,39 +18,70 @@
 
 ## Description
 
-Discover, connect and share. Empower your online presence with Magaaazine. With feature of sending messages, images, and files anonymously.
+Discover, connect, and share with Magaaazine. Create a profile to receive anonymous messages, images, and files, discover other profiles, and manage your inbox and profile settings.
 
 ## Getting Started
 
-### Dependencies
+### Requirements
 
-#### Front-End
-* [NextJS 13 (App Router)](https://nextjs.org)
-* [Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction)
-* [Tanstack React-Query](https://tanstack.com/query/latest)
-* [Tailwind CSS](https://tailwindcss.com/)
-* [Resend](https://resend.com/)
-
-#### Back-End
-* [Mergent](https://mergent.co/)
-* [tRPC](https://trpc.io/)
-* [Prisma](https://www.prisma.io/)
-* [Supabase](https://supabase.com/)
+* [Node.js](https://nodejs.org/) v24.11.0 (see `.nvmrc`)
 * [PostgreSQL](https://www.postgresql.org/)
+* npm
 
-### Installing
-```
-pnpm i
-```
+### Tech Stack
 
-### Executing program
-```
-pnpm dev
-```
+* [Next.js 16](https://nextjs.org/) with the App Router and [React 19](https://react.dev/)
+* [tRPC 11](https://trpc.io/) and [TanStack Query 5](https://tanstack.com/query/latest)
+* [Prisma 7](https://www.prisma.io/) with the PostgreSQL adapter
+* [Tailwind CSS 4](https://tailwindcss.com/)
+* [UploadThing](https://uploadthing.com/) for file uploads
+* [Resend](https://resend.com/) for password reset emails
+
+### Installation
+
+1. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+2. Copy `.env.example` to `.env` and configure the variables:
+
+   | Variable | Purpose |
+   | --- | --- |
+   | `PROD_URL` | Public URL of the production app |
+   | `DEV_URL` | Local development URL, usually `http://localhost:3000` |
+   | `COOKIE_NAME` | Name used for the authentication cookie |
+   | `IMGBB_API_KEY` | API key for ImgBB image uploads |
+   | `IMGUR_API_KEY` | API key for Imgur image uploads |
+   | `UPLOADTHING_TOKEN` | UploadThing token for file uploads |
+   | `RESEND_API_KEY` | Resend API key for password reset emails |
+   | `JWT_SECRET` | Secret used to sign password reset tokens |
+   | `DATABASE_URL` | PostgreSQL connection URL |
+
+3. Create the database, then apply the Prisma migrations:
+
+   ```bash
+   npx prisma migrate dev
+   ```
+
+4. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+The app will be available at `http://localhost:3000`.
+
+### Available Scripts
+
+* `npm run dev` — start the development server
+* `npm run build` — generate the Prisma client and build the app
+* `npm run start` — start the production server
+* `npm run lint` — lint the `src` directory
+
 ## Authors
 
-Contributors names and contact info
-
-Jerome Villaruel - [@VeoScript](https://www.jeromevillaruel.cf/)
+Jerome Villaruel — [@VeoScript](https://www.jeromevillaruel.cf/)
 
 > Production Ready

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Magaaazine | Sign In",
 };
 
-export default function SignIn() {
-  if (cookies().has(`${process.env.COOKIE_NAME}`)) redirect("/");
+export default async function SignIn() {
+  if ((await cookies()).has(`${process.env.COOKIE_NAME}`)) redirect("/");
   return <SignInForm />;
 }

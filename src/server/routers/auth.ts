@@ -11,13 +11,13 @@ const roundsOfHashing = 10;
 
 export const authRouter = router({
   user: publicProcedure.query(async () => {
-    if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
-      return;
+    if (!(await cookies()).has(`${process.env.COOKIE_NAME}`)) {
+      return null;
     }
 
     return await prisma.user.findUnique({
       where: {
-        id: cookies().get(`${process.env.COOKIE_NAME}`)?.value,
+        id: (await cookies()).get(`${process.env.COOKIE_NAME}`)?.value,
       },
       select: {
         id: true,
@@ -100,7 +100,7 @@ export const authRouter = router({
         },
       });
 
-      cookies().set({
+      (await cookies()).set({
         name: "magaaazine",
         value: user.id,
         httpOnly: true,
@@ -147,7 +147,7 @@ export const authRouter = router({
         });
       }
 
-      cookies().set({
+      (await cookies()).set({
         name: "magaaazine",
         value: user.id,
         httpOnly: true,
@@ -163,6 +163,6 @@ export const authRouter = router({
       };
     }),
   signout: publicProcedure.mutation(async () => {
-    cookies().delete("magaaazine");
+    (await cookies()).delete("magaaazine");
   }),
 });

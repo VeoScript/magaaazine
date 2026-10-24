@@ -17,7 +17,7 @@ interface ProfileMainHolderProps {
 
 export default function ProfileMainHolder({ profile }: ProfileMainHolderProps) {
   const { data: user, isLoading: isLoadingUser } = trpc.user.useQuery(undefined, {
-    cacheTime: 0,
+    gcTime: 0,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
@@ -27,8 +27,10 @@ export default function ProfileMainHolder({ profile }: ProfileMainHolderProps) {
       {isLoadingUser ? (
         <div
           className={clsx(
-            profile?.cover_photo ? "dark:bg-default-black bg-white" : "bg-black",
-            "flex w-full flex-col items-center justify-center gap-y-3 rounded-xl bg-opacity-10 p-10 backdrop-blur-lg dark:bg-opacity-50 dark:backdrop-blur-lg",
+            profile?.cover_photo
+              ? "bg-white/10 dark:bg-default-black/50"
+              : "bg-black/10 dark:bg-default-black/50",
+            "flex w-full flex-col items-center justify-center gap-y-3 rounded-xl p-10 backdrop-blur-lg dark:backdrop-blur-lg",
           )}
         >
           <ActivityIndicator
@@ -44,7 +46,7 @@ export default function ProfileMainHolder({ profile }: ProfileMainHolderProps) {
               <div
                 className={clsx(
                   profile?.cover_photo ? "border-none" : "border",
-                  "dark:bg-default-black flex w-full max-w-full flex-row items-center justify-between gap-x-3 overflow-hidden rounded-lg bg-white bg-opacity-10 px-5 py-3 md:py-5 text-white backdrop-blur-lg dark:bg-opacity-10 dark:backdrop-blur-lg md:max-w-lg",
+                  "flex w-full max-w-full flex-row items-center justify-between gap-x-3 overflow-hidden rounded-lg bg-white/10 px-5 py-3 text-white backdrop-blur-lg md:max-w-lg md:py-5 dark:bg-default-black/10 dark:backdrop-blur-lg",
                 )}
               >
                 <input

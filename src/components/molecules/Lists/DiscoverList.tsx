@@ -104,11 +104,11 @@ export default function DiscoverList() {
                       <Link
                         key={user.id}
                         href={`/${user.username}`}
-                        className="relative flex w-full flex-row items-center gap-x-3 overflow-hidden rounded-xl border bg-white bg-opacity-80 bg-center bg-no-repeat px-3 py-2 backdrop-blur-sm transition duration-100 hover:opacity-80 dark:border dark:border-slate-700 dark:bg-default-black"
+                        className="dark:bg-default-black relative flex w-full flex-row items-center gap-x-3 overflow-hidden rounded-xl border border-slate-200 bg-white/80 bg-center bg-no-repeat px-3 py-2 backdrop-blur-sm transition duration-100 hover:opacity-80 dark:border dark:border-slate-700"
                       >
                         {user.cover_photo && (
                           <>
-                            <div className="absolute inset-0 z-10 h-full w-full rounded-xl bg-black bg-opacity-10 backdrop-blur-sm" />
+                            <div className="absolute inset-0 z-10 h-full w-full rounded-xl bg-black/20 backdrop-blur-sm" />
                             <div className="absolute inset-0 h-full w-full overflow-hidden">
                               <Image
                                 priority

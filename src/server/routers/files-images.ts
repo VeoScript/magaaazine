@@ -9,12 +9,12 @@ import { router, publicProcedure } from "../trpc";
 
 export const filesImagesRouter = router({
   allFilesImages: publicProcedure.query(async () => {
-    if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
+    if (!(await cookies()).has(`${process.env.COOKIE_NAME}`)) {
       return;
     }
     return await prisma.filesImages.findMany({
       where: {
-        receiver_id: cookies().get(`${process.env.COOKIE_NAME}`)?.value,
+        receiver_id: (await cookies()).get(`${process.env.COOKIE_NAME}`)?.value,
       },
       select: {
         id: true,
@@ -36,7 +36,7 @@ export const filesImagesRouter = router({
       }),
     )
     .query(async (opts) => {
-      if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
+      if (!(await cookies()).has(`${process.env.COOKIE_NAME}`)) {
         return;
       }
 
@@ -46,7 +46,7 @@ export const filesImagesRouter = router({
 
       const filesImages = await prisma.filesImages.findMany({
         where: {
-          receiver_id: cookies().get(`${process.env.COOKIE_NAME}`)?.value,
+          receiver_id: (await cookies()).get(`${process.env.COOKIE_NAME}`)?.value,
           name: {
             contains: search as string,
             mode: "insensitive",
@@ -104,7 +104,7 @@ export const filesImagesRouter = router({
       }),
     )
     .mutation(async ({ input }) => {
-      if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
+      if (!(await cookies()).has(`${process.env.COOKIE_NAME}`)) {
         return;
       }
 
@@ -137,7 +137,7 @@ export const filesImagesRouter = router({
       }),
     )
     .mutation(async ({ input }) => {
-      if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
+      if (!(await cookies()).has(`${process.env.COOKIE_NAME}`)) {
         return;
       }
 
@@ -152,7 +152,7 @@ export const filesImagesRouter = router({
       const allFiles = await prisma.filesImages.deleteMany({
         where: {
           receiver: {
-            id: cookies().get(`${process.env.COOKIE_NAME}`)?.value,
+            id: (await cookies()).get(`${process.env.COOKIE_NAME}`)?.value,
           },
         },
       });

@@ -1,10 +1,13 @@
-import withPlaiceholder from "@plaiceholder/next";
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
     dangerouslyAllowSVG: true,
-    domains: ["i.ibb.co", "i.imgur.com", "pbs.twimg.com"],
+    qualities: [75, 100],
+    remotePatterns: [
+      { protocol: "https", hostname: "i.ibb.co" },
+      { protocol: "https", hostname: "i.imgur.com" },
+      { protocol: "https", hostname: "pbs.twimg.com" },
+    ],
   },
   env: {
     IMGBB_API_KEY: process.env.IMGBB_API_KEY,
@@ -35,4 +38,4 @@ const nextConfig = {
   // },
 };
 
-export default withPlaiceholder(nextConfig);
+export default nextConfig;

@@ -1,5 +1,7 @@
 "use client";
 
+import type { JSX } from "react";
+
 export default function Verified(): JSX.Element {
   return (
     <div className="relative flex h-4 w-4 flex-row items-center justify-center">

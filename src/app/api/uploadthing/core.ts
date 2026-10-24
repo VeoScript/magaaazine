@@ -1,4 +1,4 @@
-import { createUploadthing } from "uploadthing/next-legacy";
+import { createUploadthing } from "uploadthing/next";
 
 const f = createUploadthing();
 

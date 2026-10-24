@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type JSX } from "react";
 import { myToast } from "~/components/atoms/MyToast";
 
 import ActivityIndicator from "./ActivityIndicator";
@@ -69,7 +69,7 @@ export default function CopyClipboard({ textToCopy }: CopyClipboardProps): JSX.E
           ) : (
             <button
               type="button"
-              className="w-30 rounded-full bg-black px-3 py-1 text-[10px] outline-none hover:bg-opacity-50 md:w-[8rem] md:py-2 md:text-xs"
+              className="w-30 rounded-full bg-black px-3 py-1 text-[10px] text-white outline-none hover:bg-black/70 md:w-[8rem] md:py-2 md:text-xs"
               onClick={() => {
                 handleCopyClick(textToCopy);
               }}

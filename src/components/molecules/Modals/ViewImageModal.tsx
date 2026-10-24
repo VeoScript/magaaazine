@@ -21,7 +21,7 @@ export default function ViewImageModal({
     <div
       className={clsx(
         isOpen ? "scale-y-100" : "scale-y-0",
-        "fixed inset-0 z-[60] flex h-full w-full origin-bottom transform flex-col items-center justify-center bg-black bg-opacity-80 px-3 pb-3 pt-[4rem] transition duration-300 md:pt-3",
+        "fixed inset-0 z-[60] flex h-full w-full origin-bottom transform flex-col items-center justify-center bg-black/80 px-3 pb-3 pt-[4rem] transition duration-300 md:pt-3",
       )}
     >
       <button

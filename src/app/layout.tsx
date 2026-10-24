@@ -5,7 +5,7 @@ import NextTopLoader from "nextjs-toploader";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { Toaster } from "sonner";
-import { Abril_Fatface, Raleway, Poppins } from "next/font/google";
+import { Raleway, Poppins } from "next/font/google";
 
 import Provider from "./_trpc/Provider";
 import CheckAuth from "~/components/organisms/CheckAuth";
@@ -17,25 +17,18 @@ import { ourFileRouter } from "~/app/api/uploadthing/core";
 
 const CookieConsent = dynamic(() => import("~/components/organisms/CookieConsent"));
 
-const abrilFatface = Abril_Fatface({
-  subsets: ["latin"],
-  weight: ["400"],
-  preload: true,
-  variable: "--font-abril-fatface",
-});
-
 const raleway = Raleway({
   subsets: ["latin"],
   weight: ["200", "400", "600", "800"],
   preload: true,
-  variable: "--font-raleway",
+  variable: "--font-raleway-file",
 });
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["200", "400", "600", "800"],
   preload: true,
-  variable: "--font-poppins",
+  variable: "--font-poppins-file",
 });
 
 export const metadata: Metadata = {
@@ -62,15 +55,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const hasAuthCookie = cookies().has(`${process.env.COOKIE_NAME}`);
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const hasAuthCookie = (await cookies()).has(`${process.env.COOKIE_NAME}`);
 
   return (
     <html lang="en">
       <Provider>
         <body
           className={clsx(
-            abrilFatface.variable,
             raleway.variable,
             poppins.variable,
             "font-raleway selection:bg-slate-300",

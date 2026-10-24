@@ -3,7 +3,6 @@
 import { useState, useEffect, Fragment } from "react";
 import { useInView } from "react-intersection-observer";
 import clsx from "clsx";
-import moment from "moment";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import Image from "next/image";
@@ -13,13 +12,15 @@ import ActivityIndicator from "~/components/atoms/ActivityIndicator";
 import { trpc } from "~/app/_trpc/client";
 import { serverClient } from "~/app/_trpc/serverClient";
 
+const dateFormatter = new Intl.DateTimeFormat("en", { dateStyle: "full", timeStyle: "short" });
+
 const AlertModal = dynamic(() => import("../Modals/AlertModal"));
 const AlertModalDynamic = dynamic(() => import("../Modals/AlertModalDynamic"));
 const MessagesListSkeletonLoader = dynamic(() => import("../Skeletons/MessagesListSkeletonLoader"));
 
 interface MessagesListProps {
   userData: Awaited<ReturnType<(typeof serverClient)["user"]>>;
-  initialData: Awaited<ReturnType<(typeof serverClient)["messages"]>> | any;
+  initialData: Awaited<ReturnType<(typeof serverClient)["messages"]>>;
 }
 
 export default function MessagesList({ userData, initialData }: MessagesListProps) {
@@ -33,6 +34,16 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
   const [isOpenAlertModal, setIsOpenAlertModal] = useState<boolean>(false);
   const [isOpenAlertModalDynamic, setIsOpenAlertModalDynamic] = useState<boolean>(false);
   const [messageId, setMessageId] = useState<string>("");
+
+  const initialPage = initialData
+    ? {
+        ...initialData,
+        messages: initialData.messages.map((message) => ({
+          ...message,
+          created_at: message.created_at.toISOString(),
+        })),
+      }
+    : undefined;
 
   const { data: unreadMessages, isSuccess: isSuccessUnreadMessages } =
     trpc.countMessages.useQuery();
@@ -49,16 +60,15 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
       search,
     },
     {
-      initialData: () => {
-        const data = initialData;
-        if (data) {
-          return {
-            pageParams: [undefined],
-            pages: [data],
-          };
-        }
-      },
-      cacheTime: 0,
+      ...(initialPage
+        ? {
+            initialData: {
+              pageParams: [undefined],
+              pages: [initialPage],
+            },
+          }
+        : {}),
+      gcTime: 0,
       getNextPageParam: (lastPage) => lastPage?.nextCursor,
     },
   );
@@ -204,7 +214,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                             <button
                               title="Unread Message"
                               type="button"
-                              className="absolute inset-0 z-20 flex h-full w-full flex-col items-center justify-center rounded-xl bg-neutral-200 bg-opacity-50 outline-none backdrop-blur-sm hover:bg-opacity-30 dark:bg-slate-900 dark:bg-opacity-50 dark:backdrop-blur-sm"
+                              className="absolute inset-0 z-20 flex h-full w-full flex-col items-center justify-center rounded-xl bg-neutral-200/50 outline-none backdrop-blur-sm hover:bg-neutral-200/30 dark:bg-slate-900/50 dark:backdrop-blur-sm"
                               onClick={() => {
                                 readMessageMutation.mutate({
                                   id: message.id,
@@ -248,7 +258,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                                 viewBox="0 0 24 24"
                                 strokeWidth={1.5}
                                 stroke="currentColor"
-                                className="h-4 w-4 text-black hover:text-opacity-50 dark:text-white"
+                                className="h-4 w-4 text-black hover:text-black/50 dark:text-white dark:hover:text-white/50"
                               >
                                 <path
                                   strokeLinecap="round"
@@ -327,7 +337,7 @@ export default function MessagesList({ userData, initialData }: MessagesListProp
                                 {message.content}
                               </h2>
                               <p className="text-xs text-neutral-500 dark:text-slate-500">
-                                {moment(message.created_at).format("LLLL")}
+                                {dateFormatter.format(new Date(message.created_at))}
                               </p>
                             </div>
                           </div>

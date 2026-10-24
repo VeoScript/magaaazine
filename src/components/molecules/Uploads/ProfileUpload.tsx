@@ -24,7 +24,7 @@ interface PreviewProfileImageProps {
 
 export default function ProfileUpload({ profileId }: ProfileUploadProps) {
   const { data: user, isLoading: isLoadingUser } = trpc.user.useQuery(undefined, {
-    cacheTime: 0,
+    gcTime: 0,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
@@ -82,7 +82,7 @@ export default function ProfileUpload({ profileId }: ProfileUploadProps) {
   return (
     <>
       {isLoadingUser ? (
-        <div className="absolute bottom-3 right-3 cursor-pointer rounded-full bg-black bg-opacity-50 p-2 outline-none hover:opacity-50">
+        <div className="absolute bottom-3 right-3 cursor-pointer rounded-full bg-black/50 p-2 outline-none hover:opacity-50">
           <ActivityIndicator color="#FFF" className="h-5 w-5 text-white" />
         </div>
       ) : (
@@ -91,7 +91,7 @@ export default function ProfileUpload({ profileId }: ProfileUploadProps) {
             <>
               <label
                 htmlFor="uploadProfile"
-                className="absolute bottom-3 right-3 cursor-pointer rounded-full bg-black bg-opacity-50 p-2 outline-none hover:opacity-50"
+                className="absolute bottom-3 right-3 cursor-pointer rounded-full bg-black/50 p-2 outline-none hover:opacity-50"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -148,37 +148,32 @@ function PreviewProfileImage({ imageUrl, isOpen, setIsOpen }: PreviewProfileImag
   const handleUpdateProfile = async () => {
     setIsPending(true);
 
-    uploadImage({
-      imageFile: imageProfileUploaded,
-      async onSuccessFn(result) {
-        await uploadProfileMutation.mutateAsync(
-          {
+    try {
+      await uploadImage({
+        imageFile: imageProfileUploaded,
+        async onSuccessFn(result) {
+          await uploadProfileMutation.mutateAsync({
             profileUrl: result.data.link,
-          },
-          {
-            onSuccess: () => {
-              myToast({
-                type: "success",
-                message: "Profile photo is updated, just wait for a moment to see the changes.",
-              });
-              utils.profile.invalidate();
-              utils.user.invalidate();
-              utils.users.invalidate();
-              router.refresh();
-              setIsPending(false);
-              setIsOpen(false);
-            },
-            onError: (error) => {
-              setIsPending(false);
-              myToast({
-                type: "error",
-                message: error.message,
-              });
-            },
-          },
-        );
-      },
-    });
+          });
+        },
+      });
+      myToast({
+        type: "success",
+        message: "Profile photo is updated, just wait for a moment to see the changes.",
+      });
+      utils.profile.invalidate();
+      utils.user.invalidate();
+      utils.users.invalidate();
+      router.refresh();
+      setIsOpen(false);
+    } catch (error) {
+      myToast({
+        type: "error",
+        message: error instanceof Error ? error.message : "Profile photo upload failed.",
+      });
+    } finally {
+      setIsPending(false);
+    }
   };
 
   return (

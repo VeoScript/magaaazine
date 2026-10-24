@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Magaaazine | Forgot Password?",
 };
 
-export default function ForgotPassword() {
-  if (cookies().has(`${process.env.COOKIE_NAME}`)) redirect("/");
+export default async function ForgotPassword() {
+  if ((await cookies()).has(`${process.env.COOKIE_NAME}`)) redirect("/");
   return <ForgotPasswordForm />;
 }

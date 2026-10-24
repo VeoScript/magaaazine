@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import * as React from "react";
 import { Heading, Tailwind, Row, Column, Text, Link } from "@react-email/components";
 
@@ -7,10 +6,7 @@ interface EmailTemplateProps {
   token: string;
 }
 
-export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
-  name,
-  token,
-}): JSX.Element => (
+export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({ name, token }) => (
   <Tailwind>
     <Row className="flex w-full flex-col items-center gap-y-5">
       <Column className="flex w-full flex-col items-center">

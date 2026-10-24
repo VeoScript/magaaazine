@@ -16,7 +16,7 @@ export const messagesRouter = router({
       }),
     )
     .query(async (opts) => {
-      if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
+      if (!(await cookies()).has(`${process.env.COOKIE_NAME}`)) {
         return;
       }
 
@@ -26,7 +26,7 @@ export const messagesRouter = router({
 
       const messages = await prisma.message.findMany({
         where: {
-          receiver_id: cookies().get(`${process.env.COOKIE_NAME}`)?.value,
+          receiver_id: (await cookies()).get(`${process.env.COOKIE_NAME}`)?.value,
           content: {
             contains: search as string,
             mode: "insensitive",

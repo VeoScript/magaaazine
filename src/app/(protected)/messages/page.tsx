@@ -6,7 +6,7 @@ import MessagesList from "~/components/molecules/Lists/MessagesList";
 import { serverClient } from "../../_trpc/serverClient";
 
 export default async function Messages() {
-  if (!cookies().has(`${process.env.COOKIE_NAME}`)) redirect("/signin");
+  if (!(await cookies()).has(`${process.env.COOKIE_NAME}`)) redirect("/signin");
 
   const userData = await serverClient.user();
   const messagesData = await serverClient.messages({

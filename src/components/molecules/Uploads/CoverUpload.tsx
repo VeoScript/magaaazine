@@ -24,7 +24,7 @@ interface PreviewCoverImageProps {
 
 export default function CoverUpload({ profileId }: CoverUploadProps) {
   const { data: user, isLoading: isLoadingUser } = trpc.user.useQuery(undefined, {
-    cacheTime: 0,
+    gcTime: 0,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
@@ -81,7 +81,7 @@ export default function CoverUpload({ profileId }: CoverUploadProps) {
   return (
     <>
       {isLoadingUser ? (
-        <div className="absolute right-3 top-3 z-20 cursor-pointer rounded-full bg-black bg-opacity-50 p-2 outline-none hover:opacity-50">
+        <div className="absolute right-3 top-3 z-20 cursor-pointer rounded-full bg-black/50 p-2 outline-none hover:opacity-50">
           <ActivityIndicator color="#FFF" className="h-5 w-5 text-white" />
         </div>
       ) : (
@@ -90,7 +90,7 @@ export default function CoverUpload({ profileId }: CoverUploadProps) {
             <>
               <label
                 htmlFor="uploadCover"
-                className="absolute right-3 top-3 z-20 cursor-pointer rounded-full bg-black bg-opacity-50 p-2 outline-none hover:opacity-50"
+                className="absolute right-3 top-3 z-20 cursor-pointer rounded-full bg-black/50 p-2 outline-none hover:opacity-50"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -147,37 +147,32 @@ function PreviewCoverImage({ imageUrl, isOpen, setIsOpen }: PreviewCoverImagePro
   const handleUpdateCover = async () => {
     setIsPending(true);
 
-    uploadImage({
-      imageFile: imageCoverUploaded,
-      async onSuccessFn(result) {
-        await uploadCoverMutation.mutateAsync(
-          {
+    try {
+      await uploadImage({
+        imageFile: imageCoverUploaded,
+        async onSuccessFn(result) {
+          await uploadCoverMutation.mutateAsync({
             coverUrl: result.data.link,
-          },
-          {
-            onSuccess: () => {
-              myToast({
-                type: "success",
-                message: "Cover photo is updated, just wait for a moment to see the changes.",
-              });
-              utils.profile.invalidate();
-              utils.user.invalidate();
-              utils.users.invalidate();
-              router.refresh();
-              setIsPending(false);
-              setIsOpen(false);
-            },
-            onError: (error) => {
-              setIsPending(false);
-              myToast({
-                type: "error",
-                message: error.message,
-              });
-            },
-          },
-        );
-      },
-    });
+          });
+        },
+      });
+      myToast({
+        type: "success",
+        message: "Cover photo is updated, just wait for a moment to see the changes.",
+      });
+      utils.profile.invalidate();
+      utils.user.invalidate();
+      utils.users.invalidate();
+      router.refresh();
+      setIsOpen(false);
+    } catch (error) {
+      myToast({
+        type: "error",
+        message: error instanceof Error ? error.message : "Cover photo upload failed.",
+      });
+    } finally {
+      setIsPending(false);
+    }
   };
 
   return (

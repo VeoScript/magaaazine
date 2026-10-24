@@ -64,7 +64,7 @@ export default function Pricing() {
           </div>
           <div className="flex w-full flex-col items-center gap-y-3">
             <h1 className="font-poppins text-[3rem] font-bold text-neutral-800 dark:text-blue-500">
-              <span className="text-xl font-normal">₱</span> 250
+              <span className="text-xl font-normal">₱</span> 50
               <span className="text-xl font-normal">/month</span>
             </h1>
             <h2 className="text-xl font-semibold">Pro</h2>

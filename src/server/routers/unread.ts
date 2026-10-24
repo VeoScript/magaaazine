@@ -7,23 +7,23 @@ import { router, publicProcedure } from "../trpc";
 
 export const unreadRouter = router({
   countMessages: publicProcedure.query(async () => {
-    if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
+    if (!(await cookies()).has(`${process.env.COOKIE_NAME}`)) {
       return 0;
     }
     return await prisma.message.count({
       where: {
-        receiver_id: cookies().get(`${process.env.COOKIE_NAME}`)?.value,
+        receiver_id: (await cookies()).get(`${process.env.COOKIE_NAME}`)?.value,
         is_read: false,
       },
     });
   }),
   countFilesImages: publicProcedure.query(async () => {
-    if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
+    if (!(await cookies()).has(`${process.env.COOKIE_NAME}`)) {
       return 0;
     }
     return await prisma.filesImages.count({
       where: {
-        receiver_id: cookies().get(`${process.env.COOKIE_NAME}`)?.value,
+        receiver_id: (await cookies()).get(`${process.env.COOKIE_NAME}`)?.value,
         is_read: false,
       },
     });
@@ -35,7 +35,7 @@ export const unreadRouter = router({
       }),
     )
     .mutation(async ({ input }) => {
-      if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
+      if (!(await cookies()).has(`${process.env.COOKIE_NAME}`)) {
         return;
       }
       return await prisma.message.update({
@@ -48,12 +48,12 @@ export const unreadRouter = router({
       });
     }),
   readAllMessages: publicProcedure.mutation(async () => {
-    if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
+    if (!(await cookies()).has(`${process.env.COOKIE_NAME}`)) {
       return;
     }
     return await prisma.message.updateMany({
       where: {
-        receiver_id: cookies().get(`${process.env.COOKIE_NAME}`)?.value,
+        receiver_id: (await cookies()).get(`${process.env.COOKIE_NAME}`)?.value,
       },
       data: {
         is_read: true,
@@ -67,7 +67,7 @@ export const unreadRouter = router({
       }),
     )
     .mutation(async ({ input }) => {
-      if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
+      if (!(await cookies()).has(`${process.env.COOKIE_NAME}`)) {
         return;
       }
       return await prisma.filesImages.update({
@@ -80,12 +80,12 @@ export const unreadRouter = router({
       });
     }),
   readAllFilesImages: publicProcedure.mutation(async () => {
-    if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
+    if (!(await cookies()).has(`${process.env.COOKIE_NAME}`)) {
       return;
     }
     return await prisma.filesImages.updateMany({
       where: {
-        receiver_id: cookies().get(`${process.env.COOKIE_NAME}`)?.value,
+        receiver_id: (await cookies()).get(`${process.env.COOKIE_NAME}`)?.value,
       },
       data: {
         is_read: true,

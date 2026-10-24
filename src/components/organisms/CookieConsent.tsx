@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type JSX } from "react";
 import { usePathname } from "next/navigation";
 import { hasCookie, setCookie } from "cookies-next";
 
@@ -41,7 +41,7 @@ const CookieConsent = (): JSX.Element => {
   }
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-slate-700 bg-opacity-70 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[9999] bg-slate-700/70 backdrop-blur-sm">
       <div className="fixed bottom-0 left-0 right-0 flex w-full flex-col items-center justify-center gap-y-3 bg-gray-100 px-4 py-8 dark:bg-default-black md:flex-row md:justify-between md:gap-y-0 md:px-10">
         <span className="w-full text-center text-base text-default-black dark:text-white md:text-left">
           This website uses cookies to improve user experience. By using our website you consent to

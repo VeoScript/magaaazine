@@ -2,7 +2,6 @@ import { TRPCError } from "@trpc/server";
 import { encode, decode } from "jwt-simple";
 
 import * as React from "react";
-import moment from "moment";
 import prisma from "~/config/Prisma";
 import z from "zod";
 import * as bcrypt from "bcrypt";
@@ -36,7 +35,7 @@ export const resetPasswordRouter = router({
       });
 
       if (user) {
-        let expires = moment().add(5, "minutes").unix();
+        const expires = Math.floor(Date.now() / 1000) + 5 * 60;
 
         const payload = { exp: expires, userId: user.id };
         const secret = process.env.JWT_SECRET as string;
@@ -80,7 +79,7 @@ export const resetPasswordRouter = router({
       const userId = tokenData.userId;
       const expirationTime = tokenData.exp;
 
-      if (moment().unix() >= expirationTime) {
+      if (Math.floor(Date.now() / 1000) >= expirationTime) {
         throw new TRPCError({
           code: "FORBIDDEN",
           message: "The reset-password link is expired.",

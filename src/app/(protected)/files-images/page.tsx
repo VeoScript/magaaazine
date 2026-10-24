@@ -7,7 +7,7 @@ const FilesImagesList = dynamic(() => import("~/components/molecules/Lists/Files
 import { serverClient } from "../../_trpc/serverClient";
 
 export default async function FilesImages() {
-  if (!cookies().has(`${process.env.COOKIE_NAME}`)) redirect("/signin");
+  if (!(await cookies()).has(`${process.env.COOKIE_NAME}`)) redirect("/signin");
 
   const filesImages = await serverClient.filesImages({
     cursor: "",

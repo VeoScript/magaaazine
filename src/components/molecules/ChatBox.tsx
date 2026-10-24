@@ -139,117 +139,99 @@ export default function ChatBox({
     });
   };
 
-  const uploadImages = async () => {
+  const uploadImages = async (images: File[], anonymous: boolean) => {
     setIsPendingImage(true);
-    for (const image of imagesUploaded) {
-      uploadImage({
-        imageFile: image,
-        async onSuccessFn(result) {
-          await uploadFilesImagesMutation.mutateAsync(
-            {
-              is_anonymous: isAnonymous,
+    try {
+      for (const image of images) {
+        await uploadImage({
+          imageFile: image,
+          async onSuccessFn(result) {
+            await uploadFilesImagesMutation.mutateAsync({
+              is_anonymous: anonymous,
               name: result.data.name,
               type: "IMAGE",
               url: result.data.link,
               delete_url: result.data.deletehash,
               sender_id: senderId,
               receiver_id: receiverId,
-            },
-            {
-              onError: () => {
-                setIsPendingImage(false);
-              },
-              onSuccess: () => {
-                utils.messages.invalidate();
-                setIsPendingImage(false);
-                setDefaultImages();
-              },
-            },
-          );
-        },
-      });
+            });
+          },
+        });
+      }
+    } finally {
+      setIsPendingImage(false);
     }
   };
 
-  const uploadFiles = async () => {
+  const uploadFiles = async (selectedFiles: File[], anonymous: boolean) => {
     setIsPendingFile(true);
-    await startUpload(files)
-      .then((result) => {
-        result?.map(async (file: any) => {
-          await uploadFilesImagesMutation.mutateAsync(
-            {
-              is_anonymous: isAnonymous,
-              name: file.fileName,
-              type: "FILE",
-              url: file.fileUrl,
-              delete_url: file.fileKey,
-              sender_id: senderId,
-              receiver_id: receiverId,
-            },
-            {
-              onError: () => {
-                setIsPendingFile(false);
-              },
-              onSuccess: () => {
-                utils.messages.invalidate();
-                setIsPendingFile(false);
-                setDefaultFiles();
-              },
-            },
-          );
+    try {
+      const uploadedFiles = await startUpload(selectedFiles);
+      if (!uploadedFiles) {
+        throw new Error("File upload failed. Please try again.");
+      }
+
+      for (const file of uploadedFiles) {
+        await uploadFilesImagesMutation.mutateAsync({
+          is_anonymous: anonymous,
+          name: file.name,
+          type: "FILE",
+          url: file.ufsUrl,
+          delete_url: file.key,
+          sender_id: senderId,
+          receiver_id: receiverId,
         });
-      })
-      .catch((error: any) => {
-        myToast({
-          type: "error",
-          message: error?.message,
-        });
-      });
+      }
+    } finally {
+      setIsPendingFile(false);
+    }
   };
 
-  const sendMessage = async () => {
-    setIsPendingMessage(true);
-    await sendMessageMutation.mutateAsync(
-      {
-        is_anonymous: isAnonymous,
-        content: messageContent,
-        has_file: imagesUploaded.length > 0 || files.length > 0 ? true : false,
-        sender_id: senderId,
-        receiver_id: receiverId,
-      },
-      {
-        onError: () => {
-          setIsPendingMessage(false);
-        },
-        onSuccess: () => {
-          utils.messages.invalidate();
-          setIsPendingMessage(false);
-          setMessageContent("");
-        },
-      },
-    );
+  const sendMessage = async (content: string, anonymous: boolean, hasAttachments: boolean) => {
+    await sendMessageMutation.mutateAsync({
+      is_anonymous: anonymous,
+      content,
+      has_file: hasAttachments,
+      sender_id: senderId,
+      receiver_id: receiverId,
+    });
+    utils.messages.invalidate();
+    setMessageContent("");
   };
 
   const handleSubmit = async () => {
-  if (messageContent.trim() === "")
-    return myToast({ message: "Message is required." });
+    const content = messageContent.trim();
+    if (content === "") {
+      myToast({ message: "Message is required." });
+      return;
+    }
 
-  try {
-    if (imagesUploaded.length > 0) await uploadImages();
-    if (files.length > 0) await uploadFiles();
-    await sendMessage();
+    const selectedImages = [...imagesUploaded];
+    const selectedFiles = [...files];
+    const anonymous = isAnonymous;
+    const hasAttachments = selectedImages.length > 0 || selectedFiles.length > 0;
 
-    myToast({
-      type: "success", // or however your toast handles success
-      message: "Message sent successfully.",
-    });
-  } catch (error) {
-    myToast({
-      type: "error",
-      message: "Something went wrong. Please try again.",
-    });
-  }
-};
+    setIsPendingMessage(true);
+    try {
+      if (selectedImages.length > 0) await uploadImages(selectedImages, anonymous);
+      if (selectedFiles.length > 0) await uploadFiles(selectedFiles, anonymous);
+      await sendMessage(content, anonymous, hasAttachments);
+      setDefaultImages();
+      setDefaultFiles();
+
+      myToast({
+        type: "success",
+        message: "Message sent successfully.",
+      });
+    } catch (error) {
+      myToast({
+        type: "error",
+        message: error instanceof Error ? error.message : "Something went wrong. Please try again.",
+      });
+    } finally {
+      setIsPendingMessage(false);
+    }
+  };
 
   const onEnterPress = (e: React.KeyboardEvent) => {
     if (e.keyCode == 13 && e.shiftKey == false) {
@@ -275,7 +257,10 @@ export default function ChatBox({
       <div
         className={clsx(
           !hasCoverPhoto && "border-b border-neutral-300 dark:border-slate-700",
-          "flex w-full flex-row items-center justify-between bg-white bg-opacity-20 p-3 backdrop-blur-sm dark:bg-default-black dark:bg-opacity-50 dark:backdrop-blur-sm",
+          hasCoverPhoto
+            ? "bg-black/45 text-white"
+            : "bg-white text-default-black dark:bg-default-black dark:text-white",
+          "flex w-full flex-row items-center justify-between p-3 backdrop-blur-sm",
         )}
       >
         <div className="flex flex-row items-start gap-x-2">
@@ -329,7 +314,10 @@ export default function ChatBox({
       <div
         className={clsx(
           !hasCoverPhoto && "border-t border-neutral-300 dark:border-slate-700",
-          "flex w-full flex-col gap-y-3 bg-white bg-opacity-20 p-3 backdrop-blur-sm dark:bg-default-black dark:bg-opacity-50 dark:backdrop-blur-sm",
+          hasCoverPhoto
+            ? "bg-black/45 text-white"
+            : "bg-white text-default-black dark:bg-default-black dark:text-white",
+          "flex w-full flex-col gap-y-3 p-3 backdrop-blur-sm",
         )}
       >
         <div className="flex w-full flex-row items-center justify-between gap-x-1">
@@ -342,7 +330,10 @@ export default function ChatBox({
                     isPendingMessage || isPendingImage || isPendingFile
                       ? "cursor-not-allowed opacity-50"
                       : "cursor-pointer",
-                    "flex flex-row items-center gap-x-1 rounded-xl border border-white p-2 outline-none hover:opacity-50",
+                    hasCoverPhoto
+                      ? "border-white/60 text-white hover:bg-white/15"
+                      : "border-neutral-300 text-default-black hover:bg-black/5 dark:border-slate-600 dark:text-white dark:hover:bg-white/10",
+                    "flex flex-row items-center gap-x-1 rounded-lg border p-2 outline-none transition-colors",
                   )}
                 >
                   <svg
@@ -383,7 +374,10 @@ export default function ChatBox({
                     isPendingMessage || isPendingImage || isPendingFile
                       ? "cursor-not-allowed opacity-50"
                       : "cursor-pointer",
-                    "flex flex-row items-center gap-x-1 rounded-xl border border-white p-2 outline-none hover:opacity-50",
+                    hasCoverPhoto
+                      ? "border-white/60 text-white hover:bg-white/15"
+                      : "border-neutral-300 text-default-black hover:bg-black/5 dark:border-slate-600 dark:text-white dark:hover:bg-white/10",
+                    "flex flex-row items-center gap-x-1 rounded-lg border p-2 outline-none transition-colors",
                   )}
                 >
                   <svg
@@ -423,11 +417,16 @@ export default function ChatBox({
             aria-label="Send Message"
             disabled={isPendingMessage || isPendingImage || isPendingFile}
             type="button"
-            className="outline-none"
+            className={clsx(
+              "rounded-md p-2 outline-none transition-colors",
+              hasCoverPhoto
+                ? "text-white hover:bg-white/15"
+                : "text-default-black hover:bg-black/5 dark:text-white dark:hover:bg-white/10",
+            )}
             onClick={handleSubmit}
           >
             {isPendingMessage || isPendingImage || isPendingFile ? (
-              <ActivityIndicator color="#FFF" className="h-6 w-6" />
+              <ActivityIndicator color={hasCoverPhoto ? "#FFF" : undefined} className="h-6 w-6" />
             ) : (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -457,7 +456,7 @@ export default function ChatBox({
                 {!isPendingImage && (
                   <button
                     type="button"
-                    className="absolute right-2 top-2 z-10 rounded-full bg-black bg-opacity-50 p-1 outline-none hover:opacity-50"
+                    className="absolute right-2 top-2 z-10 rounded-full bg-black/60 p-1 text-white outline-none hover:opacity-50"
                     onClick={() => deleteSingleImage(index)}
                   >
                     <svg
@@ -495,7 +494,7 @@ export default function ChatBox({
                 {!isPendingFile && (
                   <button
                     type="button"
-                    className="rounded-full bg-black bg-opacity-50 p-1 outline-none hover:opacity-50"
+                    className="rounded-full bg-black/60 p-1 text-white outline-none hover:opacity-50"
                     onClick={() => deleteSingleFile(index)}
                   >
                     <svg

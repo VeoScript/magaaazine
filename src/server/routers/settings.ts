@@ -20,7 +20,7 @@ export const settingsRouter = router({
       }),
     )
     .mutation(async ({ input }) => {
-      if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
+      if (!(await cookies()).has(`${process.env.COOKIE_NAME}`)) {
         throw new TRPCError({
           code: "UNAUTHORIZED",
           message: "YOU ARE UNAUTHENTICATED",
@@ -28,7 +28,7 @@ export const settingsRouter = router({
       }
       return await prisma.user.update({
         where: {
-          id: cookies().get(`${process.env.COOKIE_NAME}`)?.value,
+          id: (await cookies()).get(`${process.env.COOKIE_NAME}`)?.value,
         },
         data: {
           is_display_name: input.is_display_name,
@@ -54,7 +54,7 @@ export const settingsRouter = router({
     )
     .mutation(async ({ input }) => {
       try {
-        if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
+        if (!(await cookies()).has(`${process.env.COOKIE_NAME}`)) {
           throw new TRPCError({
             code: "UNAUTHORIZED",
             message: "YOU ARE UNAUTHENTICATED",
@@ -62,7 +62,7 @@ export const settingsRouter = router({
         }
         const user = await prisma.user.update({
           where: {
-            id: cookies().get(`${process.env.COOKIE_NAME}`)?.value,
+            id: (await cookies()).get(`${process.env.COOKIE_NAME}`)?.value,
           },
           data: {
             name: input.name,
@@ -115,7 +115,7 @@ export const settingsRouter = router({
       }),
     )
     .mutation(async ({ input }) => {
-      if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
+      if (!(await cookies()).has(`${process.env.COOKIE_NAME}`)) {
         throw new TRPCError({
           code: "UNAUTHORIZED",
           message: "YOU ARE UNAUTHENTICATED",
@@ -123,7 +123,7 @@ export const settingsRouter = router({
       }
       return await prisma.user.update({
         where: {
-          id: cookies().get(`${process.env.COOKIE_NAME}`)?.value,
+          id: (await cookies()).get(`${process.env.COOKIE_NAME}`)?.value,
         },
         data: {
           facebook_link: input.facebook,
@@ -151,7 +151,7 @@ export const settingsRouter = router({
       }),
     )
     .mutation(async ({ input }) => {
-      if (!cookies().has(`${process.env.COOKIE_NAME}`)) {
+      if (!(await cookies()).has(`${process.env.COOKIE_NAME}`)) {
         throw new TRPCError({
           code: "UNAUTHORIZED",
           message: "YOU ARE UNAUTHENTICATED",
@@ -160,7 +160,7 @@ export const settingsRouter = router({
 
       const currentUser = await prisma.user.findUnique({
         where: {
-          id: cookies().get(`${process.env.COOKIE_NAME}`)?.value,
+          id: (await cookies()).get(`${process.env.COOKIE_NAME}`)?.value,
         },
         select: {
           password: true,
@@ -181,7 +181,7 @@ export const settingsRouter = router({
 
         return await prisma.user.update({
           where: {
-            id: cookies().get(`${process.env.COOKIE_NAME}`)?.value,
+            id: (await cookies()).get(`${process.env.COOKIE_NAME}`)?.value,
           },
           data: {
             password: hashedPassword,

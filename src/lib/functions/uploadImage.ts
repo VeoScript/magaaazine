@@ -12,23 +12,20 @@ export async function uploadImage({ imageFile, onSuccessFn }: UploadImageProps):
   profilePhoto.append("image", imageFile);
   profilePhoto.append("name", imageFile.name);
 
-  return await fetch("https://api.imgur.com/3/image", {
+  const response = await fetch("https://api.imgur.com/3/image", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${process.env.IMGUR_API_KEY}`,
     },
     body: profilePhoto,
-  })
-    .then((response) => response.json())
-    .then(async (result) => {
-      await onSuccessFn(result);
-    })
-    .catch(() => {
-      myToast({
-        type: "error",
-        message: "Upload image failed, try again.",
-      });
-    });
+  });
+
+  if (!response.ok) {
+    throw new Error(`Image upload failed (${response.status}).`);
+  }
+
+  const result = await response.json();
+  await onSuccessFn(result);
 };
 
 export async function uploadImageImgbb({ imageFile, onSuccessFn }: UploadImageProps): Promise<void> {

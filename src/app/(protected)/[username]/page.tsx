@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { cache } from "react";
 import { Metadata } from "next";
 import Image from "next/image";
 import dynamic from "next/dynamic";
@@ -14,15 +14,15 @@ const ProfileUpload = dynamic(() => import("~/components/molecules/Uploads/Profi
 const CoverUpload = dynamic(() => import("~/components/molecules/Uploads/CoverUpload"));
 const ProfileMainHolder = dynamic(() => import("~/components/molecules/ProfileMainHolder"));
 
+const getProfile = cache((username: string) => serverClient.profile({ username }));
+
 interface UserPageProps {
   params: Promise<{ username: string }>;
 }
 
 export async function generateMetadata({ params }: UserPageProps): Promise<Metadata> {
   const { username } = await params;
-  const profile = await serverClient.profile({
-    username,
-  });
+  const profile = await getProfile(username);
   return {
     title: `Magaaazine | ${profile ? `@${profile?.username}` : "Not Found"}`,
     description: profile?.short_bio ?? "Empower Your Online Presence with Magaaazine",
@@ -62,12 +62,17 @@ export async function generateMetadata({ params }: UserPageProps): Promise<Metad
 
 export default async function UserPage({ params }: UserPageProps) {
   const { username } = await params;
-  const profile = await serverClient.profile({
-    username,
-  });
+  const profile = await getProfile(username);
+
+  const [coverBlur, profileBlur] = profile
+    ? await Promise.all([
+        profile.cover_photo ? getBase64(profile.cover_photo) : undefined,
+        profile.profile_photo ? getBase64(profile.profile_photo) : undefined,
+      ])
+    : [];
 
   return (
-    <Suspense>
+    <>
       {!profile ? (
         <div className="flex h-full min-h-[35rem] w-full flex-col items-center justify-center">
           <p className="w-full max-w-xl text-center text-base text-neutral-500 md:text-xl">
@@ -87,9 +92,9 @@ export default async function UserPage({ params }: UserPageProps) {
                 priority
                 width={500}
                 height={500}
-                quality={100}
+                quality={75}
                 placeholder="blur"
-                blurDataURL={await getBase64(profile?.cover_photo)}
+                blurDataURL={coverBlur}
               />
             </>
           )}
@@ -110,9 +115,9 @@ export default async function UserPage({ params }: UserPageProps) {
                     priority
                     width={500}
                     height={500}
-                    quality={100}
+                    quality={75}
                     placeholder="blur"
-                    blurDataURL={await getBase64(profile?.profile_photo)}
+                    blurDataURL={profileBlur}
                   />
                 ) : (
                   <div className="flex h-[13rem] w-[13rem] flex-row items-center justify-center rounded-full bg-neutral-300 object-cover dark:bg-slate-700">
@@ -190,6 +195,6 @@ export default async function UserPage({ params }: UserPageProps) {
           </div>
         </div>
       )}
-    </Suspense>
+    </>
   );
 }

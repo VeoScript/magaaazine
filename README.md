@@ -26,7 +26,7 @@ Discover, connect, and share with Magaaazine. Create a profile to receive anonym
 
 * [Node.js](https://nodejs.org/) v24.11.0 (see `.nvmrc`)
 * [PostgreSQL](https://www.postgresql.org/)
-* npm
+* Bun
 
 ### Tech Stack
 
@@ -42,7 +42,7 @@ Discover, connect, and share with Magaaazine. Create a profile to receive anonym
 1. Install dependencies:
 
    ```bash
-   npm install
+   bun install
    ```
 
 2. Copy `.env.example` to `.env` and configure the variables:
@@ -68,17 +68,17 @@ Discover, connect, and share with Magaaazine. Create a profile to receive anonym
 4. Start the development server:
 
    ```bash
-   npm run dev
+   bun run dev
    ```
 
 The app will be available at `http://localhost:3000`.
 
 ### Available Scripts
 
-* `npm run dev` — start the development server
-* `npm run build` — generate the Prisma client and build the app
-* `npm run start` — start the production server
-* `npm run lint` — lint the `src` directory
+* `bun run dev` — start the development server
+* `bun run build` — generate the Prisma client and build the app
+* `bun run start` — start the production server
+* `bun run lint` — lint the `src` directory
 
 ## Authors
 
